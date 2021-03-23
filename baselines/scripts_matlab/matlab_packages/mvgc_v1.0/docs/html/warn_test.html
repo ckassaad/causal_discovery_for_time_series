@@ -1,0 +1,193 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>warn_test</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="warn_test.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>warn_test</h1><!--introduction--><p>Test for (suppressed) Matlab warning message</p><p><a href="matlab:open('warn_test.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   [waswarn,msgstr,warnid] = warn_test(oldstate, false)
+   [waswarn,msgstr,warnid] = warn_test(oldstate, warnmsg, warnfunc,rwarnid)</pre><h2>Arguments<a name="2"></a></h2><p><i>input</i></p><pre>   oldstate   old warning state to restore (required)
+   warnmsg    string specifying (user-supplied) warning message (or 'false' to suppress warning)
+   warnfunc   string specifying which function issued the warning
+   rwarnid    report Matlab warning identifier</pre><p><i>output</i></p><pre>   waswarn    true if a warning was issued
+   msgstr     warning message
+   warnid     warning Matlab warning identifier</pre><h2>Description<a name="3"></a></h2><p>Tests for Matlab warning suppressed by <a href="warn_supp.html"><tt>warn_supp</tt></a>; see also <a href="matlab:doc('warning')"><tt>warning</tt></a>. After testing, the previous warning state (as returned by <a href="warn_supp.html"><tt>warn_supp</tt></a>) is restored.</p><p>The <a href="warn_supp.html"><tt>warn_supp</tt></a> ... <a href="warn_test.html"><tt>warn_test</tt></a> routines exist for two reasons: (1) if routines issuing warnings are run in a loop (which they frequently are in the MVGC Toolbox), Matlab will by default spew confusing warnings, obscuring meaningful ouput; (2) we want to be able to issue meaningful context-dependent warning messages.</p><p>If <tt>warnmsg</tt> is a logical flag set to <tt>false</tt>, reporting of warning messages is suppressed (presumably the user will handle warnings based on the return values). Otherwise, <tt>warnmsg</tt> is interpreted as a user-defined warning message to report; if empty (default), the Matlab warning message is reported. A string specifying which function issued the warning may be supplied in <tt>warnfunc</tt> - if not present it defaults to the enclosing function. If the flag <tt>rwid</tt> is set, the Matlab warining identifier is reported (default: false).</p><h2>Example<a name="4"></a></h2><pre>   A = magic(6);
+   oldstate = warn_supp('MATLAB:nearlySingularMatrix');
+   B = inv(A);
+   warn_test(oldstate,'badly-conditioned matrix?');</pre><h2>See also<a name="5"></a></h2><p><a href="matlab:doc('warning')"><tt>warning</tt></a> | <a href="warn_supp.html"><tt>warn_supp</tt></a> | <a href="warn_if.html"><tt>warn_if</tt></a> | <a href="startup.html"><tt>startup</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% warn_test
+%
+% Test for (suppressed) Matlab warning message
+%
+% <matlab:open('warn_test.m') code>
+%
+%% Syntax
+%
+%     [waswarn,msgstr,warnid] = warn_test(oldstate, false)
+%     [waswarn,msgstr,warnid] = warn_test(oldstate, warnmsg, warnfunc,rwarnid)
+%
+%% Arguments
+%
+% _input_
+%
+%     oldstate   old warning state to restore (required)
+%     warnmsg    string specifying (user-supplied) warning message (or 'false' to suppress warning)
+%     warnfunc   string specifying which function issued the warning
+%     rwarnid    report Matlab warning identifier
+%
+% _output_
+%
+%     waswarn    true if a warning was issued
+%     msgstr     warning message
+%     warnid     warning Matlab warning identifier
+%
+%% Description
+%
+% Tests for Matlab warning suppressed by <warn_supp.html |warn_supp|>; see also
+% <matlab:doc('warning') |warning|>. After testing, the previous warning state
+% (as returned by <warn_supp.html |warn_supp|>) is restored.
+%
+% The <warn_supp.html |warn_supp|> ... <warn_test.html |warn_test|> routines
+% exist for two reasons: (1) if routines issuing warnings are run in a loop
+% (which they frequently are in the MVGC Toolbox), Matlab will by default spew
+% confusing warnings, obscuring meaningful ouput; (2) we want to be able to
+% issue meaningful context-dependent warning messages.
+%
+% If |warnmsg| is a logical flag set to |false|, reporting of warning messages
+% is suppressed (presumably the user will handle warnings based on the return
+% values). Otherwise, |warnmsg| is interpreted as a user-defined warning message
+% to report; if empty (default), the Matlab warning message is reported. A
+% string specifying which function issued the warning may be supplied in
+% |warnfunc| - if not present it defaults to the enclosing function. If the flag
+% |rwid| is set, the Matlab warining identifier is reported (default: false).
+%
+%% Example
+%
+%     A = magic(6);
+%     oldstate = warn_supp('MATLAB:nearlySingularMatrix');
+%     B = inv(A);
+%     warn_test(oldstate,'badly-conditioned matrix?');
+%
+%% See also
+%
+% <matlab:doc('warning') |warning|> |
+% <warn_supp.html |warn_supp|> |
+% <warn_if.html |warn_if|> |
+% <startup.html |startup|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function [waswarn,msgstr,warnid] = warn_test(oldstate,umsgstr,wfunc,rwid)
+
+assert(nargin > 0,'old warning state must be specified');
+
+[msgstr,warnid] = lastwarn; % get last warning
+waswarn = ~isempty(warnid); % was there a warning?
+warning(oldstate);          % reset warning state
+
+if ~waswarn, return; end
+
+% report the warning
+    
+if nargin <  2, umsgstr = []; end
+if nargin <  3 || isempty(wfunc), wfunc = true;  end
+if nargin <  4 || isempty(rwid),  rwid  = false; end
+
+if ~isempty(umsgstr) % override Matlab message
+    assert(ischar(umsgstr),'bad reporting specification');
+    msgstr = umsgstr;
+end
+
+if islogical(wfunc) % no function specified
+    if wfunc % report warning
+        ST = dbstack;
+        if length(ST) > 1
+            if rwid
+                fprintf(2,'WARNING in ''%s'' (%s): %s\n',ST(2).name,warnid,msgstr);
+            else
+                fprintf(2,'WARNING in ''%s'': %s\n',ST(2).name,msgstr);
+            end
+        else
+            if rwid
+                fprintf(2,'WARNING in unknown function (%s): %s\n',warnid,msgstr);
+            else
+                fprintf(2,'WARNING in unknown function: %s\n',msgstr);
+            end
+        end
+    %else    % don't report warning (presumably the user will handle it...)
+    end
+else
+    assert(ischar(wfunc),'bad reporting specification');
+    if rwid
+        fprintf(2,'WARNING in ''%s'' (%s): %s\n',wfunc,warnid,msgstr);
+    else
+        fprintf(2,'WARNING in ''%s'': %s\n',wfunc,msgstr);
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

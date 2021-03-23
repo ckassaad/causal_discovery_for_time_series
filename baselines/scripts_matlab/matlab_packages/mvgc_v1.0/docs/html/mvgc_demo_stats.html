@@ -1,0 +1,521 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>MVGC statistics demo</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_demo_stats.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>MVGC statistics demo</h1><!--introduction--><p>Demonstrates MVGC toolbox time series statistical and spectral analysis tools.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">References</a></li><li><a href="#2">Parameters</a></li><li><a href="#3">Generate VAR data</a></li><li><a href="#4">Unit root stationarity tests  (EXPERIMENTAL)</a></li><li><a href="#5">Model order estimation</a></li><li><a href="#6">VAR model estimation and autocovariance calculation</a></li><li><a href="#7">Spectral analysis</a></li><li><a href="#8">VAR stats tests</a></li></ul></div><h2>References<a name="1"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><h2>Parameters<a name="2"></a></h2><pre class="codeinput">ntrials   = 10;      <span class="comment">% number of trials</span>
+nobs      = 1000;   <span class="comment">% number of observations per trial</span>
+
+regmode   = <span class="string">'OLS'</span>;  <span class="comment">% VAR model estimation regression mode ('OLS', 'LWR' or empty for default [set in startup.m])</span>
+icregmode = <span class="string">'LWR'</span>;  <span class="comment">% information criteria regression mode ('OLS', 'LWR' or empty for default [set in startup.m])</span>
+
+morder    = <span class="string">'AIC'</span>;  <span class="comment">% model order to use ('actual', 'AIC', 'BIC' or supplied numerical value)</span>
+momax     = 20;     <span class="comment">% maximum model order for model order estimation</span>
+
+acmaxlags = 1000;   <span class="comment">% maximum autocovariance lags (empty for automatic calculation)</span>
+
+tstat     = <span class="string">''</span>;     <span class="comment">% statistical test for MVGC: 'F' for Granger's F-test, 'chi2' for Geweke's chi2 test or leave empty for default</span>
+alpha     = 0.05;   <span class="comment">% significance level for significance test</span>
+mhtc      = <span class="string">'FDR'</span>;  <span class="comment">% multiple hypothesis test correction (see routine 'significance')</span>
+
+fs        = 200;    <span class="comment">% sample rate (Hz)</span>
+fres      = [];     <span class="comment">% frequency resolution (empty for automatic calculation)</span>
+specm     = [];     <span class="comment">% power spectrum estimation method: 'WELCH' (Welch method - default) or 'MT' (multi-taper)</span>
+
+etests    = false;  <span class="comment">% do experimental (unit-root stationarity) tests?</span>
+stlags    = [];     <span class="comment">% number of lags for stationarity tests (or leave empty for automatic default)</span>
+
+acorr     = true;   <span class="comment">% plot autocorrelation (else autocovariance)?</span>
+
+seed      = 0;      <span class="comment">% random seed (0 for unseeded)</span>
+</pre><h2>Generate VAR data<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Seed random number generator.</span>
+
+rng_seed(seed);
+
+<span class="comment">% Get VAR coefficients for 5-node test network.</span>
+
+AT = var5_test;
+nvars = size(AT,1); <span class="comment">% number of variables</span>
+
+<span class="comment">% Residuals covariance matrix.</span>
+
+SIGT = eye(nvars);
+
+<span class="comment">% Generate VAR time series data with normally distributed residuals for</span>
+<span class="comment">% specified coefficients and covariance matrix.</span>
+
+ptic(<span class="string">'\n*** var_to_tsdata... '</span>);
+X = var_to_tsdata(AT,SIGT,nobs,ntrials);
+ptoc;
+</pre><h2>Unit root stationarity tests  (EXPERIMENTAL)<a name="4"></a></h2><pre class="codeinput"><span class="keyword">if</span> etests
+
+    <span class="keyword">if</span> ntrials &gt; 1 <span class="comment">% multitrial</span>
+        fprintf(2,<span class="string">'\nWARNING: unit-root stationarity tests are experimental and not really suitable for multi-trial data!\n'</span>);
+    <span class="keyword">else</span>
+        fprintf(2,<span class="string">'\nWARNING: unit-root stationarity tests are experimental!\n'</span>);
+    <span class="keyword">end</span>
+
+    <span class="comment">% Augmented Dickey-Fuller unit-root test (EXPERIMENTAL)</span>
+
+    [adftstat,adfcval] = mvgc_adf(X,alpha,stlags);
+    fprintf(<span class="string">'\nADF statistics (critical value = %f)\n'</span>,adfcval); disp(adftstat);
+    adfsig = adftstat &gt; adfcval; <span class="comment">% unit root; but how do we correct for multiple hypotheses?</span>
+    adfnonstat = find(adfsig);
+    <span class="keyword">if</span> isempty(adfnonstat)
+        fprintf(<span class="string">'all time series are stationary by ADF test at significance %g\n'</span>,alpha);
+    <span class="keyword">else</span>
+        <span class="keyword">if</span> ntrials &gt; 1 <span class="comment">% multitrial</span>
+            <span class="keyword">for</span> r = 1:ntrials
+                adfnonstat = find(adfsig(r,:));
+                <span class="keyword">if</span> ~isempty(adfnonstat)
+                    fprintf(2,<span class="string">'WARNING: non-stationary time series by ADF test at significance %g for trial %d, variable(s): %s\n'</span>,alpha,r,num2str(adfnonstat));
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            fprintf(2,<span class="string">'WARNING: non-stationary time series by ADF test at significance %g for variable(s): %s\n'</span>,alpha,num2str(adfnonstat));
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% KPSS unit-root test (EXPERIMENTAL)</span>
+
+    [ksstat,kscval] = mvgc_kpss(X,alpha,stlags);
+    fprintf(<span class="string">'\nKPSS statistics (critical value = %f)\n'</span>,kscval); disp(ksstat);
+    kssig = ksstat &gt; kscval; <span class="comment">% unit root; but how do we correct for multiple hypotheses?</span>
+    ksnonstat = find(kssig);
+    <span class="keyword">if</span> isempty(ksnonstat)
+        fprintf(<span class="string">'all time series are stationary by KPSS test at significance %g\n'</span>,alpha);
+    <span class="keyword">else</span>
+        <span class="keyword">if</span> ntrials &gt; 1 <span class="comment">% multitrial</span>
+            <span class="keyword">for</span> r = 1:ntrials
+                ksnonstat = find(kssig(r,:));
+                <span class="keyword">if</span> ~isempty(ksnonstat)
+                    fprintf(2,<span class="string">'WARNING: non-stationary time series by KPSS test at significance %g for trial %d, variable(s): %s\n'</span>,alpha,r,num2str(ksnonstat));
+                <span class="keyword">end</span>
+            <span class="keyword">end</span>
+        <span class="keyword">else</span>
+            fprintf(2,<span class="string">'WARNING: non-stationary time series by KPSS test at significance %g for variable(s): %s\n'</span>,alpha,num2str(ksnonstat));
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+<span class="keyword">end</span>
+</pre><h2>Model order estimation<a name="5"></a></h2><pre class="codeinput"><span class="comment">% Calculate information criteria up to max model order</span>
+
+ptic(<span class="string">'\n*** tsdata_to_infocrit\n'</span>);
+[AIC,BIC] = tsdata_to_infocrit(X,momax,icregmode);
+ptoc(<span class="string">'*** tsdata_to_infocrit took '</span>);
+
+[~,bmo_AIC] = min(AIC);
+[~,bmo_BIC] = min(BIC);
+
+<span class="comment">% Plot information criteria.</span>
+
+figure(1); clf;
+plot((1:momax)',[AIC BIC]);
+legend(<span class="string">'AIC'</span>,<span class="string">'BIC'</span>);
+
+amo = size(AT,3); <span class="comment">% actual model order</span>
+
+fprintf(<span class="string">'\nbest model order (AIC) = %d\n'</span>,bmo_AIC);
+fprintf(<span class="string">'best model order (BIC) = %d\n'</span>,bmo_BIC);
+fprintf(<span class="string">'actual model order     = %d\n'</span>,amo);
+
+<span class="comment">% Select model order</span>
+
+<span class="keyword">if</span>     strcmpi(morder,<span class="string">'actual'</span>)
+    morder = amo;
+    fprintf(<span class="string">'\nusing actual model order = %d\n'</span>,morder);
+<span class="keyword">elseif</span> strcmpi(morder,<span class="string">'AIC'</span>)
+    morder = bmo_AIC;
+    fprintf(<span class="string">'\nusing AIC best model order = %d\n'</span>,morder);
+<span class="keyword">elseif</span> strcmpi(morder,<span class="string">'BIC'</span>)
+    morder = bmo_BIC;
+    fprintf(<span class="string">'\nusing BIC best model order = %d\n'</span>,morder);
+<span class="keyword">else</span>
+    fprintf(<span class="string">'\nusing specified model order = %d\n'</span>,morder);
+<span class="keyword">end</span>
+</pre><h2>VAR model estimation and autocovariance calculation<a name="6"></a></h2><pre class="codeinput"><span class="comment">% Calculate VAR model; return residuals E too, since we need them later for</span>
+<span class="comment">% statistical routines.</span>
+
+ptic(<span class="string">'\n*** tsdata_to_var... '</span>);
+[A,SIG,E] = tsdata_to_var(X,morder,regmode);
+ptoc;
+
+<span class="comment">% Check for failed regression</span>
+
+assert(~isbad(A),<span class="string">'VAR estimation failed'</span>);
+
+<span class="comment">% Now calculate autocovariance according to the VAR model, to as many lags</span>
+<span class="comment">% as it takes to decay to below the numerical tolerance level, or to acmaxlags</span>
+<span class="comment">% lags if specified (i.e. non-empty).</span>
+
+ptic(<span class="string">'*** var_to_autocov... '</span>);
+[G,info] = var_to_autocov(A,SIG,acmaxlags);
+ptoc;
+
+<span class="comment">% Report and check for errors.</span>
+
+var_info(info,true); <span class="comment">% report results (and bail out on error)</span>
+
+<span class="comment">% Empirical autocovariance</span>
+
+GE = tsdata_to_autocov(X,info.aclags);
+
+figure(2); clf;
+plot_autocov(cat(4,G,GE),{<span class="string">'model'</span>,<span class="string">'data'</span>},1/fs,[],true,acorr);
+</pre><h2>Spectral analysis<a name="7"></a></h2><pre class="codeinput">ptic(<span class="string">'*** autocov_to_cpsd... '</span>);
+[S,fres] = autocov_to_cpsd(G,fres); <span class="comment">% for model</span>
+ptoc;
+
+ptic(<span class="string">'*** tsdata_to_cpsd... '</span>);
+SE = tsdata_to_cpsd(X,fres,specm);  <span class="comment">% from data (empirical)</span>
+ptoc;
+
+<span class="comment">% plot (auto-)spectra</span>
+
+figure(3); clf;
+plot_cpsd(cat(4,S,SE),{<span class="string">'model'</span>,<span class="string">'data'</span>},fs,[],true);
+</pre><h2>VAR stats tests<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Check that residuals are white (Durbin-Watson test).</span>
+
+[dw,dwpval] = whiteness(X,E);
+fprintf(<span class="string">'\nDurbin-Watson statistics =\n'</span>); disp(dw);
+dwsig = significance(dwpval,alpha,mhtc); <span class="comment">% significance adjusted for multiple hypotheses</span>
+notwhite = find(dwsig);
+<span class="keyword">if</span> isempty(notwhite)
+    fprintf(<span class="string">'all residuals are white by Durbin-Watson test at significance %g\n'</span>,alpha);
+<span class="keyword">else</span>
+    fprintf(2,<span class="string">'WARNING: autocorrelated residuals at significance %g for variable(s): %s\n'</span>,alpha,num2str(notwhite));
+<span class="keyword">end</span>
+
+<span class="comment">% Check R^2 stats.</span>
+
+[~,RSQADJ] = rsquared(X,E);
+fprintf(<span class="string">'\nRSQ (adjusted) =\n'</span>); disp(RSQADJ);
+rsqthreshold = 0.3; <span class="comment">% like GCCA</span>
+badqsq = find(RSQADJ &lt; rsqthreshold);
+<span class="keyword">if</span> isempty(badqsq)
+    fprintf(<span class="string">'adjusted r-squares OK: &gt; %g%% of variance is accounted for by the model\n'</span>,100*rsqthreshold);
+<span class="keyword">else</span>
+    fprintf(2,<span class="string">'WARNING: low adjusted r-square values (&lt; %g) for variable(s): %s\n'</span>,rsqthreshold,num2str(badqsq));
+<span class="keyword">end</span>
+
+<span class="comment">% Check model consistency (ie. proportion of correlation structure of the data</span>
+<span class="comment">% accounted for by the model).</span>
+
+cons = 100*consistency(X,E); <span class="comment">% percent</span>
+fprintf(<span class="string">'\nmodel consistency = %.0f%%\n'</span>,cons);
+consthreshold = 80;          <span class="comment">% like GCCA</span>
+<span class="keyword">if</span> cons &gt; consthreshold
+    fprintf(<span class="string">'consistency OK: &gt; %g%%\n'</span>,consthreshold);
+<span class="keyword">else</span>
+    fprintf(2,<span class="string">'WARNING: low consistency (&lt; %g%%)\n'</span>,consthreshold);
+<span class="keyword">end</span>
+</pre><p><a href="mvgc_demo_stats.html">back to top</a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MVGC statistics demo
+%
+% Demonstrates MVGC toolbox time series statistical and spectral analysis tools.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%% Parameters
+
+ntrials   = 10;      % number of trials
+nobs      = 1000;   % number of observations per trial
+
+regmode   = 'OLS';  % VAR model estimation regression mode ('OLS', 'LWR' or empty for default [set in startup.m])
+icregmode = 'LWR';  % information criteria regression mode ('OLS', 'LWR' or empty for default [set in startup.m])
+
+morder    = 'AIC';  % model order to use ('actual', 'AIC', 'BIC' or supplied numerical value)
+momax     = 20;     % maximum model order for model order estimation
+
+acmaxlags = 1000;   % maximum autocovariance lags (empty for automatic calculation)
+
+tstat     = '';     % statistical test for MVGC: 'F' for Granger's F-test, 'chi2' for Geweke's chi2 test or leave empty for default
+alpha     = 0.05;   % significance level for significance test
+mhtc      = 'FDR';  % multiple hypothesis test correction (see routine 'significance')
+
+fs        = 200;    % sample rate (Hz)
+fres      = [];     % frequency resolution (empty for automatic calculation)
+specm     = [];     % power spectrum estimation method: 'WELCH' (Welch method - default) or 'MT' (multi-taper)
+
+etests    = false;  % do experimental (unit-root stationarity) tests?
+stlags    = [];     % number of lags for stationarity tests (or leave empty for automatic default)
+
+acorr     = true;   % plot autocorrelation (else autocovariance)?
+
+seed      = 0;      % random seed (0 for unseeded)
+
+%% Generate VAR data
+
+% Seed random number generator.
+
+rng_seed(seed);
+
+% Get VAR coefficients for 5-node test network.
+
+AT = var5_test;
+nvars = size(AT,1); % number of variables
+
+% Residuals covariance matrix.
+
+SIGT = eye(nvars);
+
+% Generate VAR time series data with normally distributed residuals for
+% specified coefficients and covariance matrix.
+
+ptic('\n*** var_to_tsdata... ');
+X = var_to_tsdata(AT,SIGT,nobs,ntrials);
+ptoc;
+
+%% Unit root stationarity tests  (EXPERIMENTAL)
+
+if etests
+    
+    if ntrials > 1 % multitrial
+        fprintf(2,'\nWARNING: unit-root stationarity tests are experimental and not really suitable for multi-trial data!\n');
+    else
+        fprintf(2,'\nWARNING: unit-root stationarity tests are experimental!\n');
+    end
+
+    % Augmented Dickey-Fuller unit-root test (EXPERIMENTAL)
+
+    [adftstat,adfcval] = mvgc_adf(X,alpha,stlags);
+    fprintf('\nADF statistics (critical value = %f)\n',adfcval); disp(adftstat);
+    adfsig = adftstat > adfcval; % unit root; but how do we correct for multiple hypotheses?
+    adfnonstat = find(adfsig);
+    if isempty(adfnonstat)
+        fprintf('all time series are stationary by ADF test at significance %g\n',alpha);
+    else
+        if ntrials > 1 % multitrial
+            for r = 1:ntrials
+                adfnonstat = find(adfsig(r,:));
+                if ~isempty(adfnonstat)
+                    fprintf(2,'WARNING: non-stationary time series by ADF test at significance %g for trial %d, variable(s): %s\n',alpha,r,num2str(adfnonstat));
+                end
+            end
+        else
+            fprintf(2,'WARNING: non-stationary time series by ADF test at significance %g for variable(s): %s\n',alpha,num2str(adfnonstat));
+        end
+    end
+
+    % KPSS unit-root test (EXPERIMENTAL)
+
+    [ksstat,kscval] = mvgc_kpss(X,alpha,stlags);
+    fprintf('\nKPSS statistics (critical value = %f)\n',kscval); disp(ksstat);
+    kssig = ksstat > kscval; % unit root; but how do we correct for multiple hypotheses?
+    ksnonstat = find(kssig);
+    if isempty(ksnonstat)
+        fprintf('all time series are stationary by KPSS test at significance %g\n',alpha);
+    else
+        if ntrials > 1 % multitrial
+            for r = 1:ntrials
+                ksnonstat = find(kssig(r,:));
+                if ~isempty(ksnonstat)
+                    fprintf(2,'WARNING: non-stationary time series by KPSS test at significance %g for trial %d, variable(s): %s\n',alpha,r,num2str(ksnonstat));
+                end
+            end
+        else
+            fprintf(2,'WARNING: non-stationary time series by KPSS test at significance %g for variable(s): %s\n',alpha,num2str(ksnonstat));
+        end
+    end
+
+end
+%% Model order estimation
+
+% Calculate information criteria up to max model order
+
+ptic('\n*** tsdata_to_infocrit\n');
+[AIC,BIC] = tsdata_to_infocrit(X,momax,icregmode);
+ptoc('*** tsdata_to_infocrit took ');
+
+[~,bmo_AIC] = min(AIC);
+[~,bmo_BIC] = min(BIC);
+
+% Plot information criteria.
+
+figure(1); clf;
+plot((1:momax)',[AIC BIC]);
+legend('AIC','BIC');
+
+amo = size(AT,3); % actual model order
+
+fprintf('\nbest model order (AIC) = %d\n',bmo_AIC);
+fprintf('best model order (BIC) = %d\n',bmo_BIC);
+fprintf('actual model order     = %d\n',amo);
+
+% Select model order
+
+if     strcmpi(morder,'actual')
+    morder = amo;
+    fprintf('\nusing actual model order = %d\n',morder);
+elseif strcmpi(morder,'AIC')
+    morder = bmo_AIC;
+    fprintf('\nusing AIC best model order = %d\n',morder);
+elseif strcmpi(morder,'BIC')
+    morder = bmo_BIC;
+    fprintf('\nusing BIC best model order = %d\n',morder);
+else
+    fprintf('\nusing specified model order = %d\n',morder);
+end
+
+%% VAR model estimation and autocovariance calculation
+
+% Calculate VAR model; return residuals E too, since we need them later for
+% statistical routines.
+
+ptic('\n*** tsdata_to_var... ');
+[A,SIG,E] = tsdata_to_var(X,morder,regmode);
+ptoc;
+
+% Check for failed regression
+
+assert(~isbad(A),'VAR estimation failed');
+
+% Now calculate autocovariance according to the VAR model, to as many lags
+% as it takes to decay to below the numerical tolerance level, or to acmaxlags
+% lags if specified (i.e. non-empty).
+
+ptic('*** var_to_autocov... ');
+[G,info] = var_to_autocov(A,SIG,acmaxlags);
+ptoc;
+
+% Report and check for errors.
+
+var_info(info,true); % report results (and bail out on error)
+
+% Empirical autocovariance
+
+GE = tsdata_to_autocov(X,info.aclags);
+
+figure(2); clf;
+plot_autocov(cat(4,G,GE),{'model','data'},1/fs,[],true,acorr);
+
+%% Spectral analysis
+
+ptic('*** autocov_to_cpsd... ');
+[S,fres] = autocov_to_cpsd(G,fres); % for model
+ptoc;
+
+ptic('*** tsdata_to_cpsd... ');
+SE = tsdata_to_cpsd(X,fres,specm);  % from data (empirical)
+ptoc;
+
+% plot (auto-)spectra
+
+figure(3); clf;
+plot_cpsd(cat(4,S,SE),{'model','data'},fs,[],true);
+
+%% VAR stats tests
+
+% Check that residuals are white (Durbin-Watson test).
+
+[dw,dwpval] = whiteness(X,E);
+fprintf('\nDurbin-Watson statistics =\n'); disp(dw);
+dwsig = significance(dwpval,alpha,mhtc); % significance adjusted for multiple hypotheses
+notwhite = find(dwsig);
+if isempty(notwhite)
+    fprintf('all residuals are white by Durbin-Watson test at significance %g\n',alpha);
+else
+    fprintf(2,'WARNING: autocorrelated residuals at significance %g for variable(s): %s\n',alpha,num2str(notwhite));
+end
+
+% Check R^2 stats.
+
+[~,RSQADJ] = rsquared(X,E);
+fprintf('\nRSQ (adjusted) =\n'); disp(RSQADJ);
+rsqthreshold = 0.3; % like GCCA
+badqsq = find(RSQADJ < rsqthreshold);
+if isempty(badqsq)
+    fprintf('adjusted r-squares OK: > %g%% of variance is accounted for by the model\n',100*rsqthreshold);
+else
+    fprintf(2,'WARNING: low adjusted r-square values (< %g) for variable(s): %s\n',rsqthreshold,num2str(badqsq));
+end
+
+% Check model consistency (ie. proportion of correlation structure of the data
+% accounted for by the model).
+
+cons = 100*consistency(X,E); % percent
+fprintf('\nmodel consistency = %.0f%%\n',cons);
+consthreshold = 80;          % like GCCA
+if cons > consthreshold
+    fprintf('consistency OK: > %g%%\n',consthreshold);
+else
+    fprintf(2,'WARNING: low consistency (< %g%%)\n',consthreshold);
+end
+
+%%
+% <mvgc_demo_stats.html back to top>
+
+##### SOURCE END #####
+--></body></html>

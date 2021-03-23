@@ -1,0 +1,173 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>whiteness</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="whiteness.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>whiteness</h1><!--introduction--><p>Durbin-Watson test for whiteness (no serial correlation) of VAR residuals</p><p><a href="matlab:open('whiteness.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   [dw,pval] = whiteness(X,E)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   X          multi-trial time series data
+   E          residuals time series</pre><p><i>output</i></p><pre>   dw         vector of Durbin-Watson statistics
+   pval       vector of p-values</pre><h2>Description<a name="3"></a></h2><p>Returns the Durbin-Watson test statistic <tt>dw</tt> along with p-values <tt>pval</tt> for a multivariate regression of time series data <tt>X</tt> with residuals <tt>E</tt> (may be single- or multi-trial). This routine computes the statistic separately for each individual variable in <tt>X</tt>.</p><p>A standard rule of thumb is that <tt>dw &lt; 1</tt> or <tt>dw &gt; 3</tt> indicates a high chance of residuals serial correlation; this implies poor VAR model fit.</p><p>NOTE: To test for significance you should correct for multiple null hypotheses, or test for false discovery rate; see <a href="significance.html"><tt>significance</tt></a>.</p><h2>References<a name="4"></a></h2><p>[1] J. Durbin and G. S. Watson, "Testing for Serial Correlation in Least Squares Regression I", <i>Biometrika</i>, 37, 1950.</p><p>[2] A. Bhargava, L. Franzini and W. Narendranathan, "Serial Correlation and the Fixed Effects Model", <i>Review of Economic Studies</i>, 49, 1982.</p><h2>See also<a name="5"></a></h2><p><a href="significance.html"><tt>significance</tt></a> | <a href="mvgc_demo_stats.html"><tt>mvgc_demo_stats</tt></a></p><h2>Copyright notice<a name="6"></a></h2><p>[(C)] <i>Lionel Barnett and Anil K. Seth, 2012. See file <a href="matlab:open('license.txt')">license.txt</a> in root directory for licensing terms.</i></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% whiteness
+%
+% Durbin-Watson test for whiteness (no serial correlation) of VAR residuals
+%
+% <matlab:open('whiteness.m') code>
+%
+%% Syntax
+%
+%     [dw,pval] = whiteness(X,E)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     X          multi-trial time series data
+%     E          residuals time series
+%
+% _output_
+%
+%     dw         vector of Durbin-Watson statistics
+%     pval       vector of p-values
+%
+%% Description
+%
+% Returns the Durbin-Watson test statistic |dw| along with p-values |pval|
+% for a multivariate regression of time series data |X| with residuals |E|
+% (may be single- or multi-trial). This routine computes the statistic
+% separately for each individual variable in |X|.
+%
+% A standard rule of thumb is that |dw < 1| or |dw > 3| indicates a high
+% chance of residuals serial correlation; this implies poor VAR model fit.
+%
+% NOTE: To test for significance you should correct for multiple null
+% hypotheses, or test for false discovery rate; see <significance.html
+% |significance|>.
+%
+%% References
+%
+% [1] J. Durbin and G. S. Watson, "Testing for Serial Correlation in Least
+% Squares Regression I", _Biometrika_, 37, 1950.
+%
+% [2] A. Bhargava, L. Franzini and W. Narendranathan, "Serial Correlation and
+% the Fixed Effects Model", _Review of Economic Studies_, 49, 1982.
+%
+%% See also
+%
+% <significance.html |significance|> |
+% <mvgc_demo_stats.html |mvgc_demo_stats|>
+%
+%% Copyright notice
+%
+% [(C)] _Lionel Barnett and Anil K. Seth, 2012. See file
+% <matlab:open('license.txt') license.txt> in root directory for licensing
+% terms._
+%
+%%
+
+function [dw,pval] = whiteness(X,E)
+
+[n,m,N] = size(X);
+assert(m >= n,'too few observations');
+assert(size(E,1) == n && size(E,3) == N,'residuals don''t match time series data');
+
+X = demean(X);
+
+dw = zeros(1,n);
+pval = zeros(1,n);
+for i = 1:n
+    Ei = squeeze(E(i,:,:));
+    [dw(i),pval(i)] = durbinwatson(X(:,:),Ei(:)); % concatenate trials (ref. [2])
+end
+
+function [dw,pval] = durbinwatson(X,E)
+
+[n,m] = size(X);
+
+% calculate Durbin Watson (DW) statistic: rule of thumb: if < 1 or > 3 then
+% high chance of residual correlation
+
+dw = sum(diff(E).^2)/sum(E.^2);
+
+% calculate critical values for the DW statistic using approx method (ref. [1])
+
+A = X*X'; 
+B = filter([-1,2,-1],1,X');
+B([1,m],:) = (X(:,[1,m])-X(:,[2,m-1]))';
+D = B/A;
+C = X*D;
+nu1 = 2*(m-1)-trace(C);
+nu2 = 2*(3*m-4)-2*trace(B'*D)+trace(C*C);
+mu = nu1/(m-n);
+sigma = sqrt(2/((m-n)*(m-n+2))*(nu2-nu1*mu));
+
+% evaluate p-value
+
+pval = normcdf(dw,mu,sigma);
+pval = 2*min(pval,1-pval); % two tailed test
+
+##### SOURCE END #####
+--></body></html>

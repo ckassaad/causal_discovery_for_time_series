@@ -1,0 +1,245 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>empirical_var_to_spwcgc</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="empirical_var_to_spwcgc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>empirical_var_to_spwcgc</h1><!--introduction--><p>Calculate sampling distribution for pairwise-conditional frequency-domain MVGCs from generated time series data for a specified VAR model</p><p><a href="matlab:open('empirical_var_to_spwcgc.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   fE = empirical_var_to_spwcgc(A,SIG,m,N,fres,H0,nsamps,mtrunc,decayfac,regmode,acmaxlags,acdectol)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   A          VAR coefficients matrix
+   SIG        residuals covariance matrix
+   m          number of observations per trial
+   N          number of trials (default: 1)
+   fres       frequency resolution (default: automatic)
+   H0         flag: impose null hypotheses of zero connectivity?
+   nsamps     number of bootstrap samples
+   mtrunc     number of initial time observations to truncate  (default as for 'var_to_tsdata')
+   decayfac   initial transients decay factor (default as for 'var_to_tsdata')
+   regmode    regression mode (default as for 'tsdata_to_var')
+   acmaxlags  maximum autocovariance lags (default as for 'var_to_autocov')
+   acdectol   autocovariance decay tolerance (default as for 'var_to_autocov')</pre><p><i>output</i></p><pre>   fE         empirical spectral Granger causalities distributions</pre><h2>Description<a name="3"></a></h2><p>Returns <tt>nsamps</tt> samples from the empirical sampling distribution of the pairwise-conditional frequency-domain MVGCs for time series data generated from the VAR model specified by the coefficients matrix <tt>A</tt> and residuals covariance matrix <tt>SIG</tt>. The time series comprise <tt>N</tt> trials of length <tt>m</tt>, and residuals are iid Gaussian with covariance matrix <tt>SIG</tt>. If the flag <tt>H0</tt> is set then data is generated for the nested null models with zero connectivity; i.e. for each target index <tt>i</tt> and source index <tt>j</tt>, <tt>A(i,j,k)</tt> is set to zero for all lags <tt>k</tt>. For other parameters see <a href="var_to_tsdata.html"><tt>var_to_tsdata</tt></a>, <a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a> and <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a>.</p><p>The first dimension of the returned matrix <tt>fE</tt> indexes samples, the second indexes the target (causee) variable, the third the source (causal) variable and the fourth frequency.</p><p>Spectral causality is calculated up to the Nyqvist frequency at a resolution <tt>fres</tt>. If <tt>fres</tt> is not supplied it is calculated optimally as the number of autocovariance lags. Call <tt>freqs = <a href="sfreqs.html">sfreqs</a>(fres,fs)</tt>, where <tt>fs</tt> is the sampling rate, to get a corresponding vector <tt>freqs</tt> of frequencies on <tt>[0,fs/2]</tt>.</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><h2>See also<a name="5"></a></h2><p><a href="empirical_var_to_mvgc.html"><tt>empirical_var_to_mvgc</tt></a> | <a href="empirical_var_to_pwcgc.html"><tt>empirical_var_to_pwcgc</tt></a> | <a href="empirical_var_to_smvgc.html"><tt>empirical_var_to_smvgc</tt></a> | <a href="var_to_tsdata.html"><tt>var_to_tsdata</tt></a> | <a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a> | <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a> | <a href="autocov_to_spwcgc.html"><tt>autocov_to_spwcgc</tt></a> | <a href="sfreqs.html"><tt>sfreqs</tt></a>.</p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% empirical_var_to_spwcgc
+%
+% Calculate sampling distribution for pairwise-conditional frequency-domain
+% MVGCs from generated time series data for a specified VAR model
+%
+% <matlab:open('empirical_var_to_spwcgc.m') code>
+%
+%% Syntax
+%
+%     fE = empirical_var_to_spwcgc(A,SIG,m,N,fres,H0,nsamps,mtrunc,decayfac,regmode,acmaxlags,acdectol)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     A          VAR coefficients matrix
+%     SIG        residuals covariance matrix
+%     m          number of observations per trial
+%     N          number of trials (default: 1)
+%     fres       frequency resolution (default: automatic)
+%     H0         flag: impose null hypotheses of zero connectivity?
+%     nsamps     number of bootstrap samples
+%     mtrunc     number of initial time observations to truncate  (default as for 'var_to_tsdata')
+%     decayfac   initial transients decay factor (default as for 'var_to_tsdata')
+%     regmode    regression mode (default as for 'tsdata_to_var')
+%     acmaxlags  maximum autocovariance lags (default as for 'var_to_autocov')
+%     acdectol   autocovariance decay tolerance (default as for 'var_to_autocov')
+%
+% _output_
+%
+%     fE         empirical spectral Granger causalities distributions
+%
+%% Description
+%
+% Returns |nsamps| samples from the empirical sampling distribution of the
+% pairwise-conditional frequency-domain MVGCs for time series data generated from the
+% VAR model specified by the coefficients matrix |A| and residuals covariance
+% matrix |SIG|. The time series comprise |N| trials of length |m|, and residuals
+% are iid Gaussian with covariance matrix |SIG|. If the flag |H0| is set then
+% data is generated for the nested null models with zero connectivity; i.e. for
+% each target index |i| and source index |j|, |A(i,j,k)| is set to zero for all
+% lags |k|. For other parameters see <var_to_tsdata.html |var_to_tsdata|>,
+% <tsdata_to_var.html |tsdata_to_var|> and <var_to_autocov.html
+% |var_to_autocov|>.
+%
+% The first dimension of the returned matrix |fE| indexes samples, the second
+% indexes the target (causee) variable, the third the source (causal)
+% variable and the fourth frequency.
+%
+% Spectral causality is calculated up to the Nyqvist frequency at a
+% resolution |fres|. If |fres| is not supplied it is calculated optimally
+% as the number of autocovariance lags. Call |freqs =
+% <sfreqs.html sfreqs>(fres,fs)|, where |fs| is the sampling
+% rate, to get a corresponding vector |freqs| of frequencies on |[0,fs/2]|.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+%% See also
+%
+% <empirical_var_to_mvgc.html |empirical_var_to_mvgc|> |
+% <empirical_var_to_pwcgc.html |empirical_var_to_pwcgc|> |
+% <empirical_var_to_smvgc.html |empirical_var_to_smvgc|> |
+% <var_to_tsdata.html |var_to_tsdata|> |
+% <tsdata_to_var.html |tsdata_to_var|> |
+% <var_to_autocov.html |var_to_autocov|> |
+% <autocov_to_spwcgc.html |autocov_to_spwcgc|> |
+% <sfreqs.html |sfreqs|>.
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function fE = empirical_var_to_spwcgc(A,SIG,m,N,fres,H0,nsamps,mtrunc,decayfac,regmode,acmaxlags,acdectol)
+
+if nargin <  8, mtrunc    = []; end % ensure default
+if nargin <  9, decayfac  = []; end % ensure default
+if nargin < 10, regmode   = []; end % ensure default
+if nargin < 11, acmaxlags = []; end % ensure default
+if nargin < 12, acdectol  = []; end % ensure default
+
+[n,n1,p] = size(A);
+assert(n1 == n,'VAR coefficients matrix has bad shape');
+
+[nn1,nn2] = size(SIG);
+assert(nn1 == nn2,'residuals covariance matrix not square');
+assert(nn1 == n  ,'residuals covariance matrix doesn''t match VAR coefficients matrix');
+
+h = fres+1;
+
+fE = nan(nsamps,n,n,h);
+
+if H0 % null hypothesis: no connectivity for each j -> i
+        
+    for j = 1:n
+        for i = 1:n
+            if i ~= j
+                
+                % enforce null hypothesis: no connectivity for j -> i
+
+                A0 = A;
+                A0(i,j,:) = 0;
+               
+                for s = 1:nsamps
+                    fprintf('spectral PWCGC from node %d to node %d: empirical sample %d of %d',j,i,s,nsamps);
+                                       
+                    % generate empirical VAR time series
+
+                    UE = var_to_tsdata(A0,SIG,m,N,mtrunc,decayfac);
+
+                    % estimate empirical VAR parameters
+
+                    [AE,SIGE] = tsdata_to_var(UE,p,regmode);
+                    if isbad(AE), fprintf(' *** VAR estimation failed\n'); continue; end % something went badly wrong
+
+                    % calculate empirical PWGC
+
+                    [G,res] = var_to_autocov(AE,SIGE,acmaxlags,acdectol);
+                    if res.error, fprintf(' *** bad VAR: %s\n',res.errmsg); continue; end
+
+                    fE(s,i,j,:) = autocov_to_smvgc(G,i,j,fres);
+                    
+                    fprintf('\n');   
+                end
+            end
+        end
+        
+    end
+    
+else
+    
+    for s = 1:nsamps
+        fprintf('empirical spectral PWCGC %d of %d',s,nsamps);
+
+        % generate empirical VAR time series
+
+        UE = var_to_tsdata(A,SIG,m,N,mtrunc,decayfac);
+
+        % estimate empirical VAR parameters
+
+        [AE,SIGE] = tsdata_to_var(UE,p,regmode);
+        if isbad(AE), fprintf(' *** VAR estimation failed\n'); continue; end % something went badly wrong
+
+        % calculate empirical PWGC
+
+        [G,res] = var_to_autocov(AE,SIGE,acmaxlags,acdectol);
+        if res.error, fprintf(' *** bad VAR: %s\n',res.errmsg); continue; end
+
+        fE(s,:,:,:) = autocov_to_spwcgc(G,fres);
+
+        fprintf('\n');
+    end
+    
+end
+
+##### SOURCE END #####
+--></body></html>

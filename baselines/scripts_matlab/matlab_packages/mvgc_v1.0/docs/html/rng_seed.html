@@ -1,0 +1,146 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>rng_seed</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="rng_seed.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>rng_seed</h1><!--introduction--><p>Seed the Matlab default (global) random number generator</p><p><a href="matlab:open('rng_seed.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   state = rng_seed(seed)</pre><h2>Arguments<a name="2"></a></h2><p><i>input</i></p><pre>   seed       random seed: an integer in the range [0, 2^32 ? 1], or a negative number</pre><p><i>output</i></p><pre>   state      previous rng state</pre><h2>Description<a name="3"></a></h2><p>Seed the Matlab default (global) <a href="matlab:doc('rng')"><tt>random number generator</tt></a> (which is used for calls such as <a href="matlab:doc('rand')"><tt>rand</tt></a>, <a href="matlab:doc('randn')"><tt>randn</tt></a>, etc.). If <tt>seed</tt> is positive, use that seed. If zero, do nothing. If negative, seed with something really unpredictable, using either <a href="get_urand.html"><tt>get_urand</tt></a> (Unix, Mac) or <a href="get_crand.html"><tt>get_crand</tt></a> (Windows); see e.g. the MVGC <a href="startup.html"><tt>startup</tt></a> script. Optionally return the previous rng state in <tt>state</tt> (see <a href="rng_restore.html"><tt>rng_restore</tt></a>).</p><h2>Example<a name="4"></a></h2><pre>   state = rng_seed(seed);
+   X = rand(10,3);
+   rng_restore(state);</pre><h2>See also<a name="5"></a></h2><p><a href="matlab:doc('rng')"><tt>rng</tt></a> | <a href="rng_save.html"><tt>rng_save</tt></a> | <a href="rng_restore.html"><tt>rng_restore</tt></a> | <a href="get_urand.html"><tt>get_urand</tt></a> | <a href="get_crand.html"><tt>get_crand</tt></a> | <a href="startup.html"><tt>startup</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% rng_seed
+%
+% Seed the Matlab default (global) random number generator
+%
+% <matlab:open('rng_seed.m') code>
+%
+%% Syntax
+%
+%     state = rng_seed(seed)
+%
+%% Arguments
+%
+% _input_
+%
+%     seed       random seed: an integer in the range [0, 2^32 ? 1], or a negative number
+%
+% _output_
+%
+%     state      previous rng state
+%
+%% Description
+%
+% Seed the Matlab default (global) <matlab:doc('rng') |random number generator|>
+% (which is used for calls such as <matlab:doc('rand') |rand|>,
+% <matlab:doc('randn') |randn|>, etc.). If |seed| is positive, use that seed. If
+% zero, do nothing. If negative, seed with something really unpredictable, using
+% either <get_urand.html |get_urand|> (Unix, Mac) or <get_crand.html
+% |get_crand|> (Windows); see e.g. the MVGC <startup.html |startup|> script.
+% Optionally return the previous rng state in |state| (see <rng_restore.html
+% |rng_restore|>).
+%
+%% Example
+%
+%     state = rng_seed(seed);
+%     X = rand(10,3);
+%     rng_restore(state);
+%
+%% See also
+%
+% <matlab:doc('rng') |rng|> |
+% <rng_save.html |rng_save|> |
+% <rng_restore.html |rng_restore|> |
+% <get_urand.html |get_urand|> |
+% <get_crand.html |get_crand|> |
+% <startup.html |startup|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function state = rng_seed(seed)
+
+if nargout > 0
+    if ~isstruct(seed) && isscalar(seed) && seed == 0
+        state = 0;        % state = 0 means don't restore  (see rng_restore)
+    else
+        state = rng_save; % save state (see rng_restore)
+    end
+end
+
+if seed == 0, return; end % do nothing
+
+if seed < 0               % seed with unpredictable seed
+    if isunix || ismac
+        seed = get_urand; % from Unix /dev/urandom
+    else
+        seed = get_crand; % from clock time
+    end
+end
+
+rng(seed);                % seed rng
+
+##### SOURCE END #####
+--></body></html>

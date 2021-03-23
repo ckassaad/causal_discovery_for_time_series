@@ -1,0 +1,219 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>GCCA_tsdata_to_smvgc</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="GCCA_tsdata_to_smvgc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>GCCA_tsdata_to_smvgc</h1><!--introduction--><p>Calculate <i>unconditional</i> frequency-domain MVGC (spectral multivariate Granger causality) from time series data by "traditional" method (as e.g. in GCCA toolbox)</p><p><a href="matlab:open('GCCA_tsdata_to_smvgc.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   f = GCCA_tsdata_to_smvgc(U,x,y,p,fres,regmode)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   U          multi-trial time series data
+   x          vector of indices of target (causee) multi-variable
+   y          vector of indices of source (causal) multi-variable
+   p          model order (number of lags)
+   fres       frequency resolution
+   regmode    regression mode (default as in 'tsdata_to_var')</pre><p><i>output</i></p><pre>   f          unconditional spectral Granger causality</pre><h2>Description<a name="3"></a></h2><p>Returns the <i>unconditional</i> frequency-domain (spectral) MVGC</p><p><img vspace="5" hspace="24" src="eq_smvgc_uncond.png" alt=""> </p><p>from the variable <tt>Y</tt> (specified by the vector of indices <tt>y</tt>) to the variable <tt>X</tt> (specified by the vector of indices <tt>x</tt>) in the time series data <tt>U</tt>, for model order <tt>p</tt>.</p><p><b><i>NOTE:</i></b> <i>This routine will <b>not</b> compute conditional causalities</i>, since the "traditional" full/reduced regression method may well produce unacceptably inaccurate (or nonesensical) results in the conditional case. For an analysis of the reasons for this, see [2,*]. For the same reason, there is no pairwise-conditional <tt>GCCA_tsdata_to_smvgc_pwc</tt> routine in this toolbox. Since conditional causalities are generally what you want (unconditional causalities may be highly misleading [1]), we strongly reccommend computation of conditional spectral MVGC using the preferred autocovariance-based approach; see <a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a>.</p><p>Spectral causality is calculated up to the Nyqvist frequency at a resolution <tt>fres</tt>. Call <tt>freqs = <a href="sfreqs.html">sfreqs</a>(fres,fs)</tt>, where <tt>fs</tt> is the sampling rate, to get a corresponding vector <tt>freqs</tt> of frequencies on <tt>[0,fs/2]</tt>. The regression mode is set by the <tt>regmode</tt> parameter, which may be <tt>'LWR'</tt> or <tt>'OLS'</tt> (see <a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a> for details and defaults).</p><p>This routine is included mainly for compatibility with the Granger Causal Connectivity Analysis (<a href="http://www.sussex.ac.uk/Users/anils/aks_code.htm">GCCA</a>) Toolbox [3]; the preferred MVGC Toolbox method of calculating spectral MVGC via the autocovariance sequence (see <a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a>) will generally be more accurate and, furthermore, will calculate conditional spectral causality.</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><p>[2] Y. Chen, S. L. Bressler and M. Ding, "Frequency decomposition of conditional Granger causality and application to multivariate neural field potential data", <i>J. Neurosci. Methods</i>, 150, 2006.</p><p>[3] A. K. Seth, "A MATLAB toolbox for Granger causal connectivity analysis", <i>Journal of Neuroscience Methods</i> 186, 2010.</p><p>[*] In our experience the "partition matrix" method in ref. [2] appears to be unsound, producing inaccurate results; hence we do not use it here.</p><h2>See also<a name="5"></a></h2><p><a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a> | <a href="var_to_cpsd.html"><tt>var_to_cpsd</tt></a> | <a href="sfreqs.html"><tt>sfreqs</tt></a> | <a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a> | <a href="isbad.html"><tt>isbad</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% GCCA_tsdata_to_smvgc
+%
+% Calculate _unconditional_ frequency-domain MVGC (spectral multivariate
+% Granger causality) from time series data by "traditional" method (as e.g.
+% in GCCA toolbox)
+%
+% <matlab:open('GCCA_tsdata_to_smvgc.m') code>
+%
+%% Syntax
+%
+%     f = GCCA_tsdata_to_smvgc(U,x,y,p,fres,regmode)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     U          multi-trial time series data
+%     x          vector of indices of target (causee) multi-variable
+%     y          vector of indices of source (causal) multi-variable
+%     p          model order (number of lags)
+%     fres       frequency resolution
+%     regmode    regression mode (default as in 'tsdata_to_var')
+%
+% _output_
+%
+%     f          unconditional spectral Granger causality
+%
+%% Description
+%
+% Returns the _unconditional_ frequency-domain (spectral) MVGC
+%
+% <<eq_smvgc_uncond.png>>
+%
+% from the variable |Y| (specified by the vector of indices |y|) to the
+% variable |X| (specified by the vector of indices |x|) in the time series
+% data |U|, for model order |p|.
+%
+% *_NOTE:_* _This routine will *not* compute conditional causalities_,
+% since the "traditional" full/reduced regression method may well produce
+% unacceptably inaccurate (or nonesensical) results in the conditional
+% case. For an analysis of the reasons for this, see [2,*]. For the same
+% reason, there is no pairwise-conditional |GCCA_tsdata_to_smvgc_pwc|
+% routine in this toolbox. Since conditional causalities are generally what
+% you want (unconditional causalities may be highly misleading [1]), we
+% strongly reccommend computation of conditional spectral MVGC using the
+% preferred autocovariance-based approach; see <autocov_to_smvgc.html
+% |autocov_to_smvgc|>.
+%
+% Spectral causality is calculated up to the Nyqvist frequency at a
+% resolution |fres|. Call |freqs = <sfreqs.html sfreqs>(fres,fs)|, where
+% |fs| is the sampling rate, to get a corresponding vector |freqs| of
+% frequencies on |[0,fs/2]|. The regression mode is set by the |regmode|
+% parameter, which may be |'LWR'| or |'OLS'| (see <tsdata_to_var.html
+% |tsdata_to_var|> for details and defaults).
+%
+% This routine is included mainly for compatibility with the Granger Causal
+% Connectivity Analysis (<http://www.sussex.ac.uk/Users/anils/aks_code.htm
+% GCCA>) Toolbox [3]; the preferred MVGC Toolbox method of calculating
+% spectral MVGC via the autocovariance sequence (see <autocov_to_smvgc.html
+% |autocov_to_smvgc|>) will generally be more accurate and, furthermore,
+% will calculate conditional spectral causality.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% [2] Y. Chen, S. L. Bressler and M. Ding, "Frequency decomposition of
+% conditional Granger causality and application to multivariate neural
+% field potential data", _J. Neurosci. Methods_, 150, 2006. 
+%
+% [3] A. K. Seth, "A MATLAB toolbox for Granger causal connectivity
+% analysis", _Journal of Neuroscience Methods_ 186, 2010.
+%
+% [*] In our experience the "partition matrix" method in ref. [2] appears to be
+% unsound, producing inaccurate results; hence we do not use it here.
+%
+%% See also
+%
+% <tsdata_to_var.html |tsdata_to_var|> |
+% <var_to_cpsd.html |var_to_cpsd|> |
+% <sfreqs.html |sfreqs|> |
+% <autocov_to_smvgc.html |autocov_to_smvgc|> |
+% <isbad.html |isbad|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function f = GCCA_tsdata_to_smvgc(U,x,y,p,fres,regmode)
+
+if nargin < 6, regmode = []; end % ensure 'tsdata_to_var' default
+
+n = size(U,1);
+
+x = x(:)'; % vectorise
+y = y(:)'; % vectorise
+
+assert(all(x >=1 & x <= n),'some x indices out of range');
+assert(all(y >=1 & y <= n),'some y indices out of range');
+assert(isempty(intersect(x,y)),'x and y indices must be distinct');
+
+z = 1:n; z([x y]) = []; % indices of other variables (to condition out)
+
+h = fres+1;
+f = nan(h,1);
+
+assert(isempty(z),'conditional spectral MVGC not available in GCCA mode');
+
+xy = [x y];
+
+U = U(xy,:,:); % extract variables, rearrange
+
+nx = length(x);
+n = length(xy);
+x = 1:nx;
+y = nx+1:n;
+
+owstate = warn_supp;
+[A,SIG] = tsdata_to_var(U,p,regmode);        % full regression
+warn_test(owstate,  'in full regression - data non-stationary or colinear?');
+if warn_if(isbad(A),'in full regression - regression failed'), return; end % show-stopper!
+% we should really check that SIG is positive-definite; we don't, for effciency reasons
+
+owstate = warn_supp;
+[S,H] = var_to_cpsd(A,SIG,fres);             % spectrum & transfer function
+warn_test(owstate,  'in spectral calculation');
+if warn_if(isbad(S),'in spectral calculation - calculation failed'), return; end % show-stopper!
+
+S = S(x,x,:);
+H = H(x,y,:);
+SIG = SIG(y,y)-(SIG(y,x)/SIG(x,x))*SIG(x,y); % partial covariance
+for k = 1:h
+    f(k) = log(real(det(S(:,:,k)))) - log(real(det(S(:,:,k)-H(:,:,k)*SIG*H(:,:,k)')));
+end
+
+
+##### SOURCE END #####
+--></body></html>

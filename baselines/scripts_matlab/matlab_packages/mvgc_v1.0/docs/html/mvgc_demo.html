@@ -1,0 +1,481 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>MVGC demo</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_demo.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>MVGC demo</h1><!--introduction--><p>Demonstrates typical usage of the MVGC toolbox on generated VAR data for a 5-node network with known causal structure (see <a href="var5_test.html"><tt>var5_test</tt></a>). Estimates a VAR model and calculates time- and frequency-domain pairwise-conditional Granger causalities (also known as the "causal graph"). Also calculates Seth's causal density measure [2].</p><p>This script is a good starting point for learning the MVGC approach to Granger-causal estimation and statistical inference. It may serve as a useful template for your own code. The computational approach demonstrated here will make a lot more sense alongside the reference document&gt; [1], which we <i>strongly recommend</i> you consult, particularly Section 3 on design principles of the toolbox. You might also like to refer to the <a href="mvgc_schema.html">schema</a> of MVGC computational pathways - <a href="mvgc_schema.html#3">algorithms</a> <tt>A&lt;n&gt;</tt> in this demo refer to the algorithm labels listed there - and the <a href="mvgchelp.html#4">Common variable names and data structures</a> section of the Help documentation.</p><p><b><i>FAQ:</i></b> <i>Why do the spectral causalities look so smooth?</i></p><p>This is because spectral quantities are calculated from the estimated VAR, rather than sampled directly. This is in accordance with the MVGC design principle that all causal estimates be based on the <a href="mvgc_demo.html#6">estimated VAR model</a> for your data, and guarantees that spectral causalities <a href="mvgc_demo.html#10">integrate correctly</a> to time-domain causality as theory requires. See [1] for details.</p><p><b><i>Note</i></b>: Do <i>not</i> pre-filter your data prior to GC estimation, <i>except</i> possibly to improve stationarity (e.g notch-filtering to eliminate line noise or high-pass filtering to suppress low-frequency transients). Pre-filtering (of stationary data) may seriously degrade Granger-causal inference! If you want (time-domain) GC over a limited frequency range, rather calculate "band-limited" GC; to do this, calculate frequency-domain GCs over the full frequency range, then integrate over the desired frequency band [3]; see <a href="smvgc_to_mvgc.html"><tt>smvgc_to_mvgc</tt></a>.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">References</a></li><li><a href="#2">Parameters</a></li><li><a href="#3">Generate VAR test data (<a href="mvgc_schema.html#3"><tt>A3</tt></a>)</a></li><li><a href="#4">Model order estimation (<a href="mvgc_schema.html#3"><tt>A2</tt></a>)</a></li><li><a href="#5">VAR model estimation (<a href="mvgc_schema.html#3"><tt>A2</tt></a>)</a></li><li><a href="#6">Autocovariance calculation (<a href="mvgc_schema.html#3"><tt>A5</tt></a>)</a></li><li><a href="#7">Granger causality calculation: time domain  (<a href="mvgc_schema.html#3"><tt>A13</tt></a>)</a></li><li><a href="#8">Granger causality calculation: frequency domain  (<a href="mvgc_schema.html#3"><tt>A14</tt></a>)</a></li><li><a href="#9">Granger causality calculation: frequency domain -&gt; time-domain  (<a href="mvgc_schema.html#3"><tt>A15</tt></a>)</a></li></ul></div><h2>References<a name="1"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><p>[2] A. B. Barrett, L. Barnett and A. K. Seth, "Multivariate Granger causality and generalized variance", <i>Phys. Rev. E</i> 81(4), 2010.</p><p>[3] L. Barnett and A. K. Seth, "Behaviour of Granger causality under filtering: Theoretical invariance and practical application", <i>J. Neurosci. Methods</i> 201(2), 2011.</p><h2>Parameters<a name="2"></a></h2><pre class="codeinput">ntrials   = 10;     <span class="comment">% number of trials</span>
+nobs      = 1000;   <span class="comment">% number of observations per trial</span>
+
+regmode   = <span class="string">'OLS'</span>;  <span class="comment">% VAR model estimation regression mode ('OLS', 'LWR' or empty for default)</span>
+icregmode = <span class="string">'LWR'</span>;  <span class="comment">% information criteria regression mode ('OLS', 'LWR' or empty for default)</span>
+
+morder    = <span class="string">'AIC'</span>;  <span class="comment">% model order to use ('actual', 'AIC', 'BIC' or supplied numerical value)</span>
+momax     = 20;     <span class="comment">% maximum model order for model order estimation</span>
+
+acmaxlags = 1000;   <span class="comment">% maximum autocovariance lags (empty for automatic calculation)</span>
+
+tstat     = <span class="string">''</span>;     <span class="comment">% statistical test for MVGC:  'F' for Granger's F-test (default) or 'chi2' for Geweke's chi2 test</span>
+alpha     = 0.05;   <span class="comment">% significance level for significance test</span>
+mhtc      = <span class="string">'FDR'</span>;  <span class="comment">% multiple hypothesis test correction (see routine 'significance')</span>
+
+fs        = 200;    <span class="comment">% sample rate (Hz)</span>
+fres      = [];     <span class="comment">% frequency resolution (empty for automatic calculation)</span>
+
+seed      = 0;      <span class="comment">% random seed (0 for unseeded)</span>
+</pre><h2>Generate VAR test data (<a href="mvgc_schema.html#3"><tt>A3</tt></a>)<a name="3"></a></h2><p><i><b>Note:</b></i> This is where you would read in your own time series data; it should be assigned to the variable <tt>X</tt> (see below and <a href="mvgchelp.html#4">Common variable names and data structures</a>).</p><pre class="codeinput"><span class="comment">% Seed random number generator.</span>
+
+rng_seed(seed);
+
+<span class="comment">% Get VAR coefficients for 5-node test network.</span>
+
+AT = var5_test;
+nvars = size(AT,1); <span class="comment">% number of variables</span>
+
+<span class="comment">% Residuals covariance matrix.</span>
+
+SIGT = eye(nvars);
+
+<span class="comment">% Generate multi-trial VAR time series data with normally distributed residuals</span>
+<span class="comment">% for specified coefficients and covariance matrix.</span>
+
+ptic(<span class="string">'\n*** var_to_tsdata... '</span>);
+X = var_to_tsdata(AT,SIGT,nobs,ntrials);
+ptoc;
+</pre><h2>Model order estimation (<a href="mvgc_schema.html#3"><tt>A2</tt></a>)<a name="4"></a></h2><pre class="codeinput"><span class="comment">% Calculate information criteria up to specified maximum model order.</span>
+
+ptic(<span class="string">'\n*** tsdata_to_infocrit\n'</span>);
+[AIC,BIC,moAIC,moBIC] = tsdata_to_infocrit(X,momax,icregmode);
+ptoc(<span class="string">'*** tsdata_to_infocrit took '</span>);
+
+<span class="comment">% Plot information criteria.</span>
+
+figure(1); clf;
+plot_tsdata([AIC BIC]',{<span class="string">'AIC'</span>,<span class="string">'BIC'</span>},1/fs);
+title(<span class="string">'Model order estimation'</span>);
+
+amo = size(AT,3); <span class="comment">% actual model order</span>
+
+fprintf(<span class="string">'\nbest model order (AIC) = %d\n'</span>,moAIC);
+fprintf(<span class="string">'best model order (BIC) = %d\n'</span>,moBIC);
+fprintf(<span class="string">'actual model order     = %d\n'</span>,amo);
+
+<span class="comment">% Select model order.</span>
+
+<span class="keyword">if</span>     strcmpi(morder,<span class="string">'actual'</span>)
+    morder = amo;
+    fprintf(<span class="string">'\nusing actual model order = %d\n'</span>,morder);
+<span class="keyword">elseif</span> strcmpi(morder,<span class="string">'AIC'</span>)
+    morder = moAIC;
+    fprintf(<span class="string">'\nusing AIC best model order = %d\n'</span>,morder);
+<span class="keyword">elseif</span> strcmpi(morder,<span class="string">'BIC'</span>)
+    morder = moBIC;
+    fprintf(<span class="string">'\nusing BIC best model order = %d\n'</span>,morder);
+<span class="keyword">else</span>
+    fprintf(<span class="string">'\nusing specified model order = %d\n'</span>,morder);
+<span class="keyword">end</span>
+</pre><h2>VAR model estimation (<a href="mvgc_schema.html#3"><tt>A2</tt></a>)<a name="5"></a></h2><pre class="codeinput"><span class="comment">% Estimate VAR model of selected order from data.</span>
+
+ptic(<span class="string">'\n*** tsdata_to_var... '</span>);
+[A,SIG] = tsdata_to_var(X,morder,regmode);
+ptoc;
+
+<span class="comment">% Check for failed regression</span>
+
+assert(~isbad(A),<span class="string">'VAR estimation failed'</span>);
+
+<span class="comment">% NOTE: at this point we have a model and are finished with the data! - all</span>
+<span class="comment">% subsequent calculations work from the estimated VAR parameters A and SIG.</span>
+</pre><h2>Autocovariance calculation (<a href="mvgc_schema.html#3"><tt>A5</tt></a>)<a name="6"></a></h2><pre class="codeinput"><span class="comment">% The autocovariance sequence drives many Granger causality calculations (see</span>
+<span class="comment">% next section). Now we calculate the autocovariance sequence G according to the</span>
+<span class="comment">% VAR model, to as many lags as it takes to decay to below the numerical</span>
+<span class="comment">% tolerance level, or to acmaxlags lags if specified (i.e. non-empty).</span>
+
+ptic(<span class="string">'*** var_to_autocov... '</span>);
+[G,info] = var_to_autocov(A,SIG,acmaxlags);
+ptoc;
+
+<span class="comment">% The above routine does a LOT of error checking and issues useful diagnostics.</span>
+<span class="comment">% If there are problems with your data (e.g. non-stationarity, colinearity,</span>
+<span class="comment">% etc.) there's a good chance it'll show up at this point - and the diagnostics</span>
+<span class="comment">% may supply useful information as to what went wrong. It is thus essential to</span>
+<span class="comment">% report and check for errors here.</span>
+
+var_info(info,true); <span class="comment">% report results (and bail out on error)</span>
+</pre><h2>Granger causality calculation: time domain  (<a href="mvgc_schema.html#3"><tt>A13</tt></a>)<a name="7"></a></h2><pre class="codeinput"><span class="comment">% Calculate time-domain pairwise-conditional causalities - this just requires</span>
+<span class="comment">% the autocovariance sequence.</span>
+
+ptic(<span class="string">'*** autocov_to_pwcgc... '</span>);
+F = autocov_to_pwcgc(G);
+ptoc;
+
+<span class="comment">% Check for failed GC calculation</span>
+
+assert(~isbad(F,false),<span class="string">'GC calculation failed'</span>);
+
+<span class="comment">% Significance test using theoretical null distribution, adjusting for multiple</span>
+<span class="comment">% hypotheses.</span>
+
+pval = mvgc_pval(F,morder,nobs,ntrials,1,1,nvars-2,tstat); <span class="comment">% take careful note of arguments!</span>
+sig  = significance(pval,alpha,mhtc);
+
+<span class="comment">% Plot time-domain causal graph, p-values and significance.</span>
+
+figure(2); clf;
+subplot(1,3,1);
+plot_pw(F);
+title(<span class="string">'Pairwise-conditional GC'</span>);
+subplot(1,3,2);
+plot_pw(pval);
+title(<span class="string">'p-values'</span>);
+subplot(1,3,3);
+plot_pw(sig);
+title([<span class="string">'Significant at p = '</span> num2str(alpha)])
+
+<span class="comment">% For good measure we calculate Seth's causal density (cd) measure - the mean</span>
+<span class="comment">% pairwise-conditional causality. We don't have a theoretical sampling</span>
+<span class="comment">% distribution for this.</span>
+
+cd = mean(F(~isnan(F)));
+
+fprintf(<span class="string">'\ncausal density = %f\n'</span>,cd);
+</pre><h2>Granger causality calculation: frequency domain  (<a href="mvgc_schema.html#3"><tt>A14</tt></a>)<a name="8"></a></h2><pre class="codeinput"><span class="comment">% Calculate spectral pairwise-conditional causalities at given frequency</span>
+<span class="comment">% resolution - again, this only requires the autocovariance sequence.</span>
+
+ptic(<span class="string">'\n*** autocov_to_spwcgc... '</span>);
+f = autocov_to_spwcgc(G,fres);
+ptoc;
+
+<span class="comment">% Check for failed spectral GC calculation</span>
+
+assert(~isbad(f,false),<span class="string">'spectral GC calculation failed'</span>);
+
+<span class="comment">% Plot spectral causal graph.</span>
+
+figure(3); clf;
+plot_spw(f,fs);
+</pre><h2>Granger causality calculation: frequency domain -&gt; time-domain  (<a href="mvgc_schema.html#3"><tt>A15</tt></a>)<a name="9"></a></h2><pre class="codeinput"><span class="comment">% Check that spectral causalities average (integrate) to time-domain</span>
+<span class="comment">% causalities, as they should according to theory.</span>
+
+fprintf(<span class="string">'\nchecking that frequency-domain GC integrates to time-domain GC... \n'</span>);
+Fint = smvgc_to_mvgc(f); <span class="comment">% integrate spectral MVGCs</span>
+mad = maxabs(F-Fint);
+madthreshold = 1e-5;
+<span class="keyword">if</span> mad &lt; madthreshold
+    fprintf(<span class="string">'maximum absolute difference OK: = %.2e (&lt; %.2e)\n'</span>,mad,madthreshold);
+<span class="keyword">else</span>
+    fprintf(2,<span class="string">'WARNING: high maximum absolute difference = %e.2 (&gt; %.2e)\n'</span>,mad,madthreshold);
+<span class="keyword">end</span>
+</pre><p><a href="mvgc_demo.html">back to top</a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MVGC demo
+%
+% Demonstrates typical usage of the MVGC toolbox on generated VAR data for a
+% 5-node network with known causal structure (see <var5_test.html |var5_test|>).
+% Estimates a VAR model and calculates time- and frequency-domain
+% pairwise-conditional Granger causalities (also known as the "causal graph").
+% Also calculates Seth's causal density measure [2].
+%
+% This script is a good starting point for learning the MVGC approach to
+% Granger-causal estimation and statistical inference. It may serve as a useful
+% template for your own code. The computational approach demonstrated here will
+% make a lot more sense alongside the reference document> [1], which we
+% _strongly recommend_ you consult, particularly Section 3 on design principles
+% of the toolbox. You might also like to refer to the <mvgc_schema.html schema>
+% of MVGC computational pathways - <mvgc_schema.html#3 algorithms> |A<n>| in
+% this demo refer to the algorithm labels listed there - and the
+% <mvgchelp.html#4 Common variable names and data structures> section of the
+% Help documentation.
+%
+% *_FAQ:_* _Why do the spectral causalities look so smooth?_ 
+%
+% This is because spectral quantities are calculated from the estimated VAR,
+% rather than sampled directly. This is in accordance with the MVGC design
+% principle that all causal estimates be based on the <mvgc_demo.html#6
+% estimated VAR model> for your data, and guarantees that spectral causalities
+% <mvgc_demo.html#10 integrate correctly> to time-domain causality as theory
+% requires. See [1] for details.
+% 
+% *_Note_*: Do _not_ pre-filter your data prior to GC estimation, _except_
+% possibly to improve stationarity (e.g notch-filtering to eliminate line noise
+% or high-pass filtering to suppress low-frequency transients). Pre-filtering
+% (of stationary data) may seriously degrade Granger-causal inference! If you
+% want (time-domain) GC over a limited frequency range, rather calculate
+% "band-limited" GC; to do this, calculate frequency-domain GCs over the full
+% frequency range, then integrate over the desired frequency band [3]; see
+% <smvgc_to_mvgc.html |smvgc_to_mvgc|>.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% [2] A. B. Barrett, L. Barnett and A. K. Seth, "Multivariate Granger causality
+% and generalized variance", _Phys. Rev. E_ 81(4), 2010.
+%
+% [3] L. Barnett and A. K. Seth, "Behaviour of Granger causality under
+% filtering: Theoretical invariance and practical application", _J. Neurosci.
+% Methods_ 201(2), 2011.
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%% Parameters
+
+ntrials   = 10;     % number of trials
+nobs      = 1000;   % number of observations per trial
+
+regmode   = 'OLS';  % VAR model estimation regression mode ('OLS', 'LWR' or empty for default)
+icregmode = 'LWR';  % information criteria regression mode ('OLS', 'LWR' or empty for default)
+
+morder    = 'AIC';  % model order to use ('actual', 'AIC', 'BIC' or supplied numerical value)
+momax     = 20;     % maximum model order for model order estimation
+
+acmaxlags = 1000;   % maximum autocovariance lags (empty for automatic calculation)
+
+tstat     = '';     % statistical test for MVGC:  'F' for Granger's F-test (default) or 'chi2' for Geweke's chi2 test
+alpha     = 0.05;   % significance level for significance test
+mhtc      = 'FDR';  % multiple hypothesis test correction (see routine 'significance')
+
+fs        = 200;    % sample rate (Hz)
+fres      = [];     % frequency resolution (empty for automatic calculation)
+
+seed      = 0;      % random seed (0 for unseeded)
+
+%% Generate VAR test data (<mvgc_schema.html#3 |A3|>)
+%
+% _*Note:*_ This is where you would read in your own time series data; it should
+% be assigned to the variable |X| (see below and <mvgchelp.html#4 Common
+% variable names and data structures>).
+
+% Seed random number generator.
+
+rng_seed(seed);
+
+% Get VAR coefficients for 5-node test network.
+
+AT = var5_test;
+nvars = size(AT,1); % number of variables
+
+% Residuals covariance matrix.
+
+SIGT = eye(nvars);
+
+% Generate multi-trial VAR time series data with normally distributed residuals
+% for specified coefficients and covariance matrix.
+
+ptic('\n*** var_to_tsdata... ');
+X = var_to_tsdata(AT,SIGT,nobs,ntrials);
+ptoc;
+
+%% Model order estimation (<mvgc_schema.html#3 |A2|>)
+
+% Calculate information criteria up to specified maximum model order.
+
+ptic('\n*** tsdata_to_infocrit\n');
+[AIC,BIC,moAIC,moBIC] = tsdata_to_infocrit(X,momax,icregmode);
+ptoc('*** tsdata_to_infocrit took ');
+
+% Plot information criteria.
+
+figure(1); clf;
+plot_tsdata([AIC BIC]',{'AIC','BIC'},1/fs);
+title('Model order estimation');
+
+amo = size(AT,3); % actual model order
+
+fprintf('\nbest model order (AIC) = %d\n',moAIC);
+fprintf('best model order (BIC) = %d\n',moBIC);
+fprintf('actual model order     = %d\n',amo);
+
+% Select model order.
+
+if     strcmpi(morder,'actual')
+    morder = amo;
+    fprintf('\nusing actual model order = %d\n',morder);
+elseif strcmpi(morder,'AIC')
+    morder = moAIC;
+    fprintf('\nusing AIC best model order = %d\n',morder);
+elseif strcmpi(morder,'BIC')
+    morder = moBIC;
+    fprintf('\nusing BIC best model order = %d\n',morder);
+else
+    fprintf('\nusing specified model order = %d\n',morder);
+end
+
+%% VAR model estimation (<mvgc_schema.html#3 |A2|>)
+
+% Estimate VAR model of selected order from data.
+
+ptic('\n*** tsdata_to_var... ');
+[A,SIG] = tsdata_to_var(X,morder,regmode);
+ptoc;
+
+% Check for failed regression
+
+assert(~isbad(A),'VAR estimation failed');
+
+% NOTE: at this point we have a model and are finished with the data! - all
+% subsequent calculations work from the estimated VAR parameters A and SIG.
+
+%% Autocovariance calculation (<mvgc_schema.html#3 |A5|>)
+
+% The autocovariance sequence drives many Granger causality calculations (see
+% next section). Now we calculate the autocovariance sequence G according to the
+% VAR model, to as many lags as it takes to decay to below the numerical
+% tolerance level, or to acmaxlags lags if specified (i.e. non-empty).
+
+ptic('*** var_to_autocov... ');
+[G,info] = var_to_autocov(A,SIG,acmaxlags);
+ptoc;
+
+% The above routine does a LOT of error checking and issues useful diagnostics.
+% If there are problems with your data (e.g. non-stationarity, colinearity,
+% etc.) there's a good chance it'll show up at this point - and the diagnostics
+% may supply useful information as to what went wrong. It is thus essential to
+% report and check for errors here.
+
+var_info(info,true); % report results (and bail out on error)
+
+%% Granger causality calculation: time domain  (<mvgc_schema.html#3 |A13|>)
+
+% Calculate time-domain pairwise-conditional causalities - this just requires
+% the autocovariance sequence.
+
+ptic('*** autocov_to_pwcgc... ');
+F = autocov_to_pwcgc(G);
+ptoc;
+
+% Check for failed GC calculation
+
+assert(~isbad(F,false),'GC calculation failed');
+
+% Significance test using theoretical null distribution, adjusting for multiple
+% hypotheses.
+
+pval = mvgc_pval(F,morder,nobs,ntrials,1,1,nvars-2,tstat); % take careful note of arguments!
+sig  = significance(pval,alpha,mhtc);
+
+% Plot time-domain causal graph, p-values and significance.
+
+figure(2); clf;
+subplot(1,3,1);
+plot_pw(F);
+title('Pairwise-conditional GC');
+subplot(1,3,2);
+plot_pw(pval);
+title('p-values');
+subplot(1,3,3);
+plot_pw(sig);
+title(['Significant at p = ' num2str(alpha)])
+
+% For good measure we calculate Seth's causal density (cd) measure - the mean
+% pairwise-conditional causality. We don't have a theoretical sampling
+% distribution for this.
+
+cd = mean(F(~isnan(F)));
+
+fprintf('\ncausal density = %f\n',cd);
+
+%% Granger causality calculation: frequency domain  (<mvgc_schema.html#3 |A14|>)
+
+% Calculate spectral pairwise-conditional causalities at given frequency
+% resolution - again, this only requires the autocovariance sequence.
+
+ptic('\n*** autocov_to_spwcgc... ');
+f = autocov_to_spwcgc(G,fres);
+ptoc;
+
+% Check for failed spectral GC calculation
+
+assert(~isbad(f,false),'spectral GC calculation failed');
+
+% Plot spectral causal graph.
+
+figure(3); clf;
+plot_spw(f,fs);
+
+%% Granger causality calculation: frequency domain -> time-domain  (<mvgc_schema.html#3 |A15|>)
+
+% Check that spectral causalities average (integrate) to time-domain
+% causalities, as they should according to theory.
+
+fprintf('\nchecking that frequency-domain GC integrates to time-domain GC... \n');
+Fint = smvgc_to_mvgc(f); % integrate spectral MVGCs
+mad = maxabs(F-Fint);
+madthreshold = 1e-5;
+if mad < madthreshold
+    fprintf('maximum absolute difference OK: = %.2e (< %.2e)\n',mad,madthreshold);
+else
+    fprintf(2,'WARNING: high maximum absolute difference = %e.2 (> %.2e)\n',mad,madthreshold);
+end
+
+%%
+% <mvgc_demo.html back to top>
+
+##### SOURCE END #####
+--></body></html>

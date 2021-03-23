@@ -1,0 +1,210 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>mvgc_cdfi</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_cdfi.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>mvgc_cdfi</h1><!--introduction--><p>Sample MVGC thoretical asymptotic inverse cumulative distribution function</p><p><a href="matlab:open('mvgc_cdfi.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   x = mvgc_cdfi(P,X,p,m,N,nx,ny,nz,tstat)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   P          vector of MVGC cumulative distribution probabilities
+   X          vector of actual MVGC values
+   p          VAR model order
+   m          number of observations per trial
+   N          number of trials
+   nx         number of target ("to") variables
+   ny         number of source ("from") variables
+   nz         number of conditioning variables (default: 0)
+   tstat      statistic: 'F' or 'chi2' (default: 'F' if nx == 1, else 'chi2')</pre><p><i>output</i></p><pre>   x          vector of MVGC values</pre><h2>Description<a name="3"></a></h2><p>Return theoretical sample MVGC asymptotic inverse cumulative distribution function for actual MVGCs in vector <tt>X</tt>, evaluated at probabilities in vector P. To calculate the critical MVGC value for a significance level <tt>alpha</tt>, assume null hypothesis H<sub>0</sub>: <tt>X = 0</tt> and set <tt>P = 1-alpha</tt> (see <a href="mvgc_cval.html"><tt>mvgc_cval</tt></a>). For confidence intervals at level <tt>alpha</tt>, set <tt>X</tt> to the estimated MVGC and set <tt>P = alpha</tt> for lower bound and <tt>P = 1-alpha</tt> for upper bound (see <a href="mvgc_confint.html"><tt>mvgc_confint</tt></a>).</p><p>The theoretical distribution is specified by the <tt>tstat</tt> parameter, which may be  'F' for Granger's F-test (default if <tt>nx == 1</tt>) or 'chi2' for Geweke's &chi;<sup>2</sup> test (default if <tt>nx &gt; 1</tt>). For a multivariate predictee (i.e. <tt>nx &gt; 1</tt>) only the &chi;<sup>2</sup> test is suitable [1].</p><p>For more details see <a href="mvgc_cdf.html"><tt>mvgc_cdf</tt></a>.</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><h2>See also<a name="5"></a></h2><p><a href="mvgc_cdf.html"><tt>mvgc_cdf</tt></a> | <a href="mvgc_pval.html"><tt>mvgc_pval</tt></a> | <a href="mvgc_confint.html"><tt>mvgc_confint</tt></a> | <a href="mvgc_cval.html"><tt>mvgc_cval</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% mvgc_cdfi
+%
+% Sample MVGC thoretical asymptotic inverse cumulative distribution function
+%
+% <matlab:open('mvgc_cdfi.m') code>
+%
+%% Syntax
+%
+%     x = mvgc_cdfi(P,X,p,m,N,nx,ny,nz,tstat)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     P          vector of MVGC cumulative distribution probabilities
+%     X          vector of actual MVGC values
+%     p          VAR model order
+%     m          number of observations per trial
+%     N          number of trials
+%     nx         number of target ("to") variables
+%     ny         number of source ("from") variables
+%     nz         number of conditioning variables (default: 0)
+%     tstat      statistic: 'F' or 'chi2' (default: 'F' if nx == 1, else 'chi2')
+%
+% _output_
+%
+%     x          vector of MVGC values
+%
+%% Description
+%
+% Return theoretical sample MVGC asymptotic inverse cumulative distribution
+% function for actual MVGCs in vector |X|, evaluated at probabilities in vector
+% P. To calculate the critical MVGC value for a significance level |alpha|,
+% assume null hypothesis H<sub>0</sub>: |X = 0| and set |P = 1-alpha| (see
+% <mvgc_cval.html |mvgc_cval|>). For confidence intervals at level |alpha|, set
+% |X| to the estimated MVGC and set |P = alpha| for lower bound and |P =
+% 1-alpha| for upper bound (see <mvgc_confint.html |mvgc_confint|>).
+%
+% The theoretical distribution is specified by the |tstat| parameter, which may
+% be  'F' for Granger's F-test (default if |nx == 1|) or 'chi2' for Geweke's
+% &chi;<sup>2</sup> test (default if |nx > 1|). For a multivariate predictee (i.e. |nx >
+% 1|) only the &chi;<sup>2</sup> test is suitable [1].
+%
+% For more details see <mvgc_cdf.html |mvgc_cdf|>.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+%% See also
+%
+% <mvgc_cdf.html |mvgc_cdf|> |
+% <mvgc_pval.html |mvgc_pval|> |
+% <mvgc_confint.html |mvgc_confint|> |
+% <mvgc_cval.html |mvgc_cval|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function x = mvgc_cdfi(P,X,p,m,N,nx,ny,nz,tstat)
+
+assert(isvector(P),'probabilities must be a vector');
+n = length(P);
+
+assert(isvector(X),'MVGC values must be a vector');
+assert(all(X >= 0),'MVGC values must be non-negative');
+if isscalar(X)
+    X = X*ones(n,1);
+else
+    assert(length(X) == n,'MVGC values must match evaluation values');
+end
+
+if nargin < 8 || isempty(nz), nz = 0; end % unconditional
+
+if nargin < 9 || isempty(tstat);
+    ftest = nx == 1; % default: use F-test for univariate predictee, chi2 for multivariate
+else
+    switch lower(tstat)
+        case 'f'     % Granger F-test
+            assert(nx == 1,'F-distribution is not appropriate for multivariate predictee');
+            ftest = true;
+        case 'chi2'  % Geweke chi2 test
+            ftest = false;
+        otherwise
+            error('unknown distribution (must be ''chi2'' or ''F'')');
+    end
+end
+
+x = zeros(n,1);
+m = N*(m-p);                      % effective number of observations (p-lag autoregression loses p observations per trial)
+if ftest
+    if any(X > 0), fprintf(2,'WARNING (mvgc_cdfi): non-central F-test is experimental\n'); end
+    d1 = p*ny;                    % #{full model parameters} - #{reduced model parameters}
+    d2 = m-p*(1+ny+nz);           % #{observations} - #{full model parameters}
+    mm = d2/d1;
+    for i = 1:n
+        if P(i) < 0 || P(i) > 1
+            x(i) = NaN;
+        else
+            if X(i) > 0           % non-central
+                FF = exp(X(i))-1; % Granger form: (RSS_reduced - RSS_full) / RSS_full
+                xx = ncfinv(P(i),d1,d2,m*FF)/mm; % NOTE: non-centrality parameter factor might reasonably be m, d2 or d2-2
+            else
+                xx = finv(P(i),d1,d2)/mm;
+            end
+            x(i) = log(1+xx);     % Geweke form
+        end
+    end
+else
+    d = p*nx*ny;                  % note that d does not depend on the number of conditioning variables
+    for i = 1:n
+        if P(i) < 0 || P(i) > 1
+            x(i) = NaN;
+        else
+            if X(i) > 0           % non-central
+                x(i) = ncx2inv(P(i),d,m*X(i))/m;
+            else
+                x(i) = chi2inv(P(i),d)/m;
+            end
+        end
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

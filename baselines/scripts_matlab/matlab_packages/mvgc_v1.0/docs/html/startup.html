@@ -1,0 +1,275 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>MVGC Toolbox "startup" script</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="startup.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>MVGC Toolbox "startup" script</h1><!--introduction--><p>Initialise MVGC Toolbox. This file is run automatically if Matlab is started in the toolbox root (installation) directory.</p><p>You may have to (or want to) customise this script for your computing environment.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Set toolbox version</a></li><li><a href="#2">Set path</a></li><li><a href="#3">Check <tt>mex</tt> files</a></li><li><a href="#4">Check for dependencies on other Matlab&reg; toolboxes</a></li><li><a href="#5">Initialise default random number stream</a></li><li><a href="#6">Enable all warnings</a></li></ul></div><h2>Set toolbox version<a name="1"></a></h2><pre class="codeinput"><span class="keyword">global</span> mvgc_version;
+mvgc_version.major = 1;
+mvgc_version.minor = 0;
+
+fprintf(<span class="string">'[mvgc startup] Initialising MVGC toolbox version %d.%d\n'</span>, mvgc_version.major, mvgc_version.minor);
+</pre><h2>Set path<a name="2"></a></h2><pre class="codeinput"><span class="comment">% Add mvgc root directory and appropriate subdirectories to path</span>
+
+<span class="keyword">global</span> mvgc_root;
+mvgc_root = fileparts(mfilename(<span class="string">'fullpath'</span>)); <span class="comment">% directory containing this file</span>
+
+<span class="comment">% essentials</span>
+addpath(mvgc_root);
+addpath(fullfile(mvgc_root,<span class="string">'core'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'gc'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'gc'</span>,<span class="string">'GCCA_compat'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'gc'</span>,<span class="string">'subsample'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'stats'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'utils'</span>));
+<span class="keyword">if</span> ~fexists(@rng) || ~fexists(@randi) <span class="comment">% legacy hack</span>
+    addpath(fullfile(mvgc_root,<span class="string">'utils'</span>,<span class="string">'legacy'</span>));
+    <span class="keyword">if</span> ~fexists(@rng),   addpath(fullfile(mvgc_root,<span class="string">'utils'</span>,<span class="string">'legacy'</span>,<span class="string">'rng'</span>));   <span class="keyword">end</span>
+    <span class="keyword">if</span> ~fexists(@randi), addpath(fullfile(mvgc_root,<span class="string">'utils'</span>,<span class="string">'legacy'</span>,<span class="string">'randi'</span>)); <span class="keyword">end</span>
+<span class="keyword">end</span>
+addpath(fullfile(mvgc_root,<span class="string">'demo'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'mex'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'experimental'</span>));
+addpath(fullfile(mvgc_root,<span class="string">'docs'</span>)); <span class="comment">% don't add the 'html' subdirectory</span>
+
+<span class="comment">% comment out for release</span>
+<span class="comment">% addpath(fullfile(mvgc_root,'testing'));</span>
+<span class="comment">% addpath(fullfile(mvgc_root,'maintainer'));</span>
+
+fprintf(<span class="string">'[mvgc startup] Added MVGC root directory %s and subdirectories to path\n'</span>,mvgc_root);
+</pre><h2>Check <tt>mex</tt> files<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Check for |mex| files and set flags appropriately</span>
+
+<span class="keyword">global</span> have_genvar_mex;
+have_genvar_mex = exist(<span class="string">'genvar_mex'</span>,<span class="string">'file'</span>) == 3;
+<span class="keyword">if</span> ~have_genvar_mex
+    fprintf(2,<span class="string">'[mvgc startup] WARNING: no ''genvar'' mex file found; please run the ''mvgc_makemex'' script.\n'</span>);
+    fprintf(2,<span class="string">'[mvgc startup]          Meanwhile, a slower scripted VAR simulation routine will be used.\n'</span>);
+<span class="keyword">else</span>
+    fprintf(<span class="string">'[mvgc startup] All MVGC ''mex'' files for your platform exist\n'</span>);
+<span class="keyword">end</span>
+</pre><h2>Check for dependencies on other Matlab&reg; toolboxes<a name="4"></a></h2><pre class="codeinput"><span class="comment">% Check if we have Statistics toolbox - see if ch2cdf is present</span>
+
+<span class="keyword">if</span> fexists(@chi2cdf)
+    fprintf(<span class="string">'[mvgc startup] Statistics Toolbox(TM) seems to be present.\n'</span>);
+<span class="keyword">else</span>
+	addpath(fullfile(mvgc_root,<span class="string">'utils'</span>,<span class="string">'stats'</span>));
+    fprintf(2,<span class="string">'[mvgc startup] WARNING: Statistics Toolbox(TM) does not seem to be present.\n'</span>);
+    fprintf(2,<span class="string">'[mvgc startup]          Will use slower scripted routines (see utils/stats directory).\n'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% Check if we have Signal Processing toolbox - see if pwelch is present</span>
+
+<span class="keyword">if</span> fexists(@pwelch)
+    fprintf(<span class="string">'[mvgc startup] Signal Processing Toolbox(TM) seems to be present.\n'</span>);
+<span class="keyword">else</span>
+    fprintf(2,<span class="string">'[mvgc startup] WARNING: Signal Processing Toolbox(TM) does not seem to be present.\n'</span>);
+    fprintf(2,<span class="string">'[mvgc startup]          Some spectral estimation routines may not work.\n'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% Check if we have 'dlyap' from the Control System toolbox</span>
+
+<span class="keyword">if</span> fexists(@dlyap)
+    fprintf(<span class="string">'[mvgc startup] Control System Toolbox(TM) seems to be present.\n'</span>);
+<span class="keyword">else</span>
+	addpath(fullfile(mvgc_root,<span class="string">'utils'</span>,<span class="string">'control'</span>));
+    fprintf(2,<span class="string">'[mvgc startup] WARNING: Control System Toolbox(TM) does not seem to be present.\n'</span>);
+    fprintf(2,<span class="string">'[mvgc startup]          Will use slower scripted routines (see utils/control directory).\n'</span>);
+<span class="keyword">end</span>
+</pre><h2>Initialise default random number stream<a name="5"></a></h2><pre class="codeinput"><span class="comment">% Have we got global rng control? Otherwise we're in annoying legacy territory</span>
+
+<span class="comment">% Initialise rng to avoid predictability of sessions</span>
+
+rng_seed(-1); <span class="comment">% seed from /dev/urandom (Unix/Mac) else from clock</span>
+
+fprintf(<span class="string">'[mvgc startup] Random number generator initialised\n'</span>);
+</pre><h2>Enable all warnings<a name="6"></a></h2><pre class="codeinput">warning <span class="string">on</span> <span class="string">all</span>
+fprintf(<span class="string">'[mvgc startup] All warnings enabled\n'</span>);
+
+<span class="comment">% Done</span>
+
+fprintf(<span class="string">'[mvgc startup] Initialisation complete (you may re-run ''startup'' at any time)\n'</span>);
+
+fprintf(<span class="string">'[mvgc startup] Type ''helpon'' to get started\n'</span>);
+</pre><p><a href="startup.html">back to top</a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MVGC Toolbox "startup" script
+%
+% Initialise MVGC Toolbox. This file is run automatically if Matlab is started
+% in the toolbox root (installation) directory.
+%
+% You may have to (or want to) customise this script for your computing
+% environment.
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%% Set toolbox version
+
+global mvgc_version;
+mvgc_version.major = 1;
+mvgc_version.minor = 0;
+
+fprintf('[mvgc startup] Initialising MVGC toolbox version %d.%d\n', mvgc_version.major, mvgc_version.minor);
+
+%% Set path
+
+% Add mvgc root directory and appropriate subdirectories to path
+
+global mvgc_root;
+mvgc_root = fileparts(mfilename('fullpath')); % directory containing this file
+
+% essentials
+addpath(mvgc_root);
+addpath(fullfile(mvgc_root,'core'));
+addpath(fullfile(mvgc_root,'gc'));
+addpath(fullfile(mvgc_root,'gc','GCCA_compat'));
+addpath(fullfile(mvgc_root,'gc','subsample'));
+addpath(fullfile(mvgc_root,'stats'));
+addpath(fullfile(mvgc_root,'utils'));
+if ~fexists(@rng) || ~fexists(@randi) % legacy hack
+    addpath(fullfile(mvgc_root,'utils','legacy'));
+    if ~fexists(@rng),   addpath(fullfile(mvgc_root,'utils','legacy','rng'));   end
+    if ~fexists(@randi), addpath(fullfile(mvgc_root,'utils','legacy','randi')); end
+end
+addpath(fullfile(mvgc_root,'demo'));
+addpath(fullfile(mvgc_root,'mex'));
+addpath(fullfile(mvgc_root,'experimental'));
+addpath(fullfile(mvgc_root,'docs')); % don't add the 'html' subdirectory
+
+% comment out for release
+% addpath(fullfile(mvgc_root,'testing'));
+% addpath(fullfile(mvgc_root,'maintainer'));
+
+fprintf('[mvgc startup] Added MVGC root directory %s and subdirectories to path\n',mvgc_root);
+
+%% Check |mex| files
+
+% Check for |mex| files and set flags appropriately
+
+global have_genvar_mex;
+have_genvar_mex = exist('genvar_mex','file') == 3;
+if ~have_genvar_mex
+    fprintf(2,'[mvgc startup] WARNING: no ''genvar'' mex file found; please run the ''mvgc_makemex'' script.\n');
+    fprintf(2,'[mvgc startup]          Meanwhile, a slower scripted VAR simulation routine will be used.\n');
+else
+    fprintf('[mvgc startup] All MVGC ''mex'' files for your platform exist\n');
+end
+
+%% Check for dependencies on other Matlab(R) toolboxes
+
+% Check if we have Statistics toolbox - see if ch2cdf is present
+
+if fexists(@chi2cdf)
+    fprintf('[mvgc startup] Statistics Toolbox(TM) seems to be present.\n');
+else
+	addpath(fullfile(mvgc_root,'utils','stats'));
+    fprintf(2,'[mvgc startup] WARNING: Statistics Toolbox(TM) does not seem to be present.\n');
+    fprintf(2,'[mvgc startup]          Will use slower scripted routines (see utils/stats directory).\n');
+end
+
+% Check if we have Signal Processing toolbox - see if pwelch is present
+
+if fexists(@pwelch)
+    fprintf('[mvgc startup] Signal Processing Toolbox(TM) seems to be present.\n');
+else
+    fprintf(2,'[mvgc startup] WARNING: Signal Processing Toolbox(TM) does not seem to be present.\n');
+    fprintf(2,'[mvgc startup]          Some spectral estimation routines may not work.\n');
+end
+
+% Check if we have 'dlyap' from the Control System toolbox
+
+if fexists(@dlyap)
+    fprintf('[mvgc startup] Control System Toolbox(TM) seems to be present.\n');
+else
+	addpath(fullfile(mvgc_root,'utils','control'));
+    fprintf(2,'[mvgc startup] WARNING: Control System Toolbox(TM) does not seem to be present.\n');
+    fprintf(2,'[mvgc startup]          Will use slower scripted routines (see utils/control directory).\n');
+end
+
+%% Initialise default random number stream
+
+% Have we got global rng control? Otherwise we're in annoying legacy territory
+
+% Initialise rng to avoid predictability of sessions
+
+rng_seed(-1); % seed from /dev/urandom (Unix/Mac) else from clock
+
+fprintf('[mvgc startup] Random number generator initialised\n');
+
+%% Enable all warnings
+
+warning on all
+fprintf('[mvgc startup] All warnings enabled\n');
+
+% Done
+
+fprintf('[mvgc startup] Initialisation complete (you may re-run ''startup'' at any time)\n');
+
+fprintf('[mvgc startup] Type ''helpon'' to get started\n');
+
+%%
+% <startup.html back to top>
+
+##### SOURCE END #####
+--></body></html>

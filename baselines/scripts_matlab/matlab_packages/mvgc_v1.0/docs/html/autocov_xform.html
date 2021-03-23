@@ -1,0 +1,201 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>autocov_xform</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="autocov_xform.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>autocov_xform</h1><!--introduction--><p>Transform autocovariance sequence for reduced regression</p><p><a href="matlab:open('autocov_xform.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   G = autocov_xform(G,AR,SIGR,useFFT)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   G          autocovariance sequence
+   AR         VAR coefficients matrix for reduced regression
+   SIGR       residuals covariance matrix for reduced regression
+   useFFT     use FFT method (default: true)</pre><p><i>output</i></p><pre>   G         transformed autocovariance sequence</pre><h2>Description<a name="3"></a></h2><p>Returns the autocovariance sequence <tt>G</tt> for a new variable defined as the residuals of a reduced regression, for a VAR with autocovariance sequence <tt>G</tt>. <tt>AR</tt> and <tt>SIGR</tt> are the coefficients matrices and residuals covariance matrix respectively of the reduced regression, which is is assumed to correspond to the first <tt>size(AR,1)</tt> indices of <tt>G</tt>.</p><p>If the <tt>useFFT</tt> flag is set (default), then the autocovariance sequence is converted to a cpsd via FFT (see <a href="autocov_to_cpsd.html"><tt>autocov_to_cpsd</tt></a>), the transformation effected on the cpsd (<i>cf.</i> <a href="cpsd_xform.html"><tt>cpsd_xform</tt></a>) and the result converted back to an autocovariance sequence via IFFT (see <a href="cpsd_to_autocov.html"><tt>cpsd_to_autocov</tt></a>). Otherwise, the autocovariance sequence is transformed by explicit convolution. The FFT method is generally more efficient than the convolution method, particularly if the number of autocovariance lags is large.</p><p>This function is crucial to the calculation of spectral causality in the conditional case; see <a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a>, <a href="autocov_to_spwcgc.html"><tt>autocov_to_spwcgc</tt></a>. In theory, if the original autocovariance sequence is calculated to <tt>q</tt> lags - under the assumption that it may not have decayed sufficiently for <tt>k &lt; q</tt> lags (see <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a>) - then the transformed autocovariance sequence should be calculated to <tt>2q</tt> lags. In practice we find that calculating to <tt>q</tt> lags is generally sufficient for good accuracy. To calculate <tt>G</tt> to higher lags, the simplest option is to reduce the <tt>acdectol</tt> parameter in the call to <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a> (e.g. squaring it will effectively double the number of lags <tt>q</tt> to which <tt>G</tt> and hence <tt>G</tt> is calculated).</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><h2>See also<a name="5"></a></h2><p><a href="var_to_autocov.html"><tt>var_to_autocov</tt></a> | <a href="autocov_to_var.html"><tt>autocov_to_var</tt></a> | <a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a> | <a href="autocov_to_spwcgc.html"><tt>autocov_to_spwcgc</tt></a> | <a href="cpsd_xform.html"><tt>cpsd_xform</tt></a> | <a href="autocov_to_cpsd.html"><tt>autocov_to_cpsd</tt></a> | <a href="cpsd_to_autocov.html"><tt>cpsd_to_autocov</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% autocov_xform
+%
+% Transform autocovariance sequence for reduced regression
+%
+% <matlab:open('autocov_xform.m') code>
+%
+%% Syntax
+%
+%     G = autocov_xform(G,AR,SIGR,useFFT)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     G          autocovariance sequence
+%     AR         VAR coefficients matrix for reduced regression
+%     SIGR       residuals covariance matrix for reduced regression
+%     useFFT     use FFT method (default: true)
+%
+% _output_
+%
+%     G         transformed autocovariance sequence
+%
+%% Description
+%
+% Returns the autocovariance sequence |G| for a new variable defined as the
+% residuals of a reduced regression, for a VAR with autocovariance sequence |G|.
+% |AR| and |SIGR| are the coefficients matrices and residuals covariance matrix
+% respectively of the reduced regression, which is is assumed to correspond to
+% the first |size(AR,1)| indices of |G|.
+%
+% If the |useFFT| flag is set (default), then the autocovariance sequence is
+% converted to a cpsd via FFT (see <autocov_to_cpsd.html |autocov_to_cpsd|>),
+% the transformation effected on the cpsd (_cf._ <cpsd_xform.html |cpsd_xform|>)
+% and the result converted back to an autocovariance sequence via IFFT (see
+% <cpsd_to_autocov.html |cpsd_to_autocov|>). Otherwise, the autocovariance
+% sequence is transformed by explicit convolution. The FFT method is generally
+% more efficient than the convolution method, particularly if the number of
+% autocovariance lags is large.
+%
+% This function is crucial to the calculation of spectral causality in the
+% conditional case; see <autocov_to_smvgc.html |autocov_to_smvgc|>,
+% <autocov_to_spwcgc.html |autocov_to_spwcgc|>. In theory, if the original
+% autocovariance sequence is calculated to |q| lags - under the assumption that
+% it may not have decayed sufficiently for |k < q| lags (see
+% <var_to_autocov.html |var_to_autocov|>) - then the transformed autocovariance
+% sequence should be calculated to |2q| lags. In practice we find that
+% calculating to |q| lags is generally sufficient for good accuracy. To
+% calculate |G| to higher lags, the simplest option is to reduce the |acdectol|
+% parameter in the call to <var_to_autocov.html |var_to_autocov|> (e.g. squaring
+% it will effectively double the number of lags |q| to which |G| and hence |G|
+% is calculated).
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+%% See also
+%
+% <var_to_autocov.html |var_to_autocov|> |
+% <autocov_to_var.html |autocov_to_var|> |
+% <autocov_to_smvgc.html |autocov_to_smvgc|> |
+% <autocov_to_spwcgc.html |autocov_to_spwcgc|> |
+% <cpsd_xform.html |cpsd_xform|> |
+% <autocov_to_cpsd.html |autocov_to_cpsd|> |
+% <cpsd_to_autocov.html |cpsd_to_autocov|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function G = autocov_xform(G,AR,SIGR,useFFT)
+
+if nargin < 4 || isempty(useFFT), useFFT = true; end
+
+[n,~,q1] = size(G);
+q = q1-1;
+
+[nx,nx1,~] = size(AR);
+assert(nx1 == nx,'reduced VAR coefficients matrix has bad shape');
+assert(nx <= n,'reduced VAR coefficients matrix appears to be for more variables than autocovariance sequence');
+
+[n1,n2] = size(SIGR);
+assert(n1 == n2,'reduced VAR residuals covariance matrix not square');
+assert(n1 == nx ,'reduced VAR residuals covariance matrix doesn''t match reduced VAR coefficients matrix');
+
+ny = n-nx;
+x = 1:nx;
+y = nx+1:n;
+
+% transform autocov by reduced regression
+
+if useFFT % convert to cpsd, transform, convert back to autocov
+    
+    S = autocov_to_cpsd(G);
+    AF = bfft(cat(3,eye(nx),-AR),2*q1); % over [0,2*pi)
+    for k = 1:q1+1
+        S(x,x,k) = SIGR; % flat spectrum, since residuals serially uncorrelated
+        S(x,y,k) = AF(:,:,k)*S(x,y,k);
+        S(y,x,k) = S(y,x,k)*AF(:,:,k)';
+    end
+    G = cpsd_to_autocov(S);
+    
+else      % explicit convolution
+
+    AR = reshape(cat(3,eye(nx),-AR),nx,q1*nx);
+    GF = reshape(G(y,x,:),ny,q1*nx);                             % forward  autocovariance sequence
+    GB = reshape(permute(flipdim(G(x,y,:),3),[1 3 2]),q1*nx,ny); % backward autocovariance sequence
+    G(x,x,1) = SIGR;                                             % just the reduced residuals covariance,
+    G(x,x,2:end) = zeros(nx,nx,q);                               % since residuals serially uncorrelated
+    for k = 0:q-1
+        G(x,y,k+1) = AR(:,1:(k+1)*nx)*GB((q-k)*nx+1:q1*nx,:) + AR(:,(k+1)*nx+1:q1*nx)*GF(:,nx+1:(q1-k)*nx)';
+    end
+    G(x,y,q1) = AR*GB;
+    for k = 0:q
+        G(y,x,k+1) = GF(:,k*nx+1:q1*nx)*AR(:,1:(q1-k)*nx)';
+    end
+    
+end
+
+##### SOURCE END #####
+--></body></html>

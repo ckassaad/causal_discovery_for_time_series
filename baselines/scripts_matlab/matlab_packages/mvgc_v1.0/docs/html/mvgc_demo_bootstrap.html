@@ -1,0 +1,291 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>MVGC bootstrap demo</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_demo_bootstrap.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>MVGC bootstrap demo</h1><!--introduction--><p>Demonstrates confidence interval construction using a nonparametric bootstrap on generated VAR data for a 5-node network with known causal structure (see <a href="var5_test.html"><tt>var5_test</tt></a>). Pairwise-conditional Granger causalities are estimated and confidence intervals constructed using both the theoretical and bootstrap distributions.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">References</a></li><li><a href="#2">Parameters</a></li><li><a href="#3">Generate VAR data</a></li><li><a href="#4">VAR model estimation and autocovariance calculation</a></li><li><a href="#5">Granger causality estimation</a></li><li><a href="#6">Bootstrap</a></li><li><a href="#7">Plot PWCGC estimates with theoretical and bootstrap confidence intervals</a></li></ul></div><h2>References<a name="1"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><p>[2] D. A. Freedman, Bootstrapping regression models, <i>Ann. Stats.</i>, 9(6), 1981.</p><h2>Parameters<a name="2"></a></h2><pre class="codeinput">ntrials   = 10;     <span class="comment">% number of trials</span>
+nobs      = 100;    <span class="comment">% number of observations per trial</span>
+nsamps    = 100;    <span class="comment">% number of bootstrap samples</span>
+
+regmode   = <span class="string">'OLS'</span>;  <span class="comment">% VAR model estimation regression mode ('OLS', 'LWR' or empty for default)</span>
+
+acmaxlags = 1000;   <span class="comment">% maximum autocovariance lags (empty for automatic calculation)</span>
+
+tstat     = <span class="string">'chi2'</span>; <span class="comment">% statistical test for MVGC: 'F' for Granger's F-test, 'chi2' for Geweke's chi2 test or leave empty for default</span>
+alpha     = 0.05;   <span class="comment">% significance level for all statistical tests</span>
+
+seed      = 0;      <span class="comment">% random seed (0 for unseeded)</span>
+</pre><h2>Generate VAR data<a name="3"></a></h2><pre class="codeinput"><span class="comment">% Seed random number generator.</span>
+
+rng_seed(seed);
+
+<span class="comment">% Get VAR coefficients for 5-node test network.</span>
+
+AT = var5_test;
+nvars = size(AT,1);  <span class="comment">% number of variables</span>
+
+<span class="comment">% Residuals covariance matrix.</span>
+
+SIGT = eye(nvars);
+
+<span class="comment">% Generate VAR time series data with normally distributed residuals for</span>
+<span class="comment">% specified coefficients and covariance matrix.</span>
+
+ptic(<span class="string">'\n*** var_to_tsdata... '</span>);
+X = var_to_tsdata(AT,SIGT,nobs,ntrials);
+ptoc;
+</pre><h2>VAR model estimation and autocovariance calculation<a name="4"></a></h2><pre class="codeinput">morder = size(AT,3); <span class="comment">% actual model order; on real data - i.e. with no generative model</span>
+                     <span class="comment">% available - use information criteria to estimate (see 'mvgc_demo')</span>
+
+<span class="comment">% Calculate VAR model</span>
+
+ptic(<span class="string">'*** tsdata_to_var... '</span>);
+[A,SIG] = tsdata_to_var(X,morder,regmode);
+ptoc;
+
+<span class="comment">% Check for failed regression</span>
+
+assert(~isbad(A),<span class="string">'VAR estimation failed'</span>);
+
+<span class="comment">% Now calculate autocovariance according to the VAR model, to as many lags</span>
+<span class="comment">% as it takes to decay to below the numerical tolerance level, or to acmaxlags</span>
+<span class="comment">% lags if specified (i.e. non-empty).</span>
+
+ptic(<span class="string">'*** var_to_autocov... '</span>);
+[G,res] = var_to_autocov(A,SIG,acmaxlags);
+ptoc;
+
+<span class="comment">% Report and check for errors.</span>
+
+fprintf(<span class="string">'\nVAR check:\n'</span>); disp(res); <span class="comment">% report results...</span>
+assert(~res.error,<span class="string">'bad VAR'</span>);         <span class="comment">% ...and bail out if there are errors</span>
+</pre><h2>Granger causality estimation<a name="5"></a></h2><pre class="codeinput"><span class="comment">% Time-domain pairwise conditional causalities</span>
+
+ptic(<span class="string">'*** autocov_to_pwcgc... '</span>);
+F = autocov_to_pwcgc(G);
+ptoc;
+
+<span class="comment">% Theoretical confidence intervals.</span>
+
+[FTUP,FTLO] = mvgc_confint(alpha,F,morder,nobs,ntrials,1,1,nvars-2,tstat);
+
+<span class="comment">% Critical GC value.</span>
+
+FTCRIT = mvgc_cval(alpha,morder,nobs,ntrials,1,1,nvars-2,tstat);
+</pre><h2>Bootstrap<a name="6"></a></h2><pre class="codeinput">ptic(<span class="string">'\n*** bootstrap_tsdata_to_pwcgc\n'</span>);
+FSAMP = bootstrap_tsdata_to_pwcgc(X,morder,nsamps);
+ptoc(<span class="string">'*** bootstrap_tsdata_to_pwcgc took '</span>,[],1);
+
+<span class="comment">% (We should really check for failed bootstrap estimates here.)</span>
+
+<span class="comment">% Bootstrap (empirical) confidence intervals.</span>
+
+[FSUP,FSLO] = empirical_confint(alpha,FSAMP);
+
+<span class="comment">% Note: we haven't calculated a bootstrap critical GC value; for this we would</span>
+<span class="comment">% require an (empirical) null GC distribution, which we could obtain by running</span>
+<span class="comment">% a permutation test (see e.g. 'permtest_tsdata_to_pwcgc').</span>
+</pre><h2>Plot PWCGC estimates with theoretical and bootstrap confidence intervals<a name="7"></a></h2><pre class="codeinput">figure(1); clf
+subplot(2,1,1);
+plot_confints(F,FTUP,FTLO,FTCRIT);
+title(sprintf(<span class="string">'Theoretical distribution\nconfidence intervals at alpha = %g'</span>,alpha));
+subplot(2,1,2);
+plot_confints(F,FSUP,FSLO);
+title(sprintf(<span class="string">'Bootstrap distribution\nconfidence intervals at alpha = %g'</span>,alpha));
+</pre><p><a href="mvgc_demo_bootstrap.html">back to top</a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MVGC bootstrap demo
+%
+% Demonstrates confidence interval construction using a nonparametric bootstrap
+% on generated VAR data for a 5-node network with known causal structure (see
+% <var5_test.html |var5_test|>). Pairwise-conditional Granger causalities are
+% estimated and confidence intervals constructed using both the theoretical and
+% bootstrap distributions.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% [2] D. A. Freedman, Bootstrapping regression models, _Ann. Stats._, 9(6), 1981.
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%% Parameters
+
+ntrials   = 10;     % number of trials
+nobs      = 100;    % number of observations per trial
+nsamps    = 100;    % number of bootstrap samples
+
+regmode   = 'OLS';  % VAR model estimation regression mode ('OLS', 'LWR' or empty for default)
+
+acmaxlags = 1000;   % maximum autocovariance lags (empty for automatic calculation)
+
+tstat     = 'chi2'; % statistical test for MVGC: 'F' for Granger's F-test, 'chi2' for Geweke's chi2 test or leave empty for default
+alpha     = 0.05;   % significance level for all statistical tests
+
+seed      = 0;      % random seed (0 for unseeded)
+
+%% Generate VAR data
+
+% Seed random number generator.
+
+rng_seed(seed);
+
+% Get VAR coefficients for 5-node test network.
+
+AT = var5_test;
+nvars = size(AT,1);  % number of variables
+
+% Residuals covariance matrix.
+
+SIGT = eye(nvars);
+
+% Generate VAR time series data with normally distributed residuals for
+% specified coefficients and covariance matrix.
+
+ptic('\n*** var_to_tsdata... ');
+X = var_to_tsdata(AT,SIGT,nobs,ntrials);
+ptoc;
+
+%% VAR model estimation and autocovariance calculation
+
+morder = size(AT,3); % actual model order; on real data - i.e. with no generative model
+                     % available - use information criteria to estimate (see 'mvgc_demo')
+                     
+% Calculate VAR model
+
+ptic('*** tsdata_to_var... ');
+[A,SIG] = tsdata_to_var(X,morder,regmode);
+ptoc;
+
+% Check for failed regression
+
+assert(~isbad(A),'VAR estimation failed');
+
+% Now calculate autocovariance according to the VAR model, to as many lags
+% as it takes to decay to below the numerical tolerance level, or to acmaxlags
+% lags if specified (i.e. non-empty).
+
+ptic('*** var_to_autocov... ');
+[G,res] = var_to_autocov(A,SIG,acmaxlags);
+ptoc;
+
+% Report and check for errors.
+
+fprintf('\nVAR check:\n'); disp(res); % report results...
+assert(~res.error,'bad VAR');         % ...and bail out if there are errors
+
+%% Granger causality estimation
+
+% Time-domain pairwise conditional causalities
+
+ptic('*** autocov_to_pwcgc... ');
+F = autocov_to_pwcgc(G);
+ptoc;
+
+% Theoretical confidence intervals.
+
+[FTUP,FTLO] = mvgc_confint(alpha,F,morder,nobs,ntrials,1,1,nvars-2,tstat);
+
+% Critical GC value.
+
+FTCRIT = mvgc_cval(alpha,morder,nobs,ntrials,1,1,nvars-2,tstat);
+
+%% Bootstrap
+   
+ptic('\n*** bootstrap_tsdata_to_pwcgc\n');
+FSAMP = bootstrap_tsdata_to_pwcgc(X,morder,nsamps);
+ptoc('*** bootstrap_tsdata_to_pwcgc took ',[],1);
+
+% (We should really check for failed bootstrap estimates here.)
+
+% Bootstrap (empirical) confidence intervals.
+
+[FSUP,FSLO] = empirical_confint(alpha,FSAMP);
+
+% Note: we haven't calculated a bootstrap critical GC value; for this we would
+% require an (empirical) null GC distribution, which we could obtain by running
+% a permutation test (see e.g. 'permtest_tsdata_to_pwcgc').
+
+%% Plot PWCGC estimates with theoretical and bootstrap confidence intervals
+
+figure(1); clf
+subplot(2,1,1);
+plot_confints(F,FTUP,FTLO,FTCRIT);
+title(sprintf('Theoretical distribution\nconfidence intervals at alpha = %g',alpha));
+subplot(2,1,2);
+plot_confints(F,FSUP,FSLO);
+title(sprintf('Bootstrap distribution\nconfidence intervals at alpha = %g',alpha));
+
+%%
+% <mvgc_demo_bootstrap.html back to top>
+
+##### SOURCE END #####
+--></body></html>

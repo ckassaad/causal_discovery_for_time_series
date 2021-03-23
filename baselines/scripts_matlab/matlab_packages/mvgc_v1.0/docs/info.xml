@@ -1,0 +1,20 @@
+<productinfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="optional">
+    <?xml-stylesheet type="text/xsl"href="optional"?>
+    <matlabrelease>2011a</matlabrelease>
+    <name>MVGC Multivariate Granger Causality</name>
+    <type>toolbox</type>
+    <icon>$toolbox/matlab/icons/matlabicon.gif</icon>
+    <help_location>html</help_location>
+    <list>
+    <listitem>
+        <label>Help</label>
+        <callback>web(fullfile('.','docs','html','mvgchelp.html'),'-helpbrowser')</callback>
+        <icon>$toolbox/matlab/icons/book_mat.gif</icon>
+    </listitem>
+    <listitem>
+        <label>Product Page (Web)</label>
+        <callback>web http://www.sussex.ac.uk/sackler/mvgc;</callback>
+        <icon>$docroot/techdoc/matlab_env/examples/webicon.gif</icon>
+    </listitem>
+    </list>
+</productinfo>

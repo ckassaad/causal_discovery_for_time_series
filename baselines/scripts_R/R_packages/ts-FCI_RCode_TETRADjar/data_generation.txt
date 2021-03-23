@@ -1,0 +1,35 @@
+Information on the data generating process in the simulations:
+
+We use different numbers of observed and hidden variables (up to 9 total
+variables, 2 to 6 observed and 1 to 3 hidden), and we separately consider edge
+probabilities of $q=0.25$ and $q=0.5$ (this means that each edge is included
+with probability q, independent of all other edges).
+
+The window length tau was kept constant at 3 and the significance level for the
+independence tests was set to 0.01. We used samples of different sizes, namely
+100, 1000 and 10000.
+
+For the continuous-valued case we use a linear VAR model of order one with
+Gaussian error terms to generate the data, X = A X + e. The coefficients 
+(non-zero entries of the connection matrix A) are drawn uniformly at random
+between 0.2 and 1.5 with random sign (we avoid coefficients close to zero which
+are particularly hard to detect). If the randomly chosen coefficients lead to
+an unstable linear system (absolute value of one or more eigenvalues of A
+greater than or equal to one) we re-select the coefficients. The values of the
+variables X(t) are generated as X(t) = A X(t-1) + e(t), where e(t) =
+(e_1(t), ... , e_M(t)) are Gaussian temporally uncorrelated and independent
+error terms with zero mean and unit variance.
+
+For the discrete case we use binary variables and data are generated using
+conditional probability tables. The probabilities in these tables are assigned
+uniformly at random between 0.1 and 0.9 (avoiding probabilities close to zero
+or one which might yield almost deterministic cases). The value of each
+variable i at time t is then assigned according to the probability
+P(X_i(t) | X_parents(i)(t-1)).
+
+For both the continuous- and the discrete-valued models we generate data from
+the process over both observed and hidden variables, and then omit the samples
+of the variables we define as hidden. Note that we don't make a difference
+between hidden and observed variables during the generating process, which
+means that hidden variables can be parents or children of observed variables as
+well as connecting to each other. 

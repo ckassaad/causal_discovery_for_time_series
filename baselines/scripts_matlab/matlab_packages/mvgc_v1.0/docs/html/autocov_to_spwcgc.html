@@ -1,0 +1,196 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>autocov_to_spwcgc</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="autocov_to_spwcgc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>autocov_to_spwcgc</h1><!--introduction--><p>Calculate pairwise-conditional frequency-domain MVGCs (spectral multivariate Granger causalites)</p><p><a href="matlab:open('autocov_to_spwcgc.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   [f,fres] = autocov_to_spwcgc(G,fres,useFFT)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   G          autocovariance sequence
+   fres       frequency resolution
+   useFFT     use FFT method for autocovariance transform (default: as for autocov_xform)</pre><p><i>output</i></p><pre>   f          spectral Granger causality matrix</pre><h2>Description<a name="3"></a></h2><p>Returns the  matrix <tt>f</tt> of pairwise-conditional frequency-domain (spectral) MVGCs</p><p><img vspace="5" hspace="24" src="eq_smvgc_pwc.png" alt=""> </p><p>(where <tt>[ij]</tt> denotes omission of the <tt>ij</tt>-th variables) between all pairs of variables <img valign="middle" src="ii_inej.png"> represented in <tt>G</tt>, for a stationary VAR process with autocovariance sequence <tt>G</tt>. The first index <tt>i</tt> of <tt>f</tt> is the target (causee) variable, the second <tt>j</tt> the source (causal) variable and the third indexes the frequency. See ref. [1] for details.</p><p>Spectral causality is calculated up to the Nyqvist frequency at a resolution <tt>fres</tt>. If <tt>fres</tt> is not supplied it is calculated optimally as the number of autocovariance lags. Call <tt>freqs = <a href="sfreqs.html">sfreqs</a>(fres,fs)</tt>, where <tt>fs</tt> is the sampling rate, to get a corresponding vector <tt>freqs</tt> of frequencies on <tt>[0,fs/2]</tt>.</p><p>The <tt>useFFT</tt> flag specifies the algorithm used to transform the autocovariance sequence; see <a href="autocov_xform.html"><tt>autocov_xform</tt></a> for details.</p><p>The caller should take note of any warnings issued by this function and test results with a call <a href="isbad.html"><tt>isbad</tt></a>|(f,false)|.</p><p>For details of the algorithm, see <a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a> and [1].</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><h2>See also<a name="5"></a></h2><p><a href="autocov_to_smvgc.html"><tt>autocov_to_smvgc</tt></a> | <a href="autocov_to_pwcgc.html"><tt>autocov_to_pwcgc</tt></a> | <a href="autocov_to_var.html"><tt>autocov_to_var</tt></a> | <a href="var2trfun.html"><tt>var2trfun</tt></a> | <a href="autocov_xform.html"><tt>autocov_xform</tt></a> | <a href="sfreqs.html"><tt>sfreqs</tt></a> | <a href="isbad.html"><tt>isbad</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% autocov_to_spwcgc
+%
+% Calculate pairwise-conditional frequency-domain MVGCs (spectral multivariate Granger causalites)
+%
+% <matlab:open('autocov_to_spwcgc.m') code>
+%
+%% Syntax
+%
+%     [f,fres] = autocov_to_spwcgc(G,fres,useFFT)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     G          autocovariance sequence
+%     fres       frequency resolution
+%     useFFT     use FFT method for autocovariance transform (default: as for autocov_xform)
+%
+% _output_
+%
+%     f          spectral Granger causality matrix
+%
+%% Description
+%
+% Returns the  matrix |f| of pairwise-conditional frequency-domain
+% (spectral) MVGCs
+%
+% <<eq_smvgc_pwc.png>>
+%
+% (where |[ij]| denotes omission of the |ij|-th variables) between all
+% pairs of variables <img valign="middle" src="ii_inej.png"> represented in |G|, for a stationary VAR
+% process with autocovariance sequence |G|. The first index |i| of
+% |f| is the target (causee) variable, the second |j| the source (causal)
+% variable and the third indexes the frequency. See ref. [1] for details.
+%
+% Spectral causality is calculated up to the Nyqvist frequency at a
+% resolution |fres|. If |fres| is not supplied it is calculated optimally
+% as the number of autocovariance lags. Call |freqs =
+% <sfreqs.html sfreqs>(fres,fs)|, where |fs| is the sampling
+% rate, to get a corresponding vector |freqs| of frequencies on |[0,fs/2]|.
+%
+% The |useFFT| flag specifies the algorithm used to transform the
+% autocovariance sequence; see <autocov_xform.html |autocov_xform|> for
+% details.
+%
+% The caller should take note of any warnings issued by this function and test
+% results with a call <isbad.html |isbad|>|(f,false)|.
+%
+% For details of the algorithm, see <autocov_to_smvgc.html |autocov_to_smvgc|> and [1].
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+%% See also
+%
+% <autocov_to_smvgc.html |autocov_to_smvgc|> |
+% <autocov_to_pwcgc.html |autocov_to_pwcgc|> |
+% <autocov_to_var.html |autocov_to_var|> |
+% <var2trfun.html |var2trfun|> |
+% <autocov_xform.html |autocov_xform|> |
+% <sfreqs.html |sfreqs|> |
+% <isbad.html |isbad|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function [f,fres] = autocov_to_spwcgc(G,fres,useFFT)
+
+if nargin < 3, useFFT = []; end % force autocov_xform default
+
+[n,~,q1] = size(G);
+if nargin < 2 || isempty(fres);
+    fres = q1;
+end
+
+h = fres+1;
+f = nan(n,n,h);
+
+for j = 1:n
+    jo  = [1:j-1 j+1:n]; % omit j
+    joj = [jo j];        % rearrange with omitted j indices first
+
+    owstate = warn_supp;
+    [Aj,SIGj] = autocov_to_var(G(jo,jo,:));  % reduced regression
+    warn_test(owstate,   sprintf('in reduced regression for target node %d - bad autocovariance matrix? Check output of ''var_info''',j));
+    if warn_if(isbad(Aj),sprintf('in reduced regression for target node %d - regression failed',j)), continue; end % show-stopper!
+    
+    Gj = autocov_xform(G(joj,joj,:),Aj,SIGj,useFFT); % transform autocov
+    
+    owstate = warn_supp;
+    [Ajj,SIGjj] = autocov_to_var(Gj);        % transformed full regression
+    warn_test(owstate,    sprintf('in transformed regression for target node %d - bad autocovariance matrix? Check output of ''var_info''',j));
+    if warn_if(isbad(Ajj),sprintf('in transformed regression for target node %d - regression failed',j)), continue; end % show-stopper!
+    
+    owstate = warn_supp;
+    Hjj = var2trfun(Ajj,fres);               % transfer function
+    warn_test(owstate,    sprintf('in transfer function for target node %d',j));
+    if warn_if(isbad(Hjj),sprintf('in transfer function for target node %d - calculation failed',j)), continue; end % show-stopper!
+
+    for ii=1:n-1;
+        i  = jo(ii);           % i index in omitted j indices
+        io = [1:ii-1 ii+1:n];  % omit i
+
+        SIGji = SIGjj(io,io)-(SIGjj(io,ii)*SIGjj(ii,io))/SIGjj(ii,ii); % partial covariance
+        Hji = Hjj(ii,io,:);                                            % transfer function
+        Sji = SIGj(ii,ii);                                             % i part of spectrum is flat!
+        
+        LSji = log(Sji);
+        for k = 1:h
+            f(i,j,k) = LSji - log(real(Sji-Hji(:,:,k)*SIGji*Hji(:,:,k)'));
+        end
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

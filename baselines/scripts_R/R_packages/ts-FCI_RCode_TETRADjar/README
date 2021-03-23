@@ -1,0 +1,357 @@
+Content:
+--------
+
+1. Copyright issues
+
+2. Code
+   downloadable from http://www.cs.helsinki.fi/u/entner/tsfci/
+
+   a) Simulations for tsFCI, FCI, and Granger (in infinite sample size limit)
+      (under the link "R-code and (modified) TETRAD jar", called
+      "RCode_TETRADjar")
+
+   b) Simulations for Granger (on finite length data), PSI and Group Lasso
+      (under the link "Matlab code", called "MatlabCode")
+
+   c) TETRAD Source Code, how to call TETRAD from Command Line
+      (under the link "(modified) TETRAD source code", called 
+      "TETRAD_SourceCode")
+
+   d) ts(C)FCI for data
+      (same code as in a))
+
+3. Contact
+
+
+-------------------------------------------------------------------------------
+---------------------------- 1. Copyright issues: -----------------------------
+-------------------------------------------------------------------------------
+
+The original TETRAD Code, Version 4.3.9-18, was downloaded from
+http://www.phil.cmu.edu/projects/tetrad/
+
+Since TETRAD is under GNU GENERAL PUBLIC LICENSE (see the files COPYRIGHT and
+LICENSE in "TETRAD_SourceCode/tetrad-4.3.9-18", downloadable from
+http://www.cs.helsinki.fi/u/entner/tsfci/ under the link "(modified) TETRD
+source code"), this naturally applies to all the changes. For a list of changes
+please see the file README in "TETRAD_SourceCode".
+
+The R and Matlab code (downloadable from 
+http://www.cs.helsinki.fi/u/entner/tsfci/ under the links "R-code and
+(modified) TETRAD jar" and "Matlab code", respecitvely) are also under the GNU
+GENERAL PUBLIC LICENSE (see the files COPYRIGHT and LICENSE in these places).
+
+For any questions/comments please contact me by e-mail:
+doris.entner[at]cs.helsinki.fi.
+
+
+
+-------------------------------------------------------------------------------
+----------------------------------- 2. Code -----------------------------------
+-------------------------------------------------------------------------------
+
+Code package for tsFCI including code to apply the algorithm to time series
+data and to obtain all simulation results of the article "On Causal Discovery
+from Time Series Data using FCI", published in PGM 2010, on a Linux operating
+system.
+
+
+-------------------------------------------------------------------------------
+a) All simulations for FCI and tsFCI, as well as simulations for Granger in
+   the infnite sample size limit (R and Java code)
+
+   -------------
+   Good to know:
+
+   The code is written in R (see http://cran.r-project.org/) and interacts with
+   the TETRAD program (in Java), which implements (among others) the FCI and
+   tsFCI algorithm, see the modified TETRAD source code in "TETRAD_SourceCode"
+   for details; also see http://www.phil.cmu.edu/projects/tetrad/
+
+   In some functions there is the option to make a plot of the generating model
+   and the output PAG. To do this, the 'graphviz' program, downloadable from
+   http://www.graphviz.org/, is needed. By default, the parameter "makeplot" is
+   set to FALSE, so no plots are made. Moreover, to display the graph, the
+   program 'gv' is used.
+
+   For more information on the data generating process please see the file
+   data_generation.txt.
+
+   ------------------------
+   How to call the program:
+
+   To load all the functions needed to run the simulations, start R from the
+   folder where the R-files and the TETRAD jar are (RCode_TETRADjar), and call
+
+     source('start_up.R')
+     start_up()
+
+   To start *all* the simulations done in "On Causal Discovery from Time Series
+   Data using FCI", call
+   
+     Simulation_Commands()
+     
+   *** Note that this takes a long time to run!!! ***
+
+   Alternatively, to only make one run of a specific setting of observed and
+   hidden variables, and density of the generating model/graph, run f. ex.
+ 
+   # for data (finite sample size)
+   simout <- doSimulations_universal(2,1,0.25,"tscfci",4,1,"continuous",100,0.01)
+
+   # for graph (infnite sample size limit)
+   simout <- doSimulations_universal(2,1,0.25,"tsfci",4,1)
+
+   For details on the input see the file "main_tetrad_fci.R".
+
+   Output:
+
+   a) When running all simulations, for each setting of parameters the results
+      are saved to a file in the folder "RCode_TETRADjar/simulation_results".
+      Furthermore, summaries of the scores are saved in the same folder, which
+      can then be used to make the bar-plots using the command plot_commands().
+      Note, that in the same folder, there is a subfolder called "scores" which
+      contains the summaries of the scores used in "On Causal Discovery from
+      Time Series Data using FCI", which are currently used for making the bar
+      plots (so if you want to use your own calculations, change the path in
+      the file Plotting_Commands_Barplots in line 25 to the one in line 26).
+      The bar-plots will be saved to the folder "simulation_results/figures".
+
+      For data each of the summarized scores is structured as follows:
+        direct-cause score, 100 samples
+                            1000 samples
+                            10000 samples
+        ancestor score,     100 samples
+                            1000 samples
+                            10000 samples
+        pairwise score,     100 samples
+                            1000 samples
+                            10000 samples
+      each of these 9 score-sample-pairs is a matrix containing the scores of
+      the different settings of observed/hidden variables and for each of these
+      setting there are two numbers: made decisions and right decsions among
+      the made decisions.
+
+      For the infinite sample size limit the scores are saved as follows:
+        direct-cause score, tsFCI
+                            Granger
+                            FCI
+        ancestor score,     tsFCI
+                            Granger
+                            FCI
+        pairwise score,     tsFCI
+                            Granger
+                            FCI
+     The structure of each of these pairs is the same as for data
+
+   b) When running for example one single setting and saving the result in
+      simout (as above), simout contains the generating model and the output
+      PAG of (ts)(C)FCI.
+
+      The output PAG looks for example like that:
+
+        0    2    2    2    0    0
+        2    0    0    0    0    0
+        3    0    0    0    2    2
+        1    0    0    0    0    0
+        0    0    3    0    0    0
+        0    0    1    0    0    0
+
+      and is read as follows:
+       
+      To see that the edge between 1 and 3 is 1 o-> 3, look at
+      PAG[1,3] = 2, which means that the edge between 1 and 3 has an arrowhead
+                    at node 3, and 
+      PAG[3,1] = 3, which means that the edge between 1 and 3 has a circle 
+                    mark at node 1,  
+                
+      To see that the edge between 1 and 4 is 1 --> 4, look at
+      PAG[1,4] = 2, which means that the edge between 1 and 4 has an arrowhead
+                    at node 4, and 
+      PAG[4,1] = 1, which means that the edge between 1 and 4 has a tail mark
+                    at node 1
+
+      (This is easiest to understand/see when plotting the result, by setting
+      makeplot=TRUE in the call. This requires the programs 'graphviz' and
+      'gv', as mentioned above.)
+
+
+-------------------------------------------------------------------------------
+b) Simulations for Granger on finite length time series, PSI and Group Lasso
+   (Matlab code)
+
+   For the Matlab code to run you need the following:
+   - for Granger causality analysis download the toolbox from 
+     http://www.spatial-econometrics.com/ and put this folder "jplv7" in the
+     folder toolbox ("jplv7" is the name of the toolbox)
+   - for phase slope index (PSI) download the code from 
+     http://ml.cs.tu-berlin.de/causality/ and put it in the folder "MatlabCode"
+   - Furthermore, for Group Lasso, Stefan Haufe generously provided code,
+     please contact him for that piece. Put his files in the folder GroupLasso.
+     Additionally, you need the free toolbox SeDuMi (downloadable from
+     http://sedumi.ie.lehigh.edu/), put this folder (called "SeDuMi_1_3") in
+     the GroupLasso folder as well.
+     The group lasso code should consist of three matlab functions
+     (est_smvar_grouplasso.m, eval_ar.m, and grouplasso.m). To be able to run
+     the experiments, please modify following lines:
+     * in est_smvar_grouplasso.m replace line 52 with:
+       if ~isfield(para, 'kappa_start')
+         para.kappa_start = 1e-3*norm(Z./sqrt(NK), 'fro');
+       end 
+     * in in grouplasso.m comment the following lines:
+         3, 68-70, 124-125, 131-134, 161-171, 174-183
+
+
+   To run the code change the working directory to "MatlabCode", f.ex. by
+
+     cd 'PATH/MatlabCode'
+     pwd
+
+   and then you can start *all* the simulations made in "On Causal Discovery
+   from Time Series Data using FCI" by calling
+
+     Simulation_Commands
+
+   *** Note that this takes a while! ***
+
+   Alternatively, to run only certain methods, go to simGrangerPSIGroupLasso.m
+   and choose in lines 35-37 the methods, or, to run only certain settings
+   (number of observed and hidden variables, density of the generating models),
+   go to Simulations_Commands.m and pick the specific lines there.
+
+   The generating models are loaded from the folder "Tables", which are the
+   same as used in the simulations in R.
+
+   Output:
+
+   a) All scores are saved in the folder "MatlabCode/results"
+      The scores used in "On Causal Discovery from Time Series Data using FCI"
+      are given in the folder "MatlabCode/results/scores"
+
+   b) the return has the scores for realtively sparse (q=0.25) and less sparse
+      (q=0.5) graphs in the following form:
+      
+      for q=0.25
+      score_GraDC: 3x2 matrix containing the direct-cause score for Granger
+      score_GraAN: 3x2 matrix containing the ancestor score for Granger
+      score_GraPW: 3x2 matrix containing the pairwise score for Granger
+      score_PsiPW: 3x2 matrix containing the pairwise score for PSI
+      score_GLaPW: 3x2 matrix containing the pairwise score for Group Lasso
+
+      in the form: 100 samples: made decisions, right decisions among made ones
+                   1000 samples: "
+                   10000 samples: "
+
+      and similar for q=0.5
+      score_GraDC50, score_GraAN50, score_GraPW50, score_PsiPW50, score_GLaPW50
+
+
+-------------------------------------------------------------------------------
+c) TETRAD Source Code and how to call TETRAD from the Command Line
+
+   The *modified* TETRAD source code is in 
+   "TETRAD_SourceCode/tetrad-4.3.9-18/src/edu/cmu". The original TETRAD code
+   was downloaded from http://www.phil.cmu.edu/projects/tetrad/.
+   
+   There is the possibility to call TETRAD from the command line, when having
+   the data and knowledge stored in the right form and files (ie. without using
+   the R code above).
+   
+   The data can be either saved in a file called "data.txt" or "cov.txt".
+   If the original time series has two observed variables with ten observations
+   each, that means:
+
+    X1   X2
+   ----------
+    0.8  2.1
+    0.3  2.2
+    1.8  2.4
+    0.0  3.8
+    0.8  1.6
+    0.5  2.1
+   -0.4  0.5
+   -0.4  0.8
+   -0.2  2.1
+   -0.7  0.9
+
+   then the data in the file "data.txt" are of the following from: for a window
+   length of tau=2, we get (tau+1)*2 = 6 variables and 10-tau = 8 observations
+   (Note, tau=nrep-1, and the programs ask for nrep as input.)
+
+    "X01"  "X02"  "X03"  "X04"  "X05"  "X06"
+     0.8    2.1    0.3    2.2    1.8    2.4
+     0.3    2.2    1.8    2.4    0.0    3.8
+     1.8    2.4    0.0    3.8    0.8    1.6
+     0.0    3.8    0.8    1.6    0.5    2.1
+     0.8    1.6    0.5    2.1   -0.4    0.5
+     0.5    2.1   -0.4    0.5   -0.4    0.8
+    -0.4    0.5   -0.4    0.8   -0.2    2.1
+    -0.4    0.8   -0.2    2.1   -0.7    0.9
+
+   or in the file "cov.txt" as follows (save the lower triangle of the
+   covariance matrix of the data):
+
+   /covariance
+   8
+   X01 X02
+   0.57
+   0.31 0.92
+
+   The knowledge for the ts(C)FCI algorithm is stored in a file called
+   "knowledge.txt" as follows:
+   
+   2 X06
+   2 X05
+   1 X04
+   1 X03
+   0 X02
+   0 X01
+
+   TETRAD can then be called as follows from the command line, when being in
+   the folder "RCode_TETRADjar":
+
+   with a data.txt and knowledge.txt file:
+     java -jar "./tetradcmd-4.3.9-18.jar" -data "./data.txt" -datatype "continuous" -significance 0.01 -algorithm "tscfci" -knowledge "./knowledge.txt" -inclInstEffect FALSE -outfile "./resultFCI.txt"
+
+   or with a cov.txt and knowledge.txt file:
+     java -jar "./tetradcmd-4.3.9-18.jar" -covariance "./cov.txt" -significance 0.01 -algorithm "tscfci" -knowledge "./knowledge.txt" -inclInstEffect FALSE -outfile "./resultFCI.txt"
+
+   The edges of the output PAG of ts(C)FCI are displayed in the shell, as well
+   as information on the made independence tests.
+   
+   Note: the name of the algorithm can also be "tsfci", but on data "tscfci" is
+   more reliable; inclInstEffect can be set to TRUE.
+
+
+-------------------------------------------------------------------------------
+d) ts(C)FCI on data
+
+   There are two ways to call ts(C)FCI with data, either directly from the
+   command line as described under point c) above, or using the R-file
+   "realData_tsfci.R" in R:
+
+   To load the needed files, start R in the folder "RCode_TETRADjar" and call
+
+     source('start_up.R')
+     start_up()
+
+   - when the data are saved in an R-matrix called mydata, then call f.ex.
+       realData_tsfci(data=mydata, sig=0.01, nrep=4, inclIE=FALSE, alg="tscfci", datatype="continuous", makeplot=FALSE)
+
+   - when the data are saved in the file "path/mydata.txt", where the first
+     line contains the variable names, call f.ex.
+       realData_tsfci(path="path/mydata.txt", sig=0.01, nrep=4, inclIE=FALSE, alg="tscfci", datatype="continuous", makeplot=FALSE)
+
+   The output PAG is plotted when setting makeplot=TRUE (Note, as mentioned
+   above, that this requires the 'graphviz' program.) The function always
+   outputs the PAG, interpreted as in the small example under point a) above.
+
+
+
+-------------------------------------------------------------------------------
+--------------------------------- 3. Contact ----------------------------------
+-------------------------------------------------------------------------------
+
+E-Mail: doris.entner[at]cs.helsinki.fi
+Homepage: http://www.cs.helsinki.fi/u/entner/
+

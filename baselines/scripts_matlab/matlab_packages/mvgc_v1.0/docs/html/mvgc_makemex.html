@@ -1,0 +1,233 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>mvgc_makemex</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_makemex.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>mvgc_makemex</h1><!--introduction--><p>Build MVGC <tt>mex</tt> files</p><p><a href="matlab:open('mvgc_makemex.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   mvgc_makemex(force_recompile,verbose)</pre><h2>Arguments<a name="2"></a></h2><p><i>input</i></p><pre>   force_recompile  forced recompilation flag (default: false)
+   verbose          verbosity flag (default: false)</pre><h2>Description<a name="3"></a></h2><p>Builds and then tests all MVGC <tt>mex</tt> files from <tt>C</tt> source in the <tt>C</tt> subdirectory. If a <tt>mex</tt> file for the current platform already exists in the <tt>mex</tt> subdirectory it is just tested, unless the <tt>force_recompile</tt> flag is set, in which case it is recompiled. A build is not considered successful unless it has also been successfully tested.</p><p>Assumes a working Matlab-compatible <tt>C</tt> compiler for your platform. Sensible defaults are hard-coded, but you may have to (or want to) tweak this function for your platform/compiler.</p><p><i><b>Note 1:</b></i> The toolbox is currently distributed with pre-built and tested <tt>mex</tt> files for 64-bit Unix (including Linux), Windows and Mac, as these were the only test platforms available to us. If Matlab crashes on you, there is a very good chance that a pre-built <tt>mex</tt> is to blame. In this case (assuming you have a Matlab-compatible C compiler available) you should try running <a href="mvgc_makemex.html"><tt>mvgc_makemex</tt></a> with the <tt>force_recompile</tt> flag set.</p><p><i><b>Note 2:</b></i> The pre-built Windows 64-bit <tt>mex</tt> files distributed with the toolbox were compiled with Microsoft&reg; Visual Studio 2010. Apparently code compiled with this compiler requires the Microsoft&reg; Visual Studio 2010 runtime components. There is not much we can do about this; if you do not have Microsoft&reg; Visual Studio 2010 installed on your 64-bit Windows system you can install the required components from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=14632">here</a>, or recompile the <tt>mex</tt> files using a different compiler, again by running <a href="mvgc_makemex.html"><tt>mvgc_makemex</tt></a> with the <tt>force_recompile</tt> flag.</p><h2>See also<a name="4"></a></h2><p><a href="startup.html"><tt>startup</tt></a> | <a href="matlab:doc('mex')"><tt>mex</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% mvgc_makemex
+%
+% Build MVGC |mex| files
+%
+% <matlab:open('mvgc_makemex.m') code>
+%
+%% Syntax
+%
+%     mvgc_makemex(force_recompile,verbose)
+%
+%% Arguments
+%
+% _input_
+%
+%     force_recompile  forced recompilation flag (default: false)
+%     verbose          verbosity flag (default: false)
+%
+%% Description
+%
+% Builds and then tests all MVGC |mex| files from |C| source in the |C|
+% subdirectory. If a |mex| file for the current platform already exists in the
+% |mex| subdirectory it is just tested, unless the |force_recompile| flag is
+% set, in which case it is recompiled. A build is not considered successful
+% unless it has also been successfully tested.
+%
+% Assumes a working Matlab-compatible |C| compiler for your platform.
+% Sensible defaults are hard-coded, but you may have to (or want to) tweak this
+% function for your platform/compiler.
+%
+% _*Note 1:*_ The toolbox is currently distributed with pre-built and tested
+% |mex| files for 64-bit Unix (including Linux), Windows and Mac, as these were
+% the only test platforms available to us. If Matlab crashes on you, there is
+% a very good chance that a pre-built |mex| is to blame. In this case (assuming
+% you have a Matlab-compatible C compiler available) you should try running
+% <mvgc_makemex.html |mvgc_makemex|> with the |force_recompile| flag set.
+%
+% _*Note 2:*_ The pre-built Windows 64-bit |mex| files distributed with the
+% toolbox were compiled with Microsoft(R) Visual Studio 2010. Apparently code
+% compiled with this compiler requires the Microsoft(R) Visual Studio 2010
+% runtime components. There is not much we can do about this; if you do not have
+% Microsoft(R) Visual Studio 2010 installed on your 64-bit Windows system you
+% can install the required components from
+% <http://www.microsoft.com/en-us/download/details.aspx?id=14632 here>, or
+% recompile the |mex| files using a different compiler, again by running
+% <mvgc_makemex.html |mvgc_makemex|> with the |force_recompile| flag.
+%
+%% See also
+%
+% <startup.html |startup|> |
+% <matlab:doc('mex') |mex|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function mvgc_makemex(force_recompile,verbose)
+
+% Build MVGC 'mex' files
+
+if nargin < 1 || isempty(force_recompile), force_recompile = false; end;
+if nargin < 2 || isempty(verbose),         verbose         = false; end;
+
+% default mex command
+
+MFLAGS = '-O -largeArrayDims';
+if verbose, MFLAGS = ['-v ' MFLAGS]; end % spews lots of details
+mexcmd = ['mex ' MFLAGS];
+
+if isunix
+    plat = 'Unix';
+    CFLAGS = '-Wall -Werror -O3';  % gcc 4.4 ok with these
+    mexcmd = [mexcmd ' CFLAGS="\$CFLAGS ' CFLAGS '"'];
+elseif ispc
+    plat = 'Windows';
+    % If you want to override compiler flags, you're on your own...
+elseif ismac
+    plat = 'Mac';
+    % If you want to override compiler flags, you're on your own...
+else
+    plat = 'Unknown';
+    fprintf(2,'\nNOTE: At present ''mvgc_makemex'' has only been tested on Unix (gcc) and Windows (Visual Studio).\nIf you are on a different  platform/compiler and have any useful compilation tips, it would be\nvery helpfull if you could tell the MVGC maintainers about it.\n');
+end
+
+cc = mex.getCompilerConfigurations();
+
+fprintf('\nYour platform   appears to be : %s (mex extension: %s)\n',plat,mexext);
+fprintf('Your C compiler appears to be : %s\n',cc(1).Name);
+fprintf('Will use the mex command      : %s <cfile> -outdir <mexdir>\n',mexcmd);
+
+global mvgc_root;
+cdir = fullfile(mvgc_root,'C');
+mexdir = fullfile(mvgc_root,'mex');
+
+% genvar
+
+cfroot   = 'genvar';
+mfroot   = [cfroot '_mex'];
+cfile    = [mfroot '.c'];
+mexfile  = [mfroot '.' mexext];
+mexinvoc = [mexcmd ' ' cdir filesep cfile ' -outdir ' mexdir];
+
+global have_genvar_mex;
+if exist(mfroot,'file') == 3 && ~force_recompile
+    fprintf('\nA mex file ''%s'' already exists for your platform. If you want\nto recompile it, then re-run this routine with the ''force_recompile'' flag set.\n\n',mexfile);
+    have_genvar_mex = testmex(cfroot);
+else
+    fprintf('\nGoing to compile ''%s''\n',cfile);
+    try
+        eval(mexinvoc);
+        fprintf('Looks like ''%s'' compiled ok. ',cfile);
+        have_genvar_mex = testmex(cfroot);
+    catch
+        fprintf(2,'Hrmmph. ''%s'' failed to compile. Please tell the maintainer about this.\nMeanwhile don''t panic, an equivalent (but slower) scripted ''%s'' will be used.\n\n',cfile,cfroot);
+    end
+end
+
+% More compilations and test functions go here
+
+return
+
+function success = genvar_mex_test
+
+A = var9_test;
+oldstate = rng_seed(67132);
+E = randn(9,1000);
+rng_restore(oldstate);
+have_genvar_mex = true;
+X1 = genvar(A,E);
+have_genvar_mex = false;
+X2 = genvar(A,E);
+maxad = maxabs(X1-X2);
+fprintf('\nMaximum absolute difference = %.g\n',maxad);
+success = maxad < 1e-10;
+return
+
+% Test the mex file
+
+function success = testmex(cfroot)
+
+mfroot  = [cfroot '_mex'];
+mexfile = [mfroot '.' mexext];
+testfun = [cfroot '_mex_test'];
+
+fprintf('Do you want to test ''%s'' (note: If Matlab crashes the test failed ;)\n',mexfile);
+reply = input('Go for test? y/n [y]: ', 's');
+
+success = false;
+if isempty(reply) || strcmpi(reply,'y')
+    if eval(testfun)
+        fprintf('Congratulations, ''%s'' passed the test! It will now be used by default.\n\n',mexfile);
+        success = true;
+    else
+        fprintf(2,'Drat. ''%s'' failed the test. Please tell the maintainer about this.\nMeanwhile don''t panic, an equivalent (but slower) scripted ''%s'' will be used.\n\n',mexfile,cfroot);
+    end
+else
+    fprintf(2,'\nOk, you bottled out. An equivalent (but slower) scripted ''%s'' will be used.\n\n',cfroot);
+end
+
+return
+
+##### SOURCE END #####
+--></body></html>

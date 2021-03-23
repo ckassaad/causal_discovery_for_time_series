@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding="utf-8"?>
+
+<toc version="2.0">
+    <tocitem target="mvgchelp.html">
+        <tocitem target="mvgcrelnotes.html" image="HelpIcon.RELEASE_NOTES">Release Notes</tocitem>
+        <tocitem target="mvgc_schema.html"  image="HelpIcon.GETTING_STARTED">Overview: MVGC computational pathways</tocitem>
+        <tocitem target="mvgcfuncref.html"  image="HelpIcon.FUNCTION">Function Reference
+            <tocitem target="mvgc_functions.htm#1">Toolbox initialisation
+                <tocitem target="startup.html">startup</tocitem>
+            </tocitem>
+            <tocitem target="mvgc_functions.htm#2">Demonstration scripts
+                <tocitem target="mvgc_demo.html">mvgc_demo</tocitem>
+                <tocitem target="mvgc_demo_bootstrap.html">mvgc_demo_bootstrap</tocitem>
+                <tocitem target="mvgc_demo_GCCA.html">mvgc_demo_GCCA</tocitem>
+                <tocitem target="mvgc_demo_nonstationary.html">mvgc_demo_nonstationary</tocitem>
+                <tocitem target="mvgc_demo_permtest.html">mvgc_demo_permtest</tocitem>
+                <tocitem target="mvgc_demo_stats.html">mvgc_demo_stats</tocitem>
+                <tocitem target="var5_test.html">var5_test</tocitem>
+                <tocitem target="var9_test.html">var9_test</tocitem>
+            </tocitem>
+            <tocitem target="mvgc_functions.htm#3">Core functionality 
+                <tocitem target="autocov_to_cpsd.html">autocov_to_cpsd</tocitem>
+                <tocitem target="autocov_to_var.html">autocov_to_var</tocitem>
+                <tocitem target="autocov_xform.html">autocov_xform</tocitem>
+                <tocitem target="cpsd_to_autocov.html">cpsd_to_autocov</tocitem>
+                <tocitem target="cpsd_to_var.html">cpsd_to_var</tocitem>
+                <tocitem target="cpsd_xform.html">cpsd_xform</tocitem>
+                <tocitem target="tsdata_to_autocov.html">tsdata_to_autocov</tocitem>
+                <tocitem target="tsdata_to_cpsd.html">tsdata_to_cpsd</tocitem>
+                <tocitem target="tsdata_to_infocrit.html">tsdata_to_infocrit</tocitem>
+                <tocitem target="tsdata_to_var.html">tsdata_to_var</tocitem>
+                <tocitem target="var_to_autocov.html">var_to_autocov</tocitem>
+                <tocitem target="var_to_cpsd.html">var_to_cpsd</tocitem>
+                <tocitem target="var_to_tsdata.html">var_to_tsdata</tocitem>
+                <tocitem target="var_to_tsdata_nonstat.html">var_to_tsdata_nonstat</tocitem>
+            </tocitem>
+            <tocitem target="mvgc_functions.htm#4">Granger causality
+                <tocitem target="GCCA_compat.htm">GCCA compatibility
+                    <tocitem target="GCCA_tsdata_to_mvgc.html">GCCA_tsdata_to_mvgc</tocitem>
+                    <tocitem target="GCCA_tsdata_to_pwcgc.html">GCCA_tsdata_to_pwcgc</tocitem>
+                    <tocitem target="GCCA_tsdata_to_smvgc.html">GCCA_tsdata_to_smvgc</tocitem>
+                </tocitem>
+                <tocitem target="subsample">Subsampling
+                    <tocitem target="bootstrap_tsdata_to_mvgc.html">bootstrap_tsdata_to_mvgc</tocitem>
+                    <tocitem target="bootstrap_tsdata_to_pwcgc.html">bootstrap_tsdata_to_pwcgc</tocitem>
+                    <tocitem target="bootstrap_tsdata_to_smvgc.html">bootstrap_tsdata_to_smvgc</tocitem>
+                    <tocitem target="bootstrap_tsdata_to_spwcgc.html">bootstrap_tsdata_to_spwcgc</tocitem>
+                    <tocitem target="empirical_var_to_mvgc.html">empirical_var_to_mvgc</tocitem>
+                    <tocitem target="empirical_var_to_pwcgc.html">empirical_var_to_pwcgc</tocitem>
+                    <tocitem target="empirical_var_to_smvgc.html">empirical_var_to_smvgc</tocitem>
+                    <tocitem target="empirical_var_to_spwcgc.html">empirical_var_to_spwcgc</tocitem>
+                    <tocitem target="permtest_tsdata_to_mvgc.html">permtest_tsdata_to_mvgc</tocitem>
+                    <tocitem target="permtest_tsdata_to_pwcgc.html">permtest_tsdata_to_pwcgc</tocitem>
+                    <tocitem target="permtest_tsdata_to_smvgc.html">permtest_tsdata_to_smvgc</tocitem>
+                    <tocitem target="permtest_tsdata_to_spwcgc.html">permtest_tsdata_to_spwcgc</tocitem>
+                </tocitem>
+                <tocitem target="autocov_to_mvgc.html">autocov_to_mvgc</tocitem>
+                <tocitem target="autocov_to_pwcgc.html">autocov_to_pwcgc</tocitem>
+                <tocitem target="autocov_to_smvgc.html">autocov_to_smvgc</tocitem>
+                <tocitem target="autocov_to_spwcgc.html">autocov_to_spwcgc</tocitem>
+                <tocitem target="smvgc_to_mvgc.html">smvgc_to_mvgc</tocitem>
+            </tocitem>
+            <tocitem target="mvgc_functions.htm#5">Statistics
+                <tocitem target="consistency.html">consistency</tocitem>
+                <tocitem target="demean.html">demean</tocitem>
+                <tocitem target="empirical_cdf.html">empirical_cdf</tocitem>
+                <tocitem target="empirical_cdfi.html">empirical_cdfi</tocitem>
+                <tocitem target="empirical_confint.html">empirical_confint</tocitem>
+                <tocitem target="empirical_cval.html">empirical_cval</tocitem>
+                <tocitem target="empirical_pval.html">empirical_pval</tocitem>
+                <tocitem target="infocrit.html">infocrit</tocitem>
+                <tocitem target="mvgc_cdf.html">mvgc_cdf</tocitem>
+                <tocitem target="mvgc_cdfi.html">mvgc_cdfi</tocitem>
+                <tocitem target="mvgc_confint.html">mvgc_confint</tocitem>
+                <tocitem target="mvgc_cval.html">mvgc_cval</tocitem>
+                <tocitem target="mvgc_pval.html">mvgc_pval</tocitem>
+                <tocitem target="rsquared.html">rsquared</tocitem>
+                <tocitem target="significance.html">significance</tocitem>
+                <tocitem target="whiteness.html">whiteness</tocitem>
+            </tocitem>
+            <tocitem target="mvgc_functions.htm#6">Utilities
+                <tocitem target="bfft.html">bfft</tocitem>
+                <tocitem target="bifft.html">bifft</tocitem>
+                <tocitem target="cov2corr.html">cov2corr</tocitem>
+                <tocitem target="dlyap_aitr.html">dlyap_aitr</tocitem>
+                <tocitem target="genvar.html">genvar</tocitem>
+                <tocitem target="get_crand.html">get_crand</tocitem>
+                <tocitem target="get_hostname.html">get_hostname</tocitem>
+                <tocitem target="get_urand.html">get_urand</tocitem>
+                <tocitem target="helpon.html">helpon</tocitem>
+                <tocitem target="isbad.html">isbad</tocitem>
+                <tocitem target="isint.html">isint</tocitem>
+                <tocitem target="isposdef.html">isposdef</tocitem>
+                <tocitem target="maxabs.html">maxabs</tocitem>
+                <tocitem target="mvdetrend.html">mvdetrend</tocitem>
+                <tocitem target="mvdiff.html">mvdiff</tocitem>
+                <tocitem target="mvgc_makemex.html">mvgc_makemex</tocitem>
+                <tocitem target="plot_autocov.html">plot_autocov</tocitem>
+                <tocitem target="plot_confints.html">plot_confints</tocitem>
+                <tocitem target="plot_cpsd.html">plot_cpsd</tocitem>
+                <tocitem target="plot_pw.html">plot_pw</tocitem>
+                <tocitem target="plot_spw.html">plot_spw</tocitem>
+                <tocitem target="plot_varcoeffs.html">plot_varcoeffs</tocitem>
+                <tocitem target="ptic.html">ptic</tocitem>
+                <tocitem target="ptoc.html">ptoc</tocitem>
+                <tocitem target="quads.html">quads</tocitem>
+                <tocitem target="quadsr.html">quadsr</tocitem>
+                <tocitem target="rng_restore.html">rng_restore</tocitem>
+                <tocitem target="rng_save.html">rng_save</tocitem>
+                <tocitem target="rng_seed.html">rng_seed</tocitem>
+                <tocitem target="secs2hms.html">secs2hms</tocitem>
+                <tocitem target="sfreqs.html">sfreqs</tocitem>
+                <tocitem target="timestr.html">timestr</tocitem>
+                <tocitem target="trfun2var.html">trfun2var</tocitem>
+                <tocitem target="var2trfun.html">var2trfun</tocitem>
+                <tocitem target="var_decay.html">var_decay</tocitem>
+                <tocitem target="var_info.html">var_info</tocitem>
+                <tocitem target="var_normalise.html">var_normalise</tocitem>
+                <tocitem target="var_specrad.html">var_specrad</tocitem>
+                <tocitem target="warn_if.html">warn_if</tocitem>
+                <tocitem target="warn_supp.html">warn_supp</tocitem>
+                <tocitem target="warn_test.html">warn_test</tocitem>
+            </tocitem>
+            <tocitem target="mvgc_functions.htm#7">Experimental
+                <tocitem target="mvgc_adf.html">mvgc_adf</tocitem>
+                <tocitem target="mvgc_kpss.html">mvgc_kpss</tocitem>
+                <tocitem target="tsdata_to_autocov_debias.html">tsdata_to_autocov_debias</tocitem>
+            </tocitem>
+        </tocitem>
+        <tocitem target="http://www.sussex.ac.uk/sackler/mvgc" image="$toolbox/matlab/icons/webicon.gif">MVGC website</tocitem>
+    </tocitem>
+</toc>

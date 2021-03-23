@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>smvgc_to_mvgc</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="smvgc_to_mvgc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>smvgc_to_mvgc</h1><!--introduction--><p>Average (integrate) frequency-domain causality over specified frequency range</p><p><a href="matlab:open('smvgc_to_mvgc.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   F = smvgc_to_mvgc(f,B)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   f          spectral (frequency-domain) Granger causality
+   B          frequency range; if unspecified (default) entire frequency
+              range is used
+_output_</pre><pre>   F          Granger causality (time domain)</pre><h2>Description<a name="3"></a></h2><p>Calculates (conditional or unconditional) time-domain causality <tt>F</tt> from spectral causality <tt>f</tt> by integration (numerical quadrature - see <a href="quads.html"><tt>quads</tt></a>) over the frequency range <tt>B</tt>. If a frequency band <tt>B</tt> is not supplied (default), the spectral causality is averaged from zero to the Nyqvist frequency. In that case the formula</p><p><img vspace="5" hspace="24" src="eq_smvgc_int.png" alt=""> </p><p>(see [1]), where <img valign="middle" src="ii_nu.png"> is the Nyqvist frequency, should hold (at least approximately, numerically; see e.g. <a href="mvgc_demo.html"><tt>mvgc_demo</tt></a>).</p><p>A frequency band <tt>B</tt> is specified by a vector comprising pairs of points in ascending order in the range <tt>[0,1]</tt> - corresponding to zero up to the Nyqvist frequency. See <a href="quadsr.html"><tt>quadsr</tt></a> for more details. In this case <i>band-limited</i> time-domain causality [1,2] is calculated.</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><p>[2] L. Barnett and A. K. Seth, "Behaviour of Granger causality under filtering: Theoretical invariance and practical application", <i>J. Neurosci. Methods</i> 201(2), 2011.</p><h2>See also<a name="5"></a></h2><p><a href="quadsr.html"><tt>quadsr</tt></a> | <a href="quadsr.html"><tt>quadsr</tt></a> | <a href="sfreqs.html"><tt>sfreqs</tt></a> | <a href="mvgc_demo.html"><tt>mvgc_demo</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% smvgc_to_mvgc
+%
+% Average (integrate) frequency-domain causality over specified frequency range
+%
+% <matlab:open('smvgc_to_mvgc.m') code>
+%
+%% Syntax
+%
+%     F = smvgc_to_mvgc(f,B)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     f          spectral (frequency-domain) Granger causality
+%     B          frequency range; if unspecified (default) entire frequency
+%                range is used
+% _output_
+%
+%     F          Granger causality (time domain)
+%
+%% Description
+%
+% Calculates (conditional or unconditional) time-domain causality |F| from
+% spectral causality |f| by integration (numerical quadrature - see <quads.html
+% |quads|>) over the frequency range |B|. If a frequency band |B| is not
+% supplied (default), the spectral causality is averaged from zero to the
+% Nyqvist frequency. In that case the formula
+%
+% <<eq_smvgc_int.png>>
+%
+% (see [1]), where <img valign="middle" src="ii_nu.png"> is the Nyqvist frequency, should hold (at least
+% approximately, numerically; see e.g. <mvgc_demo.html |mvgc_demo|>).
+%
+% A frequency band |B| is specified by a vector comprising pairs of points in
+% ascending order in the range |[0,1]| - corresponding to zero up to the Nyqvist
+% frequency. See <quadsr.html |quadsr|> for more details. In this case
+% _band-limited_ time-domain causality [1,2] is calculated.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% [2] L. Barnett and A. K. Seth, "Behaviour of Granger causality under
+% filtering: Theoretical invariance and practical application", _J. Neurosci.
+% Methods_ 201(2), 2011.
+%
+%% See also
+%
+% <quadsr.html |quadsr|> | <quadsr.html |quadsr|> | <sfreqs.html |sfreqs|> |
+% <mvgc_demo.html |mvgc_demo|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function F = smvgc_to_mvgc(f,B)
+
+% FIXME - for dim = 1 !!!
+
+sz = size(f);
+nd = length(sz);
+h  = sz(nd);
+od = sz(1:nd-1);
+vd = prod(od);
+
+lam = linspace(0,1,h)';
+f   = reshape(f,vd,h);
+F   = nan(vd,1);
+for i = 1:vd
+    if nargin < 2 || isempty(B) % integrate over whole range
+        F(i) = quads(lam,f(i,:)');
+    else                        % integrate over sub-ranges in B
+        [F(i),L] = quadsr(lam,f(i,:)',B);
+        F(i) = F(i)/L;
+    end
+end
+if ~isscalar(od)
+    F = reshape(F,od);
+end
+
+##### SOURCE END #####
+--></body></html>

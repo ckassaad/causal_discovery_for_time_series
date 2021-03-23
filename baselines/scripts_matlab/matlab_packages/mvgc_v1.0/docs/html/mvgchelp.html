@@ -1,0 +1,392 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>The MVGC Multivariate Granger Causality Matlab&reg; Toolbox</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgchelp.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>The MVGC Multivariate Granger Causality Matlab&reg; Toolbox</h1><!--introduction--><p>The <a href="http://www.sussex.ac.uk/sackler/mvgc">MVGC Matlab&reg; Toolbox</a> is designed to facilitate Granger-causal analysis with multivariate and possibly multi-trial time series data. It is not "black box" software. There is no GUI, but rather a set of functions designed to be used in your own Matlab&reg; programs. Annotated <a href="mvgcfuncref.html#2">demonstration scripts</a> are available which may be used as templates to assist in this task.</p><p>The toolbox uses a novel, accurate  and highly efficient approach to numerical computation and statistical inference of Granger causality, conditional and unconditional, in both time and frequency domains, as described in the accompanying reference document <a href="#8">[1]</a>. The toolbox is intended to supersede the popular Granger Causal Connectivity Analysis (<a href="http://www.sussex.ac.uk/Users/anils/aks_code.htm">GCCA</a>) Toolbox, and to a large extent subsumes, enhances and extends GCCA functionality. The software is developed and maintained by <a href="http://www.sussex.ac.uk/Users/lionelb">Lionel Barnett</a> at the Sackler Centre for Consciousness Science (<a href="http://www.sussex.ac.uk/sackler">SCCS</a>), <a href="http://www.sussex.ac.uk">University of Sussex</a>,  supported by the Dr. Mortimer and Theresa Sackler Foundation. For copyright and licencing terms please see the <a href="mvgchelp.html#8">bottom</a> of this page.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">System requirements</a></li><li><a href="#2">Help and documentation</a></li><li><a href="#3">Getting started</a></li><li><a href="#4">Common variable names and data structures</a></li><li><a href="#5">Function arguments</a></li><li><a href="#6">Miscellaneous issues</a></li><li><a href="#7">C code</a></li><li><a href="#8">References</a></li><li><a href="#9">Contact the authors</a></li></ul></div><h2>System requirements<a name="1"></a></h2><p>The MVGC Toolbox has been mostly developed and tested on a Linux x86_64 (glnxa64) system running Matlab&reg; version R2011a; with the potential exception of some <a href="#7">C code</a>  (see below) it should be largely platform-independent. We cannot, however guarantee that the toolbox will run without problems on earlier or later versions of Matlab&reg;.</p><p><i><b>Matlab&reg; Toolboxes:</b></i> The MVGC Toolbox requires the <a href="http://www.mathworks.com/products/statistics">Statistics Toolbox&#8482;</a> for some essential functionality. The <a href="http://www.mathworks.com/products/control">Control System Toolbox&#8482;</a> is recommended; the core MVGC function <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a> requires a discrete-time Lyapunov equation solver and, if installed, will use the Control Syetem Toolbox <a href="matlab:doc('dlyap')"><tt>dlyap</tt></a> function (if that link worked you've got it!). If not, the default is currently to use a slower Matlab&reg;-scripted solver. A faster experimental solver is also available; see <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a> for more details. The spectral estimation routine <a href="tsdata_to_cpsd.html"><tt>tsdata_to_cpsd</tt></a> requires the <a href="http://www.mathworks.com/products/signal">Signal Processing Toolbox&#8482;</a>, but is not considered essential functionality.</p><h2>Help and documentation<a name="2"></a></h2><p>Formatted reference pages for all MVGC functions are available in the <a href="mvgcfuncref.html">Function Reference</a> section of the MVGC help in the Matlab Help Browser (<i>note</i>: in Matlab&reg; version 2013a and later, this is accessed via the <i>Supplemental Software</i> link at the bottom of the Help Browser home page). There is also a utility function <a href="helpon.html"><tt>helpon</tt></a> which displays these pages in the Help Browser; to get help on an MVGC function or script called <tt><i>name</i>.m</tt> simply type</p><p>&gt;&gt; helpon <i>name</i></p><p>at the Matlab&reg; command prompt. (Unfortunately Matlab does not currently facilitate <tt>F1</tt>-key context-sensitive help for user-defined pages.) For more detail and theory see the reference document <a href="#8">[1]</a>, and see also the <tt>docs</tt>, <tt>docs/html</tt> and <tt>demo</tt> subdirectories of the MVGC root directory. The <a href="mvgcrelnotes.html">Release Notes</a> should be checked too for further relevant information and recent changes to this software.</p><h2>Getting started<a name="3"></a></h2><p>The MVGC Toolbox is installed simply by unzipping/untarring the distribution file in a convenient parent directory. This will create a subdirectory called <tt>mvgc_version</tt>, the <i>MVGC root directory</i>, in the parent directory. In Matlab&reg; navigate to the MVGC root directory and run the <a href="startup.html"><tt>startup</tt></a> script to intialise the toolbox and integrate the toolbox help and documentation into the Matlab&reg; Help system. Note that, subsequent to installation, the <a href="startup.html"><tt>startup</tt></a> script will be run automatically if Matlab&reg; is started in the MVGC root directory.</p><p>The easiest way to get started with the MVGC Toolbox is via the annotated demos in the <tt>demo</tt> subdirectory of the MVGC root directory, in particular the <a href="mvgc_demo.html"><tt>mvgc_demo</tt></a> script. These may be used as templates for your own code. Having said that, the MVGC Toolbox is <i>not</i> to be regarded as "black box" software! For successfull use some basic understanding of the principles underlying Granger-causal inference and the computational approach of the MVGC Toolbox is requisite. It is thus <i>strongly recommended</i> that the user take some time to review the reference document <a href="#8">[1]</a>, with particular attention to Section 3 on design principles of the  MVGC Toolbox. The <a href="mvgc_schema.html">schema</a> of MVGC computational pathways provides a useful overview.</p><h2>Common variable names and data structures<a name="4"></a></h2><p>The following are common names for variables and data structures in the MVGC toolbox.</p><pre>   n,nvars    number of variables</pre><pre>   m,nobs     number of observations (time steps)</pre><pre>   N,ntrials  number of trials (realisations) of a process</pre><pre>   p,q,...    number of lags or frequencies</pre><pre>   x,y,z,...  vector of sub-variables indices</pre><pre>   fs         sample rate (e.g. in Hz)</pre><pre>   fres       frequency resolution</pre><pre>   X,Y,Z,...  Time series data: an n x m matrix for single-trial, or an
+              n x m x N matrix for multi-trial data. The first index
+              references variables, the second observations and the third (if
+              present) trials.</pre><pre>   A          VAR coefficients: an n x n x p matrix containing coefficients
+              for an n-variable VAR(p). The first index references target
+              ("to") variables, the second source ("from") variables and the
+              third lags.</pre><pre>   SIG        Residuals covariances: and n x n symmetric positive-definite
+              matrix containg residuals covariances for an n-variable VAR.</pre><pre>   G          Autocovariance sequence: an n x n x (q+1) matrix containing
+              autocovariances of a time series up to q lags. The first index
+              references target ("to") variables, the second source ("from")
+              variables and the third lags. The k-th block G(:,:,k)
+              corresponds to k-1 lags; the first block G(:,:,1) is thus a
+              covariance matrix.</pre><pre>   S          Cross-power spectral density (cpsd): an n x n x (q+1) matrix
+              containing cpsds of a time series at a resolution of q. The
+              first index references target ("to") variables, the second
+              source ("from") variables and the third frequency. Frequencies
+              generally run from zero up to (and including) the Nyqvist
+              frequency; i.e. block S(:,:,1) corresponds to frequency zero
+              and block S(:,:,q+1) corresponds to the Nyqvist frequency.</pre><pre>   H          VAR transfer function: an n x n x (q+1) matrix containing
+              transfer function components of a VAR at a resolution of q. The
+              first index references target ("to") variables, the second
+              source ("from") variables and the third frequency.</pre><pre>   F          Time-domain multivariate Granger causality: for the pairwise-
+              conditional case, an n x n matrix containing pairwise-
+              conditional causalities; the first index then references target
+              ("to") variables and the second source ("from") variables, with
+              NaNs on the diagonal.</pre><pre>   f          Frequency-domain (spectral) multivariate Granger causality: for
+              the pairwise-conditional case, an n x n x (q+1) matrix
+              containing pairwise-conditional spectral causalities; the first
+              index references target ("to") variables, the second source
+              ("from") variables and the third frequency, with NaNs on the
+              diagonal for each frequency block f(:,:,k).</pre><h2>Function arguments<a name="5"></a></h2><p>Default input arguments, if present (which will be indicated in the corresponding <a href="mvgcfuncref.html">Function Reference</a> page), may always be entered as an empty matrix <tt>[]</tt> or, for strings, the empty string <tt>''</tt>. Thus, for example, the function <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a></p><pre>   [G,info] = var_to_autocov(A,SIG,acmaxlags,acdectol,aitr,maxiters,maxrelerr)</pre><p>could be called as</p><pre>   G = var_to_autocov(A,SIG,[],[],true);</pre><p>String arguments are always case-insensitive.</p><p>The toolbox encourages the use of standard Matlab&reg; syntax for missing output arguments, which may result in more efficient execution. For example, the function <a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a></p><pre>   [A,SIG,E] = tsdata_to_var(X,p,regmode)</pre><p>could be called as</p><pre>   [~,SIG] = tsdata_to_var(X,p,'LWR')</pre><p>if only the output <tt>SIG</tt> is required, which will result in faster code.</p><h2>Miscellaneous issues<a name="6"></a></h2><p><i><b>Stationarity:</b></i></p><p>Granger-causal analysis based on VAR modelling presupposes that the time series data in question represent a <i>stationary</i> (multivariate) process. Of course in practice this may not be a tenable assumption. One way to deal with this issue, easily implementable in the MVGC Toolbox, is by <i>windowing</i> the time series data; that is, performing causal analysis on (possibly sliding) short time segments ("windows") of the data that, hopefully, are near-enough stationary. This approach is all the better if mutiple synchronised trial data is available. There will, however, inevitably be a trade-off between time window size and quality of statistical inference given the resultant smaller data samples. The demo script <a href="mvgc_demo_nonstationary.html"><tt>mvgc_demo_nonstationary</tt></a> illustrates how to put this technique into practice.</p><p><i><b>Data preprocessing:</b></i></p><p>We remark that we do not see it as the role of the MVGC Toolbox to provide functionality for preprocessing time series data (e.g. to improve stationarity); there is other software available for this. Regarding preprocessing, however, it is worth a warning that some common preprocessing procedures - such as <i>filtering</i> - have the potential to seriously disrupt Granger causal inference (see the remarks in the <a href="mvgc_demo.html"><tt>mvgc_demo</tt></a> script) and may, furthermore, cast doubt on the interpretation of results. Our view is that preprocessing should be handled with trepidation and preferably kept to a minimum, for instance to achieve acceptable stationarity.</p><p><i><b>VAR modelling?</b></i></p><p>It should be borne in mind that, notwithstanding that (almost) any wide-sense stationary multivariate stochastic process may be modelled as a VAR, this is not to say that a VAR will necessarily be a <i>good</i> ("parsimonious") model for your data! Indeed, excessively high model orders (<i>cf</i>. <a href="tsdata_to_infocrit.html"><tt>tsdata_to_infocrit</tt></a>) may well be an indication that a VAR model is simply unsuitable (or it may be indicative of non-stationarity). For example, theory tells us that a VAR process has exponentially decaying autocovariance in the long term. If your data exhibits "long term memory" (i.e. power-law autocovariance decay) then, e.g. a fractional ARIMA model may be better suited to your data and VAR-based Granger-causal analysis is probably not the way to go. Similarly, a VARMA process with non-trivial moving-average component may yield excessively high model order when modelled as a VAR. It would certainly be pleasant to be able to calculate Granger causality directly for such alternate models. There has been some progress in this area - indeed, we're working on it ourselves (see e.g. L. Barnett and T. Bossomaier, "Transfer entropy as a log-likelihood ratio" [ <a href="http://arxiv.org/abs/1205.6339"><tt>preprint</tt></a> ], <i>Phys. Rev. Lett.</i> <b>109(13)</b>, 2012) - but that is for a future release of the toolbox.</p><p><i><b>GCCA compatibility mode</b></i></p><p>Although the MVGC native approach to Granger causality computation is obviously recommended, former users of the Granger Causal Connectivity Analysis (<a href="http://www.sussex.ac.uk/Users/anils/aks_code.htm">GCCA</a>) Toolbox may wish to refer to the <a href="mvgc_demo_GCCA.html"><tt>mvgc_demo_GCCA</tt></a> script, which demonstrates and explains usage of the MVGC Toolbox in "GCCA compatibility mode".</p><h2>C code<a name="7"></a></h2><p>The MVGC Toolbox is almost entirely written in Matlab&reg; code; however, for efficiency reasons, a few routines may be coded in C (at present only the <a href="genvar.html"><tt>genvar</tt></a> function, used to generate test VAR data). If corresponding <tt>mex</tt> files for your platform are not included in your distribution of this software (the <a href="startup.html"><tt>startup</tt></a> script will issue a warning) you should try to build them using the <a href="mvgc_makemex.html"><tt>mvgc_makemex</tt></a> function. In general, however, a missing MVGC <tt>mex</tt> file is not a show-stopper; (slower) Matlab&reg;-scripted code with equivalent functionality should always be available and invoked automatically.</p><p><i><b>Note 1:</b></i> The toolbox is currently distributed with pre-built and tested <tt>mex</tt> files for 64-bit Unix (including Linux), Windows and Mac, as these were the only test platforms available to us. If Matlab&reg; crashes on you, there is a very good chance that a pre-built <tt>mex</tt> is to blame. In this case (assuming you have a Matlab&reg;-compatible C compiler available) you should try running <a href="mvgc_makemex.html"><tt>mvgc_makemex</tt></a> with the <tt>force_recompile</tt> flag set.</p><p><i><b>Note 2:</b></i> The pre-built Windows 64-bit <tt>mex</tt> files were compiled with Microsoft&reg; Visual Studio 2010. Apparently code compiled with this compiler requires the Microsoft&reg; Visual Studio 2010 runtime components. There is not much we can do about this; if you do not have Microsoft&reg; Visual Studio 2010 installed on your 64-bit Windows system you can install the required components from <a href="http://www.microsoft.com/en-us/download/details.aspx?id=14632">here</a>, or recompile the <tt>mex</tt> files using a different compiler, again by running <a href="mvgc_makemex.html"><tt>mvgc_makemex</tt></a> with the <tt>force_recompile</tt> flag.</p><h2>References<a name="8"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014.</p><p><i><b>Note:</b></i> We are in the process of making this publication open-access; in the meantime, a preprint (included in the distribution) is available [ <a href="matlab:open('mvgc_preprint.pdf')">here</a> ]  (<tt>PDF</tt> format - set Matlab default viewer in <tt>File -&gt; Preferences -&gt; Help -&gt; PDF Reader</tt>).</p><h2>Contact the authors<a name="9"></a></h2><p>For general support issues, comments, questions, bug reports and suggested enhancements, please email <a href="mailto:mvgctoolbox@sussex.ac.uk">mvgctoolbox @ sussex.ac.uk</a>. We would especially like to know if you have found the toolbox useful in your research.</p><p><a href="mvgchelp.html">back to top</a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% The MVGC Multivariate Granger Causality Matlab(R) Toolbox
+%
+% The <http://www.sussex.ac.uk/sackler/mvgc MVGC Matlab(R) Toolbox> is
+% designed to facilitate Granger-causal analysis with multivariate and possibly
+% multi-trial time series data. It is not "black box" software. There is no GUI,
+% but rather a set of functions designed to be used in your own Matlab(R)
+% programs. Annotated <mvgcfuncref.html#2 demonstration scripts> are available
+% which may be used as templates to assist in this task.
+%
+% The toolbox uses a novel, accurate  and highly efficient approach to numerical
+% computation and statistical inference of Granger causality, conditional and
+% unconditional, in both time and frequency domains, as described in the
+% accompanying reference document <#8 [1]>. The toolbox is intended to supersede the
+% popular Granger Causal Connectivity Analysis
+% (<http://www.sussex.ac.uk/Users/anils/aks_code.htm GCCA>) Toolbox, and to a
+% large extent subsumes, enhances and extends GCCA functionality. The software
+% is developed and maintained by <http://www.sussex.ac.uk/Users/lionelb Lionel
+% Barnett> at the Sackler Centre for Consciousness Science
+% (<http://www.sussex.ac.uk/sackler SCCS>), <http://www.sussex.ac.uk University
+% of Sussex>,  supported by the Dr. Mortimer and Theresa Sackler Foundation. For
+% copyright and licencing terms please see the <mvgchelp.html#8 bottom> of this
+% page.
+%
+%% System requirements
+%
+% The MVGC Toolbox has been mostly developed and tested on a Linux x86_64
+% (glnxa64) system running Matlab(R) version R2011a; with the potential
+% exception of some <#7 C code>  (see below) it should be largely
+% platform-independent. We cannot, however guarantee that the toolbox will
+% run without problems on earlier or later versions of Matlab(R).
+%
+% _*Matlab(R) Toolboxes:*_ The MVGC Toolbox requires the
+% <http://www.mathworks.com/products/statistics Statistics Toolbox(TM)> for
+% some essential functionality. The
+% <http://www.mathworks.com/products/control Control System Toolbox(TM)> is
+% recommended; the core MVGC function <var_to_autocov.html
+% |var_to_autocov|> requires a discrete-time Lyapunov equation solver and,
+% if installed, will use the Control Syetem Toolbox <matlab:doc('dlyap')
+% |dlyap|> function (if that link worked you've got it!). If not, the
+% default is currently to use a slower Matlab(R)-scripted solver. A faster
+% experimental solver is also available; see <var_to_autocov.html
+% |var_to_autocov|> for more details. The spectral estimation routine
+% <tsdata_to_cpsd.html |tsdata_to_cpsd|> requires the
+% <http://www.mathworks.com/products/signal Signal Processing Toolbox(TM)>,
+% but is not considered essential functionality.
+%
+%% Help and documentation
+%
+% Formatted reference pages for all MVGC functions are available in the
+% <mvgcfuncref.html Function Reference> section of the MVGC help in the Matlab
+% Help Browser (_note_: in Matlab(R) version 2013a and later, this is accessed
+% via the _Supplemental Software_ link at the bottom of the Help Browser home
+% page). There is also a utility function <helpon.html |helpon|> which displays
+% these pages in the Help Browser; to get help on an MVGC function or script
+% called |_name_.m| simply type
+%
+% >> helpon _name_
+%
+% at the Matlab(R) command prompt. (Unfortunately Matlab does not currently
+% facilitate |F1|-key context-sensitive help for user-defined pages.) For more
+% detail and theory see the reference document <#8 [1]>, and see also the |docs|,
+% |docs/html| and |demo| subdirectories of the MVGC root directory. The
+% <mvgcrelnotes.html Release Notes> should be checked too for further relevant
+% information and recent changes to this software.
+%
+%% Getting started
+%
+% The MVGC Toolbox is installed simply by unzipping/untarring the distribution
+% file in a convenient parent directory. This will create a subdirectory called
+% |mvgc_version|, the _MVGC root directory_, in the parent directory. In
+% Matlab(R) navigate to the MVGC root directory and run the <startup.html
+% |startup|> script to intialise the toolbox and integrate the toolbox help and
+% documentation into the Matlab(R) Help system. Note that, subsequent to
+% installation, the <startup.html |startup|> script will be run automatically if
+% Matlab(R) is started in the MVGC root directory.
+%
+% The easiest way to get started with the MVGC Toolbox is via the annotated
+% demos in the |demo| subdirectory of the MVGC root directory, in particular the
+% <mvgc_demo.html |mvgc_demo|> script. These may be used as templates for your
+% own code. Having said that, the MVGC Toolbox is _not_ to be regarded as "black
+% box" software! For successfull use some basic understanding of the principles
+% underlying Granger-causal inference and the computational approach of the MVGC
+% Toolbox is requisite. It is thus _strongly recommended_ that the user take
+% some time to review the reference document <#8 [1]>, with particular attention to
+% Section 3 on design principles of the  MVGC Toolbox. The <mvgc_schema.html
+% schema> of MVGC computational pathways provides a useful overview.
+%
+%% Common variable names and data structures
+%
+% The following are common names for variables and data structures in the MVGC
+% toolbox.
+%
+%     n,nvars    number of variables
+%
+%     m,nobs     number of observations (time steps)
+%
+%     N,ntrials  number of trials (realisations) of a process
+%
+%     p,q,...    number of lags or frequencies
+%
+%     x,y,z,...  vector of sub-variables indices
+%
+%     fs         sample rate (e.g. in Hz)
+%
+%     fres       frequency resolution
+%
+%     X,Y,Z,...  Time series data: an n x m matrix for single-trial, or an
+%                n x m x N matrix for multi-trial data. The first index
+%                references variables, the second observations and the third (if
+%                present) trials.
+%
+%     A          VAR coefficients: an n x n x p matrix containing coefficients
+%                for an n-variable VAR(p). The first index references target
+%                ("to") variables, the second source ("from") variables and the
+%                third lags.
+%
+%     SIG        Residuals covariances: and n x n symmetric positive-definite
+%                matrix containg residuals covariances for an n-variable VAR.
+%
+%     G          Autocovariance sequence: an n x n x (q+1) matrix containing
+%                autocovariances of a time series up to q lags. The first index
+%                references target ("to") variables, the second source ("from")
+%                variables and the third lags. The k-th block G(:,:,k)
+%                corresponds to k-1 lags; the first block G(:,:,1) is thus a
+%                covariance matrix.
+%
+%     S          Cross-power spectral density (cpsd): an n x n x (q+1) matrix
+%                containing cpsds of a time series at a resolution of q. The
+%                first index references target ("to") variables, the second
+%                source ("from") variables and the third frequency. Frequencies
+%                generally run from zero up to (and including) the Nyqvist
+%                frequency; i.e. block S(:,:,1) corresponds to frequency zero
+%                and block S(:,:,q+1) corresponds to the Nyqvist frequency.
+%
+%     H          VAR transfer function: an n x n x (q+1) matrix containing
+%                transfer function components of a VAR at a resolution of q. The
+%                first index references target ("to") variables, the second
+%                source ("from") variables and the third frequency.
+%
+%     F          Time-domain multivariate Granger causality: for the pairwise-
+%                conditional case, an n x n matrix containing pairwise-
+%                conditional causalities; the first index then references target
+%                ("to") variables and the second source ("from") variables, with
+%                NaNs on the diagonal.
+%
+%     f          Frequency-domain (spectral) multivariate Granger causality: for
+%                the pairwise-conditional case, an n x n x (q+1) matrix
+%                containing pairwise-conditional spectral causalities; the first
+%                index references target ("to") variables, the second source
+%                ("from") variables and the third frequency, with NaNs on the
+%                diagonal for each frequency block f(:,:,k).
+%
+%% Function arguments
+%
+% Default input arguments, if present (which will be indicated in the
+% corresponding <mvgcfuncref.html Function Reference> page), may always be
+% entered as an empty matrix |[]| or, for strings, the empty string |''|. Thus,
+% for example, the function <var_to_autocov.html |var_to_autocov|>
+%
+%     [G,info] = var_to_autocov(A,SIG,acmaxlags,acdectol,aitr,maxiters,maxrelerr)
+%
+% could be called as
+%
+%     G = var_to_autocov(A,SIG,[],[],true);
+%
+% String arguments are always case-insensitive.
+%
+% The toolbox encourages the use of standard Matlab(R) syntax for missing output
+% arguments, which may result in more efficient execution. For example, the
+% function <tsdata_to_var.html |tsdata_to_var|>
+%
+%     [A,SIG,E] = tsdata_to_var(X,p,regmode)
+%
+% could be called as
+%
+%     [~,SIG] = tsdata_to_var(X,p,'LWR')
+%
+% if only the output |SIG| is required, which will result in faster code.
+%
+%% Miscellaneous issues
+%
+% _*Stationarity:*_
+%
+% Granger-causal analysis based on VAR modelling presupposes that the time
+% series data in question represent a _stationary_ (multivariate) process. Of
+% course in practice this may not be a tenable assumption. One way to deal with
+% this issue, easily implementable in the MVGC Toolbox, is by _windowing_ the
+% time series data; that is, performing causal analysis on (possibly sliding)
+% short time segments ("windows") of the data that, hopefully, are near-enough
+% stationary. This approach is all the better if mutiple synchronised trial data
+% is available. There will, however, inevitably be a trade-off between time
+% window size and quality of statistical inference given the resultant smaller
+% data samples. The demo script <mvgc_demo_nonstationary.html
+% |mvgc_demo_nonstationary|> illustrates how to put this technique into
+% practice.
+%
+% _*Data preprocessing:*_
+%
+% We remark that we do not see it as the role of the MVGC Toolbox to provide
+% functionality for preprocessing time series data (e.g. to improve
+% stationarity); there is other software available for this. Regarding
+% preprocessing, however, it is worth a warning that some common preprocessing
+% procedures - such as _filtering_ - have the potential to seriously disrupt
+% Granger causal inference (see the remarks in the <mvgc_demo.html |mvgc_demo|>
+% script) and may, furthermore, cast doubt on the interpretation of results. Our
+% view is that preprocessing should be handled with trepidation and preferably
+% kept to a minimum, for instance to achieve acceptable stationarity.
+%
+% _*VAR modelling?*_
+%
+% It should be borne in mind that, notwithstanding that (almost) any
+% wide-sense stationary multivariate stochastic process may be modelled as
+% a VAR, this is not to say that a VAR will necessarily be a _good_
+% ("parsimonious") model for your data! Indeed, excessively high model
+% orders (_cf_. <tsdata_to_infocrit.html |tsdata_to_infocrit|>) may well be
+% an indication that a VAR model is simply unsuitable (or it may be
+% indicative of non-stationarity). For example, theory tells us that a VAR
+% process has exponentially decaying autocovariance in the long term. If
+% your data exhibits "long term memory" (i.e. power-law autocovariance
+% decay) then, e.g. a fractional ARIMA model may be better suited to your
+% data and VAR-based Granger-causal analysis is probably not the way to go.
+% Similarly, a VARMA process with non-trivial moving-average component may
+% yield excessively high model order when modelled as a VAR. It would
+% certainly be pleasant to be able to calculate Granger causality directly
+% for such alternate models. There has been some progress in this area -
+% indeed, we're working on it ourselves (see e.g. L. Barnett and T.
+% Bossomaier, "Transfer entropy as a log-likelihood ratio" [
+% <http://arxiv.org/abs/1205.6339 |preprint|> ], _Phys. Rev. Lett._
+% *109(13)*, 2012) - but that is for a future release of the toolbox.
+%
+% _*GCCA compatibility mode*_
+%
+% Although the MVGC native approach to Granger causality computation is
+% obviously recommended, former users of the Granger Causal Connectivity
+% Analysis (<http://www.sussex.ac.uk/Users/anils/aks_code.htm GCCA>) Toolbox may
+% wish to refer to the <mvgc_demo_GCCA.html |mvgc_demo_GCCA|> script, which
+% demonstrates and explains usage of the MVGC Toolbox in "GCCA compatibility
+% mode".
+%
+%% C code
+%
+% The MVGC Toolbox is almost entirely written in Matlab(R) code; however, for
+% efficiency reasons, a few routines may be coded in C (at present only the
+% <genvar.html |genvar|> function, used to generate test VAR data). If
+% corresponding |mex| files for your platform are not included in your
+% distribution of this software (the <startup.html |startup|> script will issue
+% a warning) you should try to build them using the <mvgc_makemex.html
+% |mvgc_makemex|> function. In general, however, a missing MVGC |mex| file is
+% not a show-stopper; (slower) Matlab(R)-scripted code with equivalent
+% functionality should always be available and invoked automatically.
+%
+% _*Note 1:*_ The toolbox is currently distributed with pre-built and tested
+% |mex| files for 64-bit Unix (including Linux), Windows and Mac, as these were
+% the only test platforms available to us. If Matlab(R) crashes on you, there is
+% a very good chance that a pre-built |mex| is to blame. In this case (assuming
+% you have a Matlab(R)-compatible C compiler available) you should try running
+% <mvgc_makemex.html |mvgc_makemex|> with the |force_recompile| flag set.
+%
+% _*Note 2:*_ The pre-built Windows 64-bit |mex| files were compiled with
+% Microsoft(R) Visual Studio 2010. Apparently code compiled with this compiler
+% requires the Microsoft(R) Visual Studio 2010 runtime components. There is not
+% much we can do about this; if you do not have Microsoft(R) Visual Studio 2010
+% installed on your 64-bit Windows system you can install the required
+% components from <http://www.microsoft.com/en-us/download/details.aspx?id=14632
+% here>, or recompile the |mex| files using a different compiler, again by
+% running <mvgc_makemex.html |mvgc_makemex|> with the |force_recompile| flag.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014.
+%
+% _*Note:*_ We are in the process of making this publication open-access; in the
+% meantime, a preprint (included in the distribution) is available [
+% <matlab:open('mvgc_preprint.pdf') here> ]  (|PDF| format - set Matlab
+% default viewer in |File -> Preferences -> Help -> PDF Reader|).
+%
+%% Contact the authors
+%
+% For general support issues, comments, questions, bug reports and suggested
+% enhancements, please email <mailto:mvgctoolbox@sussex.ac.uk mvgctoolbox @ sussex.ac.uk>. We would especially like to know if you have found
+% the toolbox useful in your research.
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+% <mvgchelp.html back to top>
+
+##### SOURCE END #####
+--></body></html>

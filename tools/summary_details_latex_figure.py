@@ -1,0 +1,103 @@
+if __name__ == "__main__":
+    measure_name = "F-Score"  # Precision Recall F-Score
+
+    structure_list = ['fork', 'v_structure', 'mediator', 'diamond', '7ts2h']
+    structure_hidden = ['7ts2h']
+    n_samples_list = [125, 250, 500, 1000, 2000, 4000]
+
+    path_output = "../experiments/performance_average/latex_format/figures" + "/" + measure_name + ".txt"
+    f_o = open(path_output, "w")
+    f_o.write("\\begin{figure}%[ht!]\n\t\centering\n")
+
+    option_by_method = {'GrangerPW': 'black,smooth,mark=*',
+                        'GrangerMV': 'black,smooth,mark=o',
+                        'GrangerK': 'black,smooth,mark=x',
+                        'TCDF': 'gray,smooth,mark=*',
+                        'PCMCICMIknn': 'red,smooth,mark=*',
+                        'PCMCIParCorr': 'red,smooth,mark=o',
+                        'PCTMI': 'blue,smooth,mark=*',
+                        'oCSE': 'pink,smooth,mark=*',
+                        'tsFCI': 'orange,smooth,mark=*',
+                        'FCITMI': 'cyan,smooth,mark=*',
+                        'VarLiNGAM': 'yellow,smooth,mark=*',
+                        'TiMINO': 'green,smooth,mark=*'}
+    for structure in structure_list:
+        measure = ""
+        for type_of_causes in ["summary_other", "summary_other", "summary_self", "temporal"]:
+            path_input = "../experiments/performance_average/" + type_of_causes + "_performance_average"
+            if type_of_causes == "summary_other":
+                all_methods_list = ['GrangerPW', 'GrangerMV', 'GrangerK', 'TCDF', 'PCMCICMIknn', 'PCMCIParCorr', 'PCTMI',
+                                'oCSE', 'tsFCI', 'FCITMI', 'VarLiNGAM', 'TiMINO']
+                methods_treats_hidden = ['TCDF', 'tsFCI', 'FCITMI']
+                measure_type1 = "Adjacent"
+                measure_type2 = "Oriented"
+                if measure == measure_name + " " + measure_type1:
+                    measure = measure_name + " " + measure_type2
+                else:
+                    measure = measure_name + " " + measure_type1
+                    legend = "\t\t\\legend{"
+                    addplot_for_legend = ""
+                    for method in all_methods_list:
+                        legend = legend + "{" + method + "},"
+                        addplot_for_legend = addplot_for_legend + "\t\t\\addplot[" + option_by_method[
+                            method] + ",] coordinates {(0, -1)};\n"
+                    legend = legend[:-1]
+                    legend = legend + "}\n"
+            elif type_of_causes == "summary_self":
+                all_methods_list = ['TCDF', 'PCMCICMIknn', 'PCMCIParCorr', 'PCTMI', 'tsFCI', 'FCITMI', 'VarLiNGAM']
+                methods_treats_hidden = ['TCDF', 'tsFCI', 'FCITMI']
+                measure = measure_name
+            elif type_of_causes == "temporal":
+                all_methods_list = ['TCDF', 'PCMCICMIknn', 'PCMCIParCorr', 'tsFCI']
+                methods_treats_hidden = ['TCDF', 'tsFCI']
+                measure = measure_name
+            else:
+                all_methods_list = None
+                methods_treats_hidden = None
+
+            if structure in structure_hidden:
+                methods_list = methods_treats_hidden
+            else:
+                methods_list = all_methods_list
+            if measure == measure_name + " Adjacent":
+                subfigure_begin = "\t\\resizebox {0.24\\textwidth} {!} {\n\t\\begin{subfigure}[b]{0.5\\textwidth}\n\t\t\\begin{tikzpicture}[font=\small]\n\t\t\\renewcommand{\\axisdefaulttryminticks}{4}\n\t\t\pgfplotsset{every major grid/.append style={densely dashed}}\n\t\t\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}\n\t\t\\begin{axis}[\n\t\txmin = 0,\n\t\txmax = 4500,\n\t\txmode=log,\n\t\tlog ticks with fixed point,\n\t\tymin=0,\n\t\tymax=1,\n\t\tgrid=minor,\n\t\tscaled ticks=true,\n\t\tylabel = {" + structure.replace("_", "-") + "},\n\t\theight = 6cm,\n\t\twidth=8cm,\n\t\tlegend style={nodes={scale=0.65, transform shape}}\n\t\t]\n"
+            else:
+                subfigure_begin = "\t\\resizebox {0.24\\textwidth} {!} {\n\t\\begin{subfigure}[b]{0.5\\textwidth}\n\t\t\\begin{tikzpicture}[font=\small]\n\t\t\\renewcommand{\\axisdefaulttryminticks}{4}\n\t\t\pgfplotsset{every major grid/.append style={densely dashed}}\n\t\t\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}\n\t\t\\begin{axis}[\n\t\txmin = 0,\n\t\txmax = 4500,\n\t\tymin=0,\n\t\tymax=1,\n\t\tgrid=minor,\n\t\tscaled ticks=true,\n\t\theight = 6cm,\n\t\twidth=8cm,\n\t\tlegend style={nodes={scale=0.65, transform shape}}\n\t\t]\n"
+            subfigure_end = "\t\t\end{axis}\n\t\t\end{tikzpicture}\n\t\t\caption{}\n\t\t\label{}\n\t\end{subfigure}\n}\n\hfill\n"
+            f_o.write(subfigure_begin)
+            for method in methods_list:
+                addplot_begin = "\t\t\\addplot["+option_by_method[method]+", error bars/.cd, y dir=both,y explicit] plot coordinates{\n"
+                addplot_end = "\t\t};\n"
+                f_o.write(addplot_begin)
+                for n_samples in n_samples_list:
+                    files_input_name = method + "_" + structure + "_" + str(n_samples)
+                    try:
+                        f_i = open(str(path_input) + "/" + str(files_input_name), "r")
+                        for line_i in f_i:
+                            if measure in line_i:
+                                nextLine = next(f_i)
+                                # nextLine = nextLine.replace("+-", "\pm")
+                                print(method, structure, n_samples, type_of_causes)
+                                print(nextLine)
+                                nextLine = nextLine.replace("\n", "")
+                                nextline_processed = nextLine.split(" ")
+                                measure_mean = "{:.2f}".format(round(float(nextline_processed[0]), 2))
+                                measure_std = "{:.2f}".format(round(float(nextline_processed[2]), 2))
+                                result_line = "\t\t\t("+str(n_samples)+", "+measure_mean+") +- ("+measure_std+", "+measure_std+")\n"
+                                print(result_line)
+                                f_o.write(result_line)
+                                break
+                        f_i.close()
+                    except FileNotFoundError:
+                        print(files_input_name)
+                        # f_o.write("f\n")
+                f_o.write(addplot_end)
+            f_o.write(subfigure_end)
+    legend = legend.replace("Granger", "GC")
+    legend = legend.replace("PCMCICMIknn", "PCMCIMI")
+    legend = legend.replace("PCMCIParCorr", "PCMCIPC")
+    outside_legend = "\\begin{tikzpicture}[baseline=(leg.center)]\\begin{axis}[width=0.2\\textwidth, height=0.2 \\textwidth,hide axis,xmin=0, xmax=10, ymin=0, ymax=0.0,legend columns=-1,legend style={name=leg,draw=white!15!black,legend cell align=left,at={(0.5,0.5)},font=\\tiny}]" + addplot_for_legend + legend + "\\end{axis}\\end{tikzpicture}\n"
+    f_o.write(outside_legend)
+    f_o.write("\\caption{}\n\label{fig:timecomplexity}\n\end{figure}")
+    f_o.close()
+

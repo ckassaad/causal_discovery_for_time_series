@@ -1,0 +1,388 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>MVGC non-stationarity demo</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_demo_nonstationary.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>MVGC non-stationarity demo</h1><!--introduction--><p>Demonstrates usage of the MVGC toolbox for non-stationary time series by "vertical" (windowed) regression on multi-trial data, for a minimal 2-variable VAR with linear trend and sinusoidally varying causal coefficient. Data is generated using the <a href="var_to_tsdata_nonstat.html"><tt>var_to_tsdata_nonstat</tt></a> routine.</p><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">References</a></li><li><a href="#2">Parameters</a></li><li><a href="#3">Construct multiple non-stationary VAR time series</a></li><li><a href="#4">"Vertical" regression GC calculation</a></li></ul></div><h2>References<a name="1"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><h2>Parameters<a name="2"></a></h2><pre class="codeinput">ntrials   = 10;      <span class="comment">% number of trials</span>
+nobs      = 1000;    <span class="comment">% number of observations per trial</span>
+dnobs     = 200;     <span class="comment">% initial observations to discard per trial</span>
+
+regmode   = <span class="string">'OLS'</span>;   <span class="comment">% VAR model estimation regression mode ('OLS', 'LWR' or empty for default</span>
+
+nlags     = 1;       <span class="comment">% number of lags in VAR model</span>
+a         =  0.3;    <span class="comment">% var 1 -&gt; var 1 coefficient</span>
+b         = -0.6;    <span class="comment">% var 2 -&gt; var 2 coefficient</span>
+cmax      =  2.0;    <span class="comment">% var 2 -&gt; var 1 (causal) coefficient maximum</span>
+
+fs        = 1000;    <span class="comment">% sample frequency</span>
+tr        = [5 -3];  <span class="comment">% linear trend slopes</span>
+omega     = 2;       <span class="comment">% "minimal VAR" X &lt;- Y (causal) coefficient sinusoid frequency</span>
+
+ev        = 10;      <span class="comment">% evaluate GC at every ev-th sample</span>
+wind      = 4;       <span class="comment">% observation regression window size</span>
+morder    = 1;       <span class="comment">% model order (for real-world data should be estimated)</span>
+
+alpha     = 0.05;    <span class="comment">% significance level for statistical tests</span>
+mhtc      = <span class="string">'SIDAK'</span>; <span class="comment">% multiple hypothesis test correction (see routine 'significance')</span>
+
+seed      = 0;       <span class="comment">% random seed (0 for unseeded)</span>
+</pre><h2>Construct multiple non-stationary VAR time series<a name="3"></a></h2><pre class="codeinput">rng_seed(seed);
+
+nvars = 2;
+
+tnobs = nobs+dnobs;                 <span class="comment">% total observations per trial for time series generation</span>
+k = 1:tnobs;                        <span class="comment">% vector of time steps</span>
+t = (k-dnobs-1)/fs;                 <span class="comment">% vector of times</span>
+c = cmax*sin(2*pi*omega*t);         <span class="comment">% causal coefficient varies sinusoidally</span>
+trend = diag(tr)*repmat(t,nvars,1); <span class="comment">% linear trend</span>
+
+<span class="comment">% set up time-varying VAR parameters</span>
+
+AT = zeros(nvars,nvars,nlags,tnobs); <span class="comment">% "minimal VAR" coefficients</span>
+<span class="keyword">for</span> j = k
+    AT(:,:,nlags,j) = [a c(j); 0 b];
+<span class="keyword">end</span>
+SIGT = eye(nvars);                   <span class="comment">% "minimal VAR" residuals covariance</span>
+
+<span class="comment">% generate non-stationary VAR</span>
+
+X = var_to_tsdata_nonstat(AT,SIGT,ntrials);
+
+<span class="comment">% add linear trend</span>
+
+X = X + repmat(trend,[1 1 ntrials]);
+
+<span class="comment">% discard initial observations</span>
+
+X = X(:,dnobs+1:tnobs,:);
+c = c(dnobs+1:tnobs);
+trend = trend(:,dnobs+1:tnobs);
+k = 1:nobs;
+
+figure(1); clf;
+xrange = [0,nobs];
+
+<span class="comment">% plot causal coeffcient</span>
+
+subplot(3,1,1);
+plot(k,c);
+xlim(xrange);
+title(<span class="string">'Causal coefficient sinusoid'</span>);
+xlabel(<span class="string">'time'</span>);
+
+<span class="comment">% plot first 10 trial time series and trend for variable 1</span>
+
+subplot(3,1,2)
+plot(k,squeeze(X(1,:,1:min(10,nobs)))');
+hold <span class="string">on</span>
+plot(k,trend(1,:),<span class="string">'k'</span>);
+hold <span class="string">off</span>
+xlim(xrange);
+title(<span class="string">'Time series (variable 1)'</span>);
+xlabel(<span class="string">'time'</span>);
+</pre><h2>"Vertical" regression GC calculation<a name="4"></a></h2><pre class="codeinput">wnobs = morder+wind;   <span class="comment">% number of observations in "vertical slice"</span>
+ek    = wnobs:ev:nobs; <span class="comment">% GC evaluation points</span>
+enobs = length(ek);    <span class="comment">% number of GC evaluations</span>
+
+F12 = nan(enobs,1);
+F21 = nan(enobs,1);
+
+<span class="comment">% loop through evaluation points</span>
+
+<span class="keyword">for</span> e = 1:enobs
+    j = ek(e);
+    fprintf(<span class="string">'window %d of %d at time = %d'</span>,e,enobs,j);
+
+    [A,SIG] = tsdata_to_var(X(:,j-wnobs+1:j,:),morder,regmode);
+    <span class="keyword">if</span> isbad(A)
+        fprintf(2,<span class="string">' *** skipping - VAR estimation failed\n'</span>);
+        <span class="keyword">continue</span>
+    <span class="keyword">end</span>
+
+    [G,info] = var_to_autocov(A,SIG);
+    <span class="keyword">if</span> info.error
+        fprintf(2,<span class="string">' *** skipping - bad VAR (%s)\n'</span>,info.errmsg);
+        <span class="keyword">continue</span>
+    <span class="keyword">end</span>
+    <span class="keyword">if</span> info.aclags &lt; info.acminlags <span class="comment">% warn if number of autocov lags is too small (not a show-stopper)</span>
+        fprintf(2,<span class="string">' *** WARNING: minimum %d lags required (decay factor = %e)'</span>,info.acminlags,realpow(info.rho,info.aclags));
+    <span class="keyword">end</span>
+
+    FF = autocov_to_pwcgc(G);
+    <span class="keyword">if</span> isbad(FF,false)
+        fprintf(2,<span class="string">' *** skipping - GC calculation failed\n'</span>);
+        <span class="keyword">continue</span>
+    <span class="keyword">end</span>
+
+    F12(e) = FF(1,2); <span class="comment">% estimated GC 2 -&gt; 1 (significant)</span>
+    F21(e) = FF(2,1); <span class="comment">% estimated GC 1 -&gt; 2 (non-significant)</span>
+
+    fprintf(<span class="string">'\n'</span>);
+<span class="keyword">end</span>
+
+<span class="comment">% theoretical GC 2 -&gt; 1</span>
+
+D = 1+b^2 + c(ek).^2;
+F12T = log((D + sqrt(D.^2 - 4*b^2))/2)';
+
+<span class="comment">% critical GC value at significance alpha, corrected for multiple hypotheses</span>
+
+nhyp = 2; <span class="comment">% number of hypotheses (i.e. 2 -&gt; 1 and 1 -&gt; 2)</span>
+<span class="keyword">switch</span> upper(mhtc)
+    <span class="keyword">case</span> <span class="string">'NONE'</span>,       alpha1 = alpha;
+    <span class="keyword">case</span> <span class="string">'BONFERRONI'</span>, alpha1 = alpha/nhyp;
+    <span class="keyword">case</span> <span class="string">'SIDAK'</span>,      alpha1 = 1-realpow(1-alpha,1/nhyp);
+    <span class="keyword">otherwise</span>, error(<span class="string">'unhandled correction method ''%s'''</span>,mhtc);
+<span class="keyword">end</span>
+
+Fc = mvgc_cval(alpha1,morder,wnobs,ntrials,1,1,nvars-2);
+
+<span class="comment">% plot GCs</span>
+
+subplot(3,1,3);
+plot(ek',[F12T F12]);
+xlim(xrange);
+line(xrange,[Fc Fc],<span class="string">'Color'</span>,<span class="string">'r'</span>); <span class="comment">% critical significance value</span>
+legend(<span class="string">'theoretical'</span>,<span class="string">'estimated'</span>,<span class="string">'cval'</span>);
+title(<span class="string">'variable 2 -&gt; variable 1 causality'</span>);
+xlabel(<span class="string">'time'</span>);
+</pre><p><a href="mvgc_demo_nonstationary.html">back to top</a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% MVGC non-stationarity demo
+%
+% Demonstrates usage of the MVGC toolbox for non-stationary time series by
+% "vertical" (windowed) regression on multi-trial data, for a minimal 2-variable
+% VAR with linear trend and sinusoidally varying causal coefficient. Data is
+% generated using the <var_to_tsdata_nonstat.html |var_to_tsdata_nonstat|>
+% routine.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%% Parameters
+
+ntrials   = 10;      % number of trials
+nobs      = 1000;    % number of observations per trial
+dnobs     = 200;     % initial observations to discard per trial
+
+regmode   = 'OLS';   % VAR model estimation regression mode ('OLS', 'LWR' or empty for default
+
+nlags     = 1;       % number of lags in VAR model
+a         =  0.3;    % var 1 -> var 1 coefficient
+b         = -0.6;    % var 2 -> var 2 coefficient
+cmax      =  2.0;    % var 2 -> var 1 (causal) coefficient maximum
+
+fs        = 1000;    % sample frequency
+tr        = [5 -3];  % linear trend slopes
+omega     = 2;       % "minimal VAR" X <- Y (causal) coefficient sinusoid frequency
+
+ev        = 10;      % evaluate GC at every ev-th sample
+wind      = 4;       % observation regression window size
+morder    = 1;       % model order (for real-world data should be estimated)
+
+alpha     = 0.05;    % significance level for statistical tests
+mhtc      = 'SIDAK'; % multiple hypothesis test correction (see routine 'significance')
+
+seed      = 0;       % random seed (0 for unseeded)
+
+%% Construct multiple non-stationary VAR time series
+
+rng_seed(seed);
+
+nvars = 2;
+
+tnobs = nobs+dnobs;                 % total observations per trial for time series generation
+k = 1:tnobs;                        % vector of time steps
+t = (k-dnobs-1)/fs;                 % vector of times
+c = cmax*sin(2*pi*omega*t);         % causal coefficient varies sinusoidally
+trend = diag(tr)*repmat(t,nvars,1); % linear trend
+
+% set up time-varying VAR parameters
+
+AT = zeros(nvars,nvars,nlags,tnobs); % "minimal VAR" coefficients
+for j = k
+    AT(:,:,nlags,j) = [a c(j); 0 b];
+end
+SIGT = eye(nvars);                   % "minimal VAR" residuals covariance
+
+% generate non-stationary VAR
+
+X = var_to_tsdata_nonstat(AT,SIGT,ntrials);
+
+% add linear trend
+
+X = X + repmat(trend,[1 1 ntrials]);
+
+% discard initial observations
+
+X = X(:,dnobs+1:tnobs,:);
+c = c(dnobs+1:tnobs);
+trend = trend(:,dnobs+1:tnobs);
+k = 1:nobs;
+
+figure(1); clf;
+xrange = [0,nobs];
+
+% plot causal coeffcient
+
+subplot(3,1,1);
+plot(k,c);
+xlim(xrange);
+title('Causal coefficient sinusoid');
+xlabel('time');
+
+% plot first 10 trial time series and trend for variable 1
+
+subplot(3,1,2)
+plot(k,squeeze(X(1,:,1:min(10,nobs)))');
+hold on
+plot(k,trend(1,:),'k');
+hold off
+xlim(xrange);
+title('Time series (variable 1)');
+xlabel('time');
+
+%% "Vertical" regression GC calculation
+
+wnobs = morder+wind;   % number of observations in "vertical slice"
+ek    = wnobs:ev:nobs; % GC evaluation points
+enobs = length(ek);    % number of GC evaluations
+
+F12 = nan(enobs,1);
+F21 = nan(enobs,1);
+
+% loop through evaluation points
+
+for e = 1:enobs
+    j = ek(e);
+    fprintf('window %d of %d at time = %d',e,enobs,j);
+
+    [A,SIG] = tsdata_to_var(X(:,j-wnobs+1:j,:),morder,regmode);
+    if isbad(A)
+        fprintf(2,' *** skipping - VAR estimation failed\n');
+        continue
+    end
+
+    [G,info] = var_to_autocov(A,SIG);
+    if info.error
+        fprintf(2,' *** skipping - bad VAR (%s)\n',info.errmsg);
+        continue
+    end
+    if info.aclags < info.acminlags % warn if number of autocov lags is too small (not a show-stopper)
+        fprintf(2,' *** WARNING: minimum %d lags required (decay factor = %e)',info.acminlags,realpow(info.rho,info.aclags));
+    end
+
+    FF = autocov_to_pwcgc(G);
+    if isbad(FF,false)
+        fprintf(2,' *** skipping - GC calculation failed\n');
+        continue
+    end
+
+    F12(e) = FF(1,2); % estimated GC 2 -> 1 (significant)
+    F21(e) = FF(2,1); % estimated GC 1 -> 2 (non-significant)
+
+    fprintf('\n');
+end
+
+% theoretical GC 2 -> 1
+
+D = 1+b^2 + c(ek).^2;
+F12T = log((D + sqrt(D.^2 - 4*b^2))/2)';
+
+% critical GC value at significance alpha, corrected for multiple hypotheses
+
+nhyp = 2; % number of hypotheses (i.e. 2 -> 1 and 1 -> 2)
+switch upper(mhtc)
+    case 'NONE',       alpha1 = alpha;
+    case 'BONFERRONI', alpha1 = alpha/nhyp;
+    case 'SIDAK',      alpha1 = 1-realpow(1-alpha,1/nhyp);
+    otherwise, error('unhandled correction method ''%s''',mhtc);
+end
+
+Fc = mvgc_cval(alpha1,morder,wnobs,ntrials,1,1,nvars-2);
+
+% plot GCs
+
+subplot(3,1,3);
+plot(ek',[F12T F12]);
+xlim(xrange);
+line(xrange,[Fc Fc],'Color','r'); % critical significance value
+legend('theoretical','estimated','cval');
+title('variable 2 -> variable 1 causality');
+xlabel('time');
+
+%%
+% <mvgc_demo_nonstationary.html back to top>
+
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,35 @@
+Package: gimme
+Title: Group Iterative Multiple Model Estimation
+Version: 0.7-1
+Date: 2020-02-14
+Author: Stephanie Lane [aut, trl],
+    Kathleen Gates [aut, cre],
+    Zachary Fisher [aut], 
+    Cara Arizmendi [aut],
+    Peter Molenaar [aut],
+    Michael Hallquist [ctb],
+    Hallie Pike [ctb], 
+    Teague Henry [ctb], 
+    Kelly Duffy [ctb], 
+    Lan Luo [ctb], 
+    Adriene Beltz [csp]
+Maintainer: KM Gates <gateskm@email.unc.edu>
+Depends: R (>= 3.0.2)
+Imports: lavaan (>= 0.5-19), igraph (>= 1.0-0), qgraph, data.tree,
+        MIIVsem(>= 0.5.4), imputeTS(>= 3.0), nloptr, graphics, stats
+Description: Automated identification and estimation of group- and
+    individual-level relations in time series data from within a structural
+    equation modeling framework.
+License: GPL-2
+LazyData: true
+URL: https://github.com/GatesLab/gimme/
+BugReports: https://github.com/GatesLab/gimme/issues
+ByteCompile: true
+RoxygenNote: 6.1.1
+NeedsCompilation: no
+Suggests: knitr, rmarkdown
+VignetteBuilder: knitr
+Encoding: UTF-8
+Packaged: 2020-02-14 20:01:24 UTC; kgates
+Repository: CRAN
+Date/Publication: 2020-02-15 20:00:03 UTC

@@ -1,0 +1,190 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>quadsr</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="quadsr.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>quadsr</h1><!--introduction--><p>Trapezoidal rule quadrature (numerical integration) with sub-range specification</p><p><a href="matlab:open('quadsr.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   [q,xrsupp] = quadsr(x,y,xrange)</pre><h2>Arguments<a name="2"></a></h2><p><i>input</i></p><pre>   x          vector of evaluation points
+   y          vector of values corresponding to x
+   xrange     x sub-range(s) specification vector</pre><p><i>output</i></p><pre>   q          quadrature of y over specified sub-range(s) of x values
+   xrsupp     the "support" (total length) of the  x sub-range(s)</pre><h2>Description<a name="3"></a></h2><p>A trapezoidal rule quadrature routine (<i>cf.</i> <a href="matlab:doc('trapz')"><tt>trapz</tt></a>) where a series of sub-ranges of integration may be specified in <tt>xrange</tt>. <tt>xrange</tt> must be an ascending vector of even length, specifying start and end values of a series of sub-ranges. A <tt>NaN</tt> at the beginning (resp. end) of xrange specifies the beginning (resp. end) of the range of <tt>x</tt>. The integral (quadrature) of <tt>y</tt> over the sub-range(s) is returned in <tt>q</tt>. The "support" - i.e. total length of sub-range(s) - is returned in <tt>xrsupp</tt>.</p><h2>See also<a name="4"></a></h2><p><a href="matlab:doc('trapz')"><tt>trapz</tt></a> | <a href="quads.html"><tt>quads</tt></a> | <a href="smvgc_to_mvgc.html"><tt>smvgc_to_mvgc</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% quadsr
+%
+% Trapezoidal rule quadrature (numerical integration) with sub-range specification
+%
+% <matlab:open('quadsr.m') code>
+%
+%% Syntax
+%
+%     [q,xrsupp] = quadsr(x,y,xrange)
+%
+%% Arguments
+%
+% _input_
+%
+%     x          vector of evaluation points
+%     y          vector of values corresponding to x
+%     xrange     x sub-range(s) specification vector
+%
+% _output_
+%
+%     q          quadrature of y over specified sub-range(s) of x values
+%     xrsupp     the "support" (total length) of the  x sub-range(s)
+%
+%% Description
+%
+% A trapezoidal rule quadrature routine (_cf._ <matlab:doc('trapz')
+% |trapz|>) where a series of sub-ranges of integration may be specified in
+% |xrange|. |xrange| must be an ascending vector of even length, specifying
+% start and end values of a series of sub-ranges. A |NaN| at the beginning
+% (resp. end) of xrange specifies the beginning (resp. end) of the range of
+% |x|. The integral (quadrature) of |y| over the sub-range(s) is returned
+% in |q|. The "support" - i.e. total length of sub-range(s) - is returned
+% in |xrsupp|.
+%
+%% See also
+%
+% <matlab:doc('trapz') |trapz|> |
+% <quads.html |quads|> |
+% <smvgc_to_mvgc.html |smvgc_to_mvgc|> 
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function [q,xrsupp] = quadsr(x,y,xrange)
+
+assert(isvector(x),'evaluation points must be a vector');
+assert(isvector(y),'values must be a vector');
+assert(isvector(xrange),'sub-ranges must be a vector');
+
+x = x(:);
+y = y(:);
+
+r2 = length(xrange);
+r = floor(r2/2);
+assert(2*r == r2, 'sub-range vector must have an even number of points');
+
+if isnan(xrange(1));   xrange(1)   = x(1);   end
+if isnan(xrange(end)); xrange(end) = x(end); end
+
+assert(all(xrange(2:end) > xrange(1:end-1)), 'sub-range vector must be ascending');
+
+assert(xrange(1) >= x(1) && xrange(end) <= x(end), 'sub-ranges must lie within x range');
+
+n = length(x);
+idx = (1:n)';
+
+q = 0;
+
+xrsupp = 0;
+
+for s=1:r
+
+    xl = xrange(2*s-1);
+    il = idx(x == xl);
+    interpl = isempty(il);
+    if interpl
+        il = nnz(x < xl);
+        dl = x(il+1)-x(il);
+        yl = ((xl-x(il))/dl)*y(il+1)+((x(il+1)-xl)/dl)*y(il);
+    end
+
+    xu = xrange(2*s);
+    iu = idx(x == xu);
+    interpu = isempty(iu);
+    if interpu
+        iu = nnz(x < xu);
+        du = x(iu+1)-x(iu);
+        yu = ((xu-x(iu))/du)*y(iu+1)+((x(iu+1)-xu)/du)*y(iu);
+    end
+
+    if interpl
+        if interpu
+            xx = [xl; x(il+1:iu); xu];
+            yy = [yl; y(il+1:iu); yu];
+        else
+            xx = [xl; x(il+1:iu)];
+            yy = [yl; y(il+1:iu)];
+        end
+    else
+        if interpu
+            xx = [x(il:iu); xu];
+            yy = [y(il:iu); yu];
+        else
+            xx = x(il:iu);
+            yy = y(il:iu);
+        end
+    end
+
+    q = q + quads(xx,yy);
+
+    xrsupp = xrsupp + (xu-xl);
+
+end
+
+##### SOURCE END #####
+--></body></html>

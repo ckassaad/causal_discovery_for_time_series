@@ -1,0 +1,15 @@
+digraph abstract { 
+label = "True DBN";
+labeljust="l"; 
+ACE2->CDC5;
+CLN2->RNR3;
+CLN2->CLN1;
+CLN2->SRO4;
+CLN2->RAD51;
+CLN2->SVS1;
+SVS1->MNN1;
+CDC5->CLB2;
+CDC5->MYO1;
+CDC5->ALK1;
+CDC5->SVS1;
+}

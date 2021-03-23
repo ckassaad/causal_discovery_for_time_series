@@ -1,0 +1,221 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>GCCA_tsdata_to_pwcgc</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="GCCA_tsdata_to_pwcgc.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>GCCA_tsdata_to_pwcgc</h1><!--introduction--><p>Calculate pairwise-conditional time-domain MVGCs (multivariate Granger causality) from time series data by "traditional" method (as e.g. in GCCA toolbox)</p><p><a href="matlab:open('GCCA_tsdata_to_pwcgc.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   [F,A,SIG,E] = GCCA_tsdata_to_pwcgc(X,p,regmode)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   X          multi-trial time series data
+   x          vector of indices of target (causee) multi-variable
+   y          vector of indices of source (causal) multi-variable
+   p          model order (number of lags)
+   regmode    regression mode (default as in 'tsdata_to_var')</pre><p><i>output</i></p><pre>   F          Granger causality matrix
+   A          VAR coefficients matrix
+   SIG        residuals covariance matrix
+   E          residuals time series</pre><h2>Description<a name="3"></a></h2><p>Returns the  matrix <tt>F</tt> of pairwise-conditional time-domain MVGCs</p><p><img vspace="5" hspace="24" src="eq_mvgc_pwc.png" alt=""> </p><p>(where <tt>[ij]</tt> denotes omission of the <tt>ij</tt>-th variables) between all pairs of variables <img valign="middle" src="ii_inej.png"> represented in <tt>G</tt>, for a stationary VAR process with autocovariance sequence <tt>G</tt>. Note that the first index <tt>i</tt> of <tt>F</tt> is the target (causee) variable, the second <tt>j</tt> the source (causal) variable. See ref. [1] for details. The regression mode is set by the <tt>regmode</tt> parameter, which may be <tt>'LWR'</tt> or <tt>'OLS'</tt> (see <a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a> for details and defaults). The VAR parameters <tt>A,SIG</tt> and residuals <tt>E</tt> of the full regression are (optionally) returned.</p><p>If <tt>p</tt> is a scalar, <tt>p</tt> lags are used for both the full and reduced regressions. Otherwise, if <tt>p</tt> is a vector of length 2, then <tt>p(1)</tt> is the number of lags for the full regression and <tt>p(2)</tt> the number of lags for the reduced regression (<b><i>note</i></b>: this is generally a bad idea! - see the accompanying documentation [1] for reasons).</p><p>The caller should take note of any warnings issued by this function and test results with a call <a href="isbad.html"><tt>isbad</tt></a>|(F,false)|.</p><p>This routine is included mainly for compatibility with the Granger Causal Connectivity Analysis (<a href="http://www.sussex.ac.uk/Users/anils/aks_code.htm">GCCA</a>) Toolbox [2]; the MVGCs are calculated by performing separate full and reduced regressions - see [1] for details and <a href="mvgc_demo_GCCA.html"><tt>mvgc_demo_GCCA</tt></a> for example usage. Note that the preferred MVGC Toolbox method of calculating MVGCs via the autocovariance sequence (see <a href="autocov_to_pwcgc.html"><tt>autocov_to_pwcgc</tt></a>, <a href="mvgc_demo.html"><tt>mvgc_demo</tt></a>) only requires a single regression step and are thus generally more accurate.</p><h2>References<a name="4"></a></h2><p>[1] L. Barnett and A. K. Seth, <a href="http://www.sciencedirect.com/science/article/pii/S0165027013003701">The MVGC     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal Inference</a>, <i>J. Neurosci. Methods</i> 223, 2014 [ <a href="matlab:open('mvgc_preprint.pdf')">preprint</a> ].</p><p>[2] A. K. Seth, "A MATLAB toolbox for Granger causal connectivity analysis", <i>Journal of Neuroscience Methods</i> 186, 2010.</p><h2>See also<a name="5"></a></h2><p><a href="GCCA_autocov_to_mvgc.html"><tt>GCCA_autocov_to_mvgc</tt></a> | <a href="autocov_to_pwcgc.html"><tt>autocov_to_pwcgc</tt></a> | <a href="tsdata_to_var.html"><tt>tsdata_to_var</tt></a> | <a href="mvgc_demo_GCCA.html"><tt>mvgc_demo_GCCA</tt></a> | <a href="isbad.html"><tt>isbad</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% GCCA_tsdata_to_pwcgc
+%
+% Calculate pairwise-conditional time-domain MVGCs (multivariate Granger
+% causality) from time series data by "traditional" method (as e.g. in GCCA
+% toolbox)
+%
+% <matlab:open('GCCA_tsdata_to_pwcgc.m') code>
+%
+%% Syntax
+%
+%     [F,A,SIG,E] = GCCA_tsdata_to_pwcgc(X,p,regmode)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     X          multi-trial time series data
+%     x          vector of indices of target (causee) multi-variable
+%     y          vector of indices of source (causal) multi-variable
+%     p          model order (number of lags)
+%     regmode    regression mode (default as in 'tsdata_to_var')
+%
+% _output_
+%
+%     F          Granger causality matrix
+%     A          VAR coefficients matrix
+%     SIG        residuals covariance matrix
+%     E          residuals time series
+%
+%% Description
+%
+% Returns the  matrix |F| of pairwise-conditional time-domain MVGCs
+%
+% <<eq_mvgc_pwc.png>>
+%
+% (where |[ij]| denotes omission of the |ij|-th variables) between all
+% pairs of variables <img valign="middle" src="ii_inej.png"> represented in |G|, for a stationary VAR
+% process with autocovariance sequence |G|. Note that the first index |i|
+% of |F| is the target (causee) variable, the second |j| the source
+% (causal) variable. See ref. [1] for details. The regression mode is set
+% by the |regmode| parameter, which may be |'LWR'| or |'OLS'| (see
+% <tsdata_to_var.html |tsdata_to_var|> for details and defaults). The VAR
+% parameters |A,SIG| and residuals |E| of the full regression are
+% (optionally) returned.
+%
+% If |p| is a scalar, |p| lags are used for both the full and reduced
+% regressions. Otherwise, if |p| is a vector of length 2, then |p(1)| is the
+% number of lags for the full regression and |p(2)| the number of lags for the
+% reduced regression (*_note_*: this is generally a bad idea! - see the
+% accompanying documentation [1] for reasons).
+%
+% The caller should take note of any warnings issued by this function and test
+% results with a call <isbad.html |isbad|>|(F,false)|.
+% 
+% This routine is included mainly for compatibility with the Granger Causal
+% Connectivity Analysis (<http://www.sussex.ac.uk/Users/anils/aks_code.htm
+% GCCA>) Toolbox [2]; the MVGCs are calculated by performing separate full
+% and reduced regressions - see [1] for details and <mvgc_demo_GCCA.html
+% |mvgc_demo_GCCA|> for example usage. Note that the preferred MVGC Toolbox
+% method of calculating MVGCs via the autocovariance sequence (see
+% <autocov_to_pwcgc.html |autocov_to_pwcgc|>, <mvgc_demo.html
+% |mvgc_demo|>) only requires a single regression step and are thus
+% generally more accurate.
+%
+%% References
+%
+% [1] L. Barnett and A. K. Seth,
+% <http://www.sciencedirect.com/science/article/pii/S0165027013003701 The MVGC
+%     Multivariate Granger Causality Toolbox: A New Approach to Granger-causal
+% Inference>, _J. Neurosci. Methods_ 223, 2014
+% [ <matlab:open('mvgc_preprint.pdf') preprint> ].
+%
+% [2] A. K. Seth, "A MATLAB toolbox for Granger causal connectivity
+% analysis", _Journal of Neuroscience Methods_ 186, 2010.
+%
+%% See also
+%
+% <GCCA_autocov_to_mvgc.html |GCCA_autocov_to_mvgc|> |
+% <autocov_to_pwcgc.html |autocov_to_pwcgc|> |
+% <tsdata_to_var.html |tsdata_to_var|> |
+% <mvgc_demo_GCCA.html |mvgc_demo_GCCA|> |
+% <isbad.html |isbad|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function [F,A,SIG,E] = GCCA_tsdata_to_pwcgc(X,p,regmode)
+
+if nargin < 3, regmode = []; end % ensure 'tsdata_to_var' default
+
+if isscalar(p)
+    pp = p;
+else
+    assert(isvector(p) && length(p) == 2,'number of lags must be a scalar or a vector of length 2');
+    pp = p(2);
+    p = p(1);
+end
+
+n = size(X,1);
+F = nan(n);
+
+% full regression
+
+owstate = warn_supp;
+if nargout > 1
+    if nargout > 3
+        [A,SIG,E] = tsdata_to_var(X,p,regmode);
+    else
+        [A,SIG]   = tsdata_to_var(X,p,regmode);
+    end
+else
+    [~,SIG]   = tsdata_to_var(X,p,regmode);
+end
+warn_test(owstate,    'in full regression - data non-stationary or colinear?');
+if warn_if(isbad(SIG),'in full regression - regression failed'), return; end % show-stopper!
+% we should really check that SIG is positive-definite; we don't, for effciency reasons
+LSIG = log(diag(SIG)); % residuals log variances
+
+for j = 1:n;
+
+    % reduced regression
+
+    jo  = [1:j-1 j+1:n]; % omit j
+    
+    owstate = warn_supp;
+    [~,SIGj] = tsdata_to_var(X(jo,:,:),pp,regmode);
+    warn_test(owstate,     sprintf('in reduced regression for target node %d - data non-stationary or colinear?',j));
+    if warn_if(isbad(SIGj),sprintf('in reduced regression for target node %d - regression failed',j)), continue; end % show-stopper!
+    % we should really check that SIGj is positive-definite; we don't, for effciency reasons
+    LSIGj = log(diag(SIGj)); % residuals log variances
+
+    % conditional Granger causalities
+
+    for ii=1:n-1;
+        i = jo(ii);
+        F(i,j) = LSIGj(ii)-LSIG(i);
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

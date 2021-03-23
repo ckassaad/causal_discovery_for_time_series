@@ -1,0 +1,239 @@
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = ./myDBNinput.txt
+argv[3] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+Unable to open Data file
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = ./myDBNinput.txt
+argv[3] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+Unable to open Data file
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = ./myDBNinput.txt
+argv[3] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = ./myDBNinput.txt
+argv[3] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = ./myDBNinput.txt
+argv[3] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNoutput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT_ab.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.9999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.9999
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.95
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.95
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.95
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.95
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.9999
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.999
+argv[2] = 0
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.
+
+-----------Global RSC release version 1--------------
+argv[0] = globalMIT.exe
+argv[1] = 0.9999
+argv[2] = 1
+argv[3] = ./myDBNinput.txt
+argv[4] = ./myDBNoutput.txt
+Reading numeric input file: ./myDBNinput.txt
+DONE in 0 seconds.

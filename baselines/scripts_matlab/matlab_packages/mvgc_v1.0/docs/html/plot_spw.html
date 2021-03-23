@@ -1,0 +1,149 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>plot_spw</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="plot_spw.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>plot_spw</h1><!--introduction--><p>Plot spectral pairwise quantities on a grid</p><p><a href="matlab:open('plot_spw.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   plot_spw(P,fs)</pre><h2>Arguments<a name="2"></a></h2><p><i>input</i></p><pre>   P          matrix of spectral pairwise quantities
+   fs         sample rate in Hz (default: normalised freq as per routine 'sfreqs')
+   frange     frequency range to plot: empty for all (default) else an ascending 2-vector</pre><h2>Description<a name="3"></a></h2><p>Plot pairwise spectral quantities in <tt>P</tt>, a 3-dim numerical matrix with first index representing target ("to"), second index source ("from") quantities and third index frequencies - typically spectral causalities (see e.g. <a href="autocov_to_spwcgc.html"><tt>autocov_to_spwcgc</tt></a>).</p><h2>See also<a name="4"></a></h2><p><a href="autocov_to_spwcgc.html"><tt>autocov_to_spwcgc</tt></a> | <a href="mvgc_demo.html"><tt>mvgc_demo</tt></a> | <a href="sfreqs.html"><tt>sfreqs</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% plot_spw
+%
+% Plot spectral pairwise quantities on a grid
+%
+% <matlab:open('plot_spw.m') code>
+%
+%% Syntax
+%
+%     plot_spw(P,fs)
+%
+%% Arguments
+%
+% _input_
+%
+%     P          matrix of spectral pairwise quantities
+%     fs         sample rate in Hz (default: normalised freq as per routine 'sfreqs')
+%     frange     frequency range to plot: empty for all (default) else an ascending 2-vector
+%
+%% Description
+%
+% Plot pairwise spectral quantities in |P|, a 3-dim numerical matrix with
+% first index representing target ("to"), second index source ("from")
+% quantities and third index frequencies - typically spectral causalities (see
+% e.g. <autocov_to_spwcgc.html |autocov_to_spwcgc|>).
+%
+%% See also
+%
+% <autocov_to_spwcgc.html |autocov_to_spwcgc|> |
+% <mvgc_demo.html |mvgc_demo|> |
+% <sfreqs.html |sfreqs|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function plot_spw(P,fs,frange)
+
+n = size(P,1);
+assert(ndims(P) == 3 && size(P,2) == n,'must be a 3-dim matrix with the first two dims square');
+h = size(P,3);
+
+if nargin < 2, fs = []; end % default to normalised frequency as per 'sfreqs'
+
+if nargin < 3, frange = []; end; % default to all
+if ~isempty(frange)
+    assert(isvector(frange) && length(frange) == 2 && frange(1) < frange(2),'frequency range must be an ascending 2-vector of frequencies');
+end
+
+fres = h-1;
+lam = sfreqs(fres,fs)';
+if ~isempty(frange)
+    idx = lam >= frange(1) & lam <= frange(2);
+    lam = lam(idx);
+    P = P(:,:,idx,:);
+end
+xlims = [lam(1) lam(end)];
+ylims = [min(P(:)) 1.1*max(P(:))];
+if isempty(fs), xlab = 'normalised frequency'; else xlab = 'frequency (Hz)'; end
+
+k = 0;
+for i = 1:n
+    for j = 1:n
+        k = k+1;
+        if i ~= j
+            subplot(n,n,k);
+            plot(lam,squeeze(P(i,j,:)));
+            axis('square');
+            xlim(xlims);
+            ylim(ylims);
+            xlabel(xlab);
+            ylabel(sprintf('%d -> %d',j,i));
+        end
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

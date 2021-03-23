@@ -1,0 +1,24 @@
+Remarks on CLH (Causal inference algorithm for Linear processes with Hidden confounders):
+===
+
+
+Before running the code:
+---
+
+First download Kevin Murphy's "Kalman filter toolbox for Matlab" from "http://www.cs.ubc.ca/~murphyk/Software/Kalman.zip" and unpack it into the folder "include". Then all matlab function/script should run without problems.
+
+
+Content of this package:
+---
+
+* CLH_NV.m is an implementation of Algorithm 1 in the paper "Causal Inference by Identification of Vector Autoregressive Processes with Hidden Components", using variational EM.
+
+* CLH_MC.m is an implementation of the model check suggested in the paper "Causal Inference by Identification of Vector Autoregressive Processes with Hidden Components" in Section 7.3.
+
+* example_using_CLH_NV.m is an example that simulates a 3-variate VAR process W and takes the first two components of X. Then this X is fed into CLH_NV to see how CLH_NV works on simulated data. Note that here we run CLH_NV only once, with one initialization. Generally it makes sense to start CLH_NV with many different (random) initializations of the parameters to try to find a global maximum of the log likelihood, which is always returned by CLH_NV.
+
+
+General remarks:
+---
+
+This is a very preliminary implementation of the identifiability ideas in "Causal Inference by Identification of Vector Autoregressive Processes with Hidden Components". Please keep that in mind. Also keep in mind that strong causal statements can only be inferred by deeper exploration and experiments and any off-the-shelve-method which only relies on observational data, including ours, can only yield first hints. 

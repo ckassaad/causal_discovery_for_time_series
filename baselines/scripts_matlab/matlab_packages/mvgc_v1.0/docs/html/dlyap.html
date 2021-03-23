@@ -1,0 +1,137 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>dlyap</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="dlyap.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>dlyap</h1><!--introduction--><p>Solve discrete-time Lyapunov equation by Schur decomposition</p><p><a href="matlab:open('dlyap.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   X = dlyap(A,Q)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   A          square matrix with spectral radius &lt; 1
+   Q          symmetric positive-definite matrix</pre><p><i>output</i></p><pre>   X          solution of discrete-time Lyapunov equation X = A*X*A'+Q</pre><h2>Description<a name="3"></a></h2><p>Solves the discrete-time Lyapunov equation</p><p><img vspace="5" hspace="24" src="eq_dlyap.png" alt=""> </p><p>using Schur decomposition and column-by-column solution [1,2] (this is quite likely the same algorithm as in the Matlab Control System Toolbox <a href="matlab:doc('dlyap')">dlyap</a>, except that no balancing is performed). This function is substantially slower than <a href="matlab:doc('dlyap')">dlyap</a>; if the Matlab Control System Toolbox is not available, the user might like to consider using <a href="dlyap_aitr.html"><tt>dlyap_aitr</tt></a> instead.</p><p>The caller should test that <tt>Q</tt> is positive-definite and that the spectral radius of <tt>A</tt> is <tt>&lt; 1</tt> before calling.</p><p>Adapted from an early scripted (i.e. non- <a href="http://www.slicot.org/">SLICOT</a>) version of <a href="http://www.gnu.org/software/octave/">Octave</a>'s <a href="http://octave.sourceforge.net/control/function/dlyap.html"><tt>dlyap</tt></a> function.</p><h2>References<a name="4"></a></h2><p>[1] X. Kitagawa, "An algorithm for solving the matrix equation X = F X F'+S",     <i>Internat. J. Control</i> 25(5), 1977.</p><p>[2] S. Hammarling, "Numerical solution of the stable, non-negative definite    Lyapunov equation", <i>IMA J. Numer. Anal.</i> 2, 1982.</p><h2>See also<a name="5"></a></h2><p><a href="dlyap_aitr.html"><tt>dlyap_aitr</tt></a> | <a href="var_to_autocov.html"><tt>var_to_autocov</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% dlyap
+%
+% Solve discrete-time Lyapunov equation by Schur decomposition
+%
+% <matlab:open('dlyap.m') code>
+%
+%% Syntax
+%
+%     X = dlyap(A,Q)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     A          square matrix with spectral radius < 1
+%     Q          symmetric positive-definite matrix
+%
+% _output_
+%
+%     X          solution of discrete-time Lyapunov equation X = A*X*A'+Q
+%
+%% Description
+%
+% Solves the discrete-time Lyapunov equation
+%
+% <<eq_dlyap.png>>
+%
+% using Schur decomposition and column-by-column solution [1,2] (this is quite
+% likely the same algorithm as in the Matlab Control System Toolbox
+% <matlab:doc('dlyap') dlyap>, except that no balancing is performed). This
+% function is substantially slower than <matlab:doc('dlyap') dlyap>; if the
+% Matlab Control System Toolbox is not available, the user might like to
+% consider using <dlyap_aitr.html |dlyap_aitr|> instead.
+%
+% The caller should test that |Q| is positive-definite and that the spectral
+% radius of |A| is |< 1| before calling.
+%
+% Adapted from an early scripted (i.e. non- <http://www.slicot.org/ SLICOT>)
+% version of <http://www.gnu.org/software/octave/ Octave>'s
+% <http://octave.sourceforge.net/control/function/dlyap.html |dlyap|> function.
+%
+%% References
+%
+% [1] X. Kitagawa, "An algorithm for solving the matrix equation X = F X F'+S",
+%     _Internat. J. Control_ 25(5), 1977.
+%
+% [2] S. Hammarling, "Numerical solution of the stable, non-negative definite
+%    Lyapunov equation", _IMA J. Numer. Anal._ 2, 1982.
+%
+%% See also
+%
+% <dlyap_aitr.html |dlyap_aitr|> |
+% <var_to_autocov.html |var_to_autocov|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function X = dlyap(A,Q)
+
+X = lyapslv('D',A,[],-Q);
+
+##### SOURCE END #####
+--></body></html>

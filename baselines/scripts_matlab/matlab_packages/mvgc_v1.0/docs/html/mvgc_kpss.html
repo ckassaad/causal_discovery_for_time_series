@@ -1,0 +1,163 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>mvgc_kpss (EXPERIMENTAL)</title><meta name="generator" content="MATLAB 8.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2014-03-27"><meta name="DC.source" content="mvgc_kpss.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, tt, code { font-size:12px; }
+pre { margin:0px 0px 20px; }
+pre.error { color:red; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>mvgc_kpss (EXPERIMENTAL)</h1><!--introduction--><p>KPSS unit root stationarity test</p><p><a href="matlab:open('mvgc_kpss.m')">code</a></p><!--/introduction--><h2>Syntax<a name="1"></a></h2><pre>   [ksstat,cval] = mvgc_kpss(X,alpha,q)</pre><h2>Arguments<a name="2"></a></h2><p>See also <a href="mvgchelp.html#4">Common variable names and data structures</a>.</p><p><i>input</i></p><pre>   X          multi-trial time series data
+   alpha      significance level
+   q          number of lags; default: sqrt(number of observations)</pre><p><i>output</i></p><pre>   ksstat     matrix of KPSS test statistics
+   cval       KPSS test critical value</pre><h2>Description<a name="3"></a></h2><p>Calculates the KPSS unit root test statistics <tt>ksstat</tt> and critical value <tt>cval</tt> for a (possibly multi-trial) multivariate time series <tt>X</tt> at significance level <tt>alpha</tt> [1]. The returned test statistics matrix <tt>ksstat</tt> is <tt>N x n</tt> for <tt>N</tt> trials of an <tt>n</tt>-variate time series.</p><p><b><i>Note:</i></b> Adapted from code provided by <a href="http://morgana.unimore.it/forni_mario/">Mario Forni</a>.</p><h2>References<a name="4"></a></h2><p>[1] D. Kwiatkowski, P. C. B. Phillips, P. Schmidt, and Y. Shin, "Testing the Null Hypothesis of Stationarity against the Alternative of a Unit Root", <i>J. Econometrics</i> 54, 1992.</p><h2>See also<a name="5"></a></h2><p><a href="mvgc_adf.html"><tt>mvgc_adf</tt></a> | <a href="mvgc_demo_stats.html"><tt>mvgc_demo_stats</tt></a></p><p class="footer"><br>MVGC Toolbox v1.0. &copy; Lionel Barnett and Anil K. Seth, 2012.<br>See file <a href="matlab:open('license.txt')">license.txt</a> in installation directory for licensing terms.</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% mvgc_kpss (EXPERIMENTAL)
+%
+% KPSS unit root stationarity test
+%
+% <matlab:open('mvgc_kpss.m') code>
+%
+%% Syntax
+%
+%     [ksstat,cval] = mvgc_kpss(X,alpha,q)
+%
+%% Arguments
+%
+% See also <mvgchelp.html#4 Common variable names and data structures>.
+%
+% _input_
+%
+%     X          multi-trial time series data
+%     alpha      significance level
+%     q          number of lags; default: sqrt(number of observations)
+%
+% _output_
+%
+%     ksstat     matrix of KPSS test statistics
+%     cval       KPSS test critical value
+%
+%% Description
+%
+% Calculates the KPSS unit root test statistics |ksstat| and critical value
+% |cval| for a (possibly multi-trial) multivariate time series |X| at
+% significance level |alpha| [1]. The returned test statistics matrix |ksstat|
+% is |N x n| for |N| trials of an |n|-variate time series.
+%
+% *_Note:_* Adapted from code provided by
+% <http://morgana.unimore.it/forni_mario/ Mario Forni>.
+%
+%% References
+%
+% [1] D. Kwiatkowski, P. C. B. Phillips, P. Schmidt, and Y. Shin, "Testing the
+% Null Hypothesis of Stationarity against the Alternative of a Unit Root",
+% _J. Econometrics_ 54, 1992.
+%
+%% See also
+%
+% <mvgc_adf.html |mvgc_adf|> |
+% <mvgc_demo_stats.html |mvgc_demo_stats|>
+%
+% (C) Lionel Barnett and Anil K. Seth, 2012. See file license.txt in
+% installation directory for licensing terms.
+%
+%%
+
+function [ksstat,cval] = mvgc_kpss(X,alpha,q)
+
+ctable = [0.119 0.146 0.216]; % critical values for 0.1,0.05,0.01 respectively
+pvals  = [0.100 0.050 0.010];
+ 
+[n,m,N] = size(X);
+assert(m >= n,'fewer observations than variables, exiting');
+
+if nargin < 3 || isempty(q)
+    q = floor(sqrt(m)); % default
+end
+
+[tf,pidx] = ismember(alpha,pvals);
+if ~tf
+    adiff = abs(alpha-pvals);
+    pidx = find(min(adiff) == adiff);
+    alpha = pvals(pidx);
+    fprintf(2,'WARNING(mvgc_kpss): using nearest p-value = %f\n',alpha);
+end
+cval = ctable(pidx);
+
+% calculate KPSS statistics
+
+ksstat = zeros(N,n);
+z = [ones(1,m); 1:m]; % deterministic trend
+for r = 1:N
+    for i = 1:n
+        e = X(i,:,r)-(X(i,:,r)/z)*z; % residuals against trend
+        prod = zeros(q,1);
+        for j = 1:q
+            prod(j) = e(j+1:m)*e(1:m-j)';
+        end
+        s2 = e*e'+2*(1-(1:q)/(q+1))*prod;
+        S = cumsum(e);
+        ksstat(r,i) = (S*S')/(s2*m);
+    end
+end
+
+##### SOURCE END #####
+--></body></html>

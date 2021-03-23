@@ -1,0 +1,27 @@
+# Copyright (c) 2010-2014 Jonas Peters [peters@stat.math.ethz.ch]
+# All rights reserved.  See the file COPYING for license terms. 
+
+This is R-code (www.r-project.org) to the paper:
+J. Peters, D. Janzing, B. Schoelkopf: "Causal Inference on Time Series using Restricted Structural Equation Models" (NIPS 2013).
+
+The results indicate possible causal directions. Especially if data sets have more than ~ten time series the results should be interpreted carefully.
+
+The code requires the following packages: gam, kernlab, gptk (gptk is optional and only required for GP regression). You may install them by using the commands (in R)
+install.packages("gam")
+install.packages("kernlab")
+install.packages("gptk")
+
+Try the code:
+1.  start R in this folder
+2.  source("startup.R")
+3.  source("exp_simple.R")
+
+
+Comments:
+- The main function is "timino_dag" from timino_causality.R
+- Using alpha = 0 always outputs a result (rather than stopping when the model does not seem to fit); in this case the result is always a fully connected DAG.
+- The GPTK toolbox sometimes requires additional changes to run. Therefore omitGP is set to TRUE in util/fitting_ts.R. Change it to FALSE if you want to try GP regression (and then run the startup again). The GP regression can probably be improved, see function gp_regression in util/fitting_ts.R 
+- If you use alpha = 0, there will always be an output (the residuals are never considered to be dependent); it will be show a fully connected DAG that corresponds to an ordering of the variables.
+
+
+
