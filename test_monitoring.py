@@ -25,7 +25,7 @@ def two_col_format_to_graphs(nodes, two_col_format):
 
 def run_on_data(i, method, files_input_name, verbose):
     save_model = True
-    file_input_name = files_input_name[i]
+    # file_input_name = files_input_name[i]
     file_input_name = "monitoring_4.csv"
     data = pd.read_csv('./data/monitoring_data/returns/' + file_input_name, delimiter=',', index_col=0, header=0)
     data = data.reset_index(drop=True)
@@ -76,12 +76,22 @@ def run_on_data(i, method, files_input_name, verbose):
     elif method == "VarLiNGAM":
         model = cd.VarLiNGAM(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
+    elif method == "NBCB_pw":
+        model = cd.NBCB(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "NBCB":
+        model = cd.NBCB(nodes, sig_level=0.05, nlags=5, pairwise=False)
+        model.infer_from_data(data)
     elif method == "TiMINO":
         model = cd.TiMINO(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "tsKIKO":
         model = cd.TsKIKO(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
+    elif method == "Dynotears":
+        model = cd.Dynotears(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+
     else:
         model = None
         print("Error: method not found")
@@ -180,7 +190,7 @@ if __name__ == "__main__":
         print('Argument List:', str(sys.argv))
     else:
         print('Missing arguments so will take default arguments')
-        method = "PCTMI"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, PCTMI, tsFCI, FCITMI VarLiNGAM, TiMINO
+        method = "Dynotears"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, PCTMI, tsFCI, FCITMI VarLiNGAM, TiMINO
         num_processor = 1
         verbose = True
         print('Default Argument List:', str(method), num_processor)
@@ -189,7 +199,8 @@ if __name__ == "__main__":
     path_input = './data/monitoring_data/returns/'
     files_input_name = [f for f in listdir(path_input) if isfile(join(path_input, f)) and not f.startswith('.')]
     results = Parallel(n_jobs=num_processor)(delayed(run_on_data)(i, method, files_input_name, verbose)
-                                             for i in range(len(files_input_name)))
+                                             # for i in range(len(files_input_name)))
+                                             for i in range(1))
 
     results = np.array(results).reshape(len(files_input_name), -1)
     pres_a_list = results[:, 0]

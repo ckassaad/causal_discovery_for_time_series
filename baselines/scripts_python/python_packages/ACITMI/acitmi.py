@@ -28,6 +28,93 @@ from baselines.scripts_python.python_packages.ACITMI.timino_pw import run_timino
 # todo: make ctmi use graph by adding None to cell in gamma matrix which is associated to two independent time series
 # todo: make ranking based on statistics (not pvalue)
 
+from sklearn.gaussian_process import GaussianProcessRegressor
+from baselines.scripts_python.python_packages.ACITMI.tigramite.tigramite.independence_tests import CMIknn, ParCorr
+
+class TestMI:
+    def __init__(self, p_value= True):
+        self.cd = CMIknn(mask_type=None, significance='shuffle_test', fixed_thres=None, sig_samples=10000,
+                sig_blocklength=3, knn=10, confidence='bootstrap', conf_lev=0.9, conf_samples=10000,
+                conf_blocklength=1, verbosity=0)
+        self.p_value = p_value
+
+    def fit(self, x, y, z=None):
+        if len(x.shape) == 1:
+            x = x.reshape(-1, 1)
+        if len(y.shape) == 1:
+            y = y.reshape(-1, 1)
+        dim_x = x.shape[1]
+        dim_y = y.shape[1]
+
+        if z is not None:
+            dim_z = z.shape[1]
+            X = np.concatenate((x, y, z), axis=1)
+            xyz = np.array([0] * dim_x + [1] * dim_y+ [2] * dim_z)
+        else:
+            X = np.concatenate((x, y), axis=1)
+            xyz = np.array([0] * dim_x + [1] * dim_y)
+        value = self.cd.get_dependence_measure(X.T, xyz)
+        if self.p_value:
+            pvalue = self.cd.get_shuffle_significance(X.T, xyz, value)
+            return pvalue, value
+        else:
+            return 0, value
+
+
+class TestParCorr:
+    def __init__(self):
+        self.cd = ParCorr(mask_type=None, significance='shuffle_test', fixed_thres=None, sig_samples=10000,
+                sig_blocklength=3, confidence='bootstrap', conf_lev=0.9, conf_samples=10000,
+                conf_blocklength=1, verbosity=0)
+
+    def fit(self, x, y, z=None):
+        if len(x.shape) == 1:
+            x = x.reshape(-1, 1)
+        if len(y.shape) == 1:
+            y = y.reshape(-1, 1)
+        dim_x = x.shape[1]
+        dim_y = y.shape[1]
+        if z is not None:
+            dim_z = z.shape[1]
+            X = np.concatenate((x, y, z), axis=1)
+            xyz = np.array([0] * dim_x + [1] * dim_y+ [2] * dim_z)
+        else:
+            X = np.concatenate((x, y), axis=1)
+            xyz = np.array([0] * dim_x + [1] * dim_y)
+        value = self.cd.get_dependence_measure(X.T, xyz)
+        # pvalue = self.cd.get_shuffle_significance(X.T, xyz, value)
+        pvalue = 0
+        return pvalue, value
+
+def noise_based(data_pair, lag_max, cond_ind_test="ParCorr",verbose=True):
+    if cond_ind_test == "ParCorr":
+        indep = TestParCorr()
+    elif cond_ind_test == "CMI":
+        indep = TestMI()
+
+    X1 = window_representation(data_pair[data_pair.coluumn[0]], windows_size=lag_max)
+    X2 = window_representation(data_pair[data_pair.coluumn[1]], windows_size=lag_max)
+    Y1 = data_pair
+    Y2 = data_pair
+
+
+    gpr12 = GaussianProcessRegressor().fit(X1, Y2)
+    errors12 = gpr12.predict(X1) - Y2
+    errors12 = errors12.flatten()
+    c12 = indep.fit(X1, errors12)
+
+    gpr21 = GaussianProcessRegressor().fit(X2, Y1)
+    errors21 = gpr21.predict(X2) - Y1
+    errors21 = errors21.flatten()
+    c21 = indep.fit(X2, errors21)
+
+    if c12 > c21:
+        return np.array([[1, 2], [1, 1]])
+    elif c12<c21:
+        return np.array([[1, 1], [2, 1]])
+    else:
+        return np.array([[1, 2], [2, 1]])
+
 
 class Graph:
     """
@@ -155,7 +242,7 @@ class RankingList:
 
 class ACITMI:
     def __init__(self, series, sig_lev=0.05, lag_max=5, p_value=True, rank_using_p_value=False, verbose=True, num_processor=-1,
-                 graphical_optimization=False):
+                 graphical_optimization=False, pairwise=True):
         """
         Causal inference (Wrapper) using TMI and CTMI (contain functions for skeleton construction)
         :param series: d-time series (with possibility of different sampling rate)
@@ -169,16 +256,23 @@ class ACITMI:
         training_epoch = 1000
         noise = True  # d*(order-1)*2
         learning_rate = 0.01
-        for i in range(series.shape[1]):
-            for j in range(i+1, series.shape[1]):
-                data_pair = series[[series.columns[i], series.columns[j]]]
-                # res_order_pair = tskiko_mv(data_pair, lag_max, learning_rate, training_epoch, noise, sig_lev, "ParCorr", verbose)
-                res_order_pair = run_timino_pw_R([[data_pair, "data"], [0.00, "alpha"], [5, "nlags"]])
-                res_order_pair = pd.DataFrame(res_order_pair, columns=data_pair.columns, index=data_pair.columns)
-                if res_order_pair[series.columns[j]].loc[series.columns[i]] == 2:
-                    self.graph.edges[i, j] = 2
-                if res_order_pair[series.columns[i]].loc[series.columns[j]] == 2:
-                    self.graph.edges[j, i] = 2
+        if pairwise:
+            for i in range(series.shape[1]):
+                for j in range(i+1, series.shape[1]):
+                    data_pair = series[[series.columns[i], series.columns[j]]]
+                    # res_order_pair = tskiko_mv(data_pair, lag_max, learning_rate, training_epoch, noise, sig_lev, "ParCorr", verbose)
+                    res_order_pair = run_timino_pw_R([[data_pair, "data"], [0.00, "alpha"], [5, "nlags"]])
+                    res_order_pair = pd.DataFrame(res_order_pair, columns=data_pair.columns, index=data_pair.columns)
+                    if res_order_pair[series.columns[j]].loc[series.columns[i]] == 2:
+                        self.graph.edges[i, j] = 2
+                    if res_order_pair[series.columns[i]].loc[series.columns[j]] == 2:
+                        self.graph.edges[j, i] = 2
+        else:
+            self.graph.edges = run_timino_pw_R([[series, "data"], [0.00, "alpha"], [5, "nlags"]])
+            for i in range(series.shape[1]):
+                self.graph.edges[i, i] = 1
+
+
         # order_kiko = tskiko_mv(series, lag_max, learning_rate, training_epoch, noise, sig_lev, "ParCorr", verbose)
         # print(order_kiko)
         # self.graph.edges = order_kiko.values

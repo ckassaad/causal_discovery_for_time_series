@@ -35,7 +35,7 @@ def run_on_data(method, verbose):
     save_model = True
     data = pd.read_csv("data/pairs/temperature.csv", delimiter=',', index_col=0)
     nodes = string_nodes(data.columns)
-
+    print(data)
     if verbose:
         print("d = " + str(data.shape[1]))
         print("T = " + str(data.shape[0]))
@@ -69,8 +69,11 @@ def run_on_data(method, verbose):
     elif method == "PCTMI":
         model = cd.PCTMI(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
-    elif method == "NBCB":
+    elif method == "NBCB_pw":
         model = cd.NBCB(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "NBCB":
+        model = cd.NBCB(nodes, sig_level=0.05, nlags=5, pairwise=False)
         model.infer_from_data(data)
     elif method == "tsFCI":
         model = cd.TsFCI(nodes, sig_level=0.05, nlags=5)
@@ -86,6 +89,9 @@ def run_on_data(method, verbose):
         model.infer_from_data(data)
     elif method == "tsKIKO":
         model = cd.TsKIKO(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "Dynotears":
+        model = cd.Dynotears(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     else:
         model = None
@@ -159,7 +165,7 @@ if __name__ == "__main__":
         print('Argument List:', str(sys.argv))
     else:
         print('Missing arguments so will take default arguments')
-        method = "oCSE"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, PCTMI, tsFCI, FCITMI VarLiNGAM, TiMINO
+        method = "Dynotears"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, PCTMI, tsFCI, FCITMI VarLiNGAM, TiMINO
         num_processor = 1
         verbose = True
         print('Default Argument List:', str(method), num_processor)
@@ -185,7 +191,7 @@ if __name__ == "__main__":
     comput_time_list = results[:, 15]
 
     # method = method+"window=1"
-    # method = method+"window=auto"
+    method = method+"window=auto"
     with open("./experiments/performance_average/summary_other_and_self_performance_average/" + str(method) + "_temperature", "w+") as file:
         file.write("Precision Adjacent: \n" + str(np.mean(pres_a_list)) + " +- " +
                    str(np.std(pres_a_list)))
@@ -253,7 +259,7 @@ if __name__ == "__main__":
         print("Self F-Score: " + str(np.mean(s_fscore_list)) + " +- " + str(np.std(s_fscore_list)))
         print("Computational Time: " + str(np.mean(comput_time_list)) + " +- " + str(np.std(comput_time_list)))
 
-    np.savetxt("./experiments/performance_detail/" + str(method) + "_dairy.csv", results,
+    np.savetxt("./experiments/performance_detail/" + str(method) + "_temperature.csv", results,
                delimiter=';', header="pres_a, rec_a, fscore_a, pres_o, rec_o, fscore_o, o_pres_a, o_rec_a, o_fscore_a, o_pres_o, o_rec_o, \
                o_fscore_o, s_pres, s_rec, s_fscore, computational_time")
 

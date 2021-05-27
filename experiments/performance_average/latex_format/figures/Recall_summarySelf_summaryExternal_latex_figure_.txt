@@ -1,0 +1,1073 @@
+\begin{figure}%[ht!]
+	\centering
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		title = {Summary: External Adjacency},
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {fork},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.45) +- (0.35, 0.35)
+			(240, 0.70) +- (0.33, 0.33)
+			(490, 0.70) +- (0.33, 0.33)
+			(990, 0.75) +- (0.34, 0.34)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.55) +- (0.35, 0.35)
+			(241, 0.60) +- (0.30, 0.30)
+			(491, 0.70) +- (0.24, 0.24)
+			(991, 0.75) +- (0.34, 0.34)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.45) +- (0.27, 0.27)
+			(242, 0.60) +- (0.30, 0.30)
+			(492, 0.65) +- (0.23, 0.23)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.65) +- (0.32, 0.32)
+			(244, 0.60) +- (0.37, 0.37)
+			(494, 0.75) +- (0.34, 0.34)
+			(994, 0.75) +- (0.34, 0.34)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.85) +- (0.23, 0.23)
+			(245, 0.75) +- (0.25, 0.25)
+			(495, 0.80) +- (0.33, 0.33)
+			(995, 0.45) +- (0.42, 0.42)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.35) +- (0.32, 0.32)
+			(247, 0.20) +- (0.24, 0.24)
+			(497, 0.20) +- (0.24, 0.24)
+			(997, 0.20) +- (0.24, 0.24)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.50) +- (0.22, 0.22)
+			(248, 0.50) +- (0.32, 0.32)
+			(498, 0.80) +- (0.24, 0.24)
+			(998, 0.75) +- (0.25, 0.25)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.55) +- (0.42, 0.42)
+			(249, 0.50) +- (0.22, 0.22)
+			(499, 0.70) +- (0.33, 0.33)
+			(999, 0.65) +- (0.39, 0.39)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.50) +- (0.32, 0.32)
+			(251, 0.75) +- (0.25, 0.25)
+			(501, 0.75) +- (0.34, 0.34)
+			(1001, 0.90) +- (0.20, 0.20)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.40) +- (0.37, 0.37)
+			(254, 0.20) +- (0.33, 0.33)
+			(504, 0.35) +- (0.23, 0.23)
+			(1004, 0.25) +- (0.25, 0.25)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.50) +- (0.39, 0.39)
+			(255, 0.35) +- (0.39, 0.39)
+			(505, 0.50) +- (0.32, 0.32)
+			(1005, 0.55) +- (0.47, 0.47)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		title = {Summary: External Causation},
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {fork},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.45) +- (0.35, 0.35)
+			(240, 0.65) +- (0.39, 0.39)
+			(490, 0.70) +- (0.33, 0.33)
+			(990, 0.75) +- (0.34, 0.34)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.50) +- (0.39, 0.39)
+			(241, 0.50) +- (0.39, 0.39)
+			(491, 0.60) +- (0.30, 0.30)
+			(991, 0.65) +- (0.39, 0.39)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.40) +- (0.30, 0.30)
+			(242, 0.50) +- (0.39, 0.39)
+			(492, 0.50) +- (0.32, 0.32)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.50) +- (0.32, 0.32)
+			(244, 0.50) +- (0.39, 0.39)
+			(494, 0.65) +- (0.32, 0.32)
+			(994, 0.65) +- (0.32, 0.32)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.70) +- (0.33, 0.33)
+			(245, 0.65) +- (0.32, 0.32)
+			(495, 0.75) +- (0.34, 0.34)
+			(995, 0.45) +- (0.42, 0.42)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.35) +- (0.32, 0.32)
+			(247, 0.15) +- (0.23, 0.23)
+			(497, 0.20) +- (0.24, 0.24)
+			(997, 0.20) +- (0.24, 0.24)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.50) +- (0.22, 0.22)
+			(248, 0.50) +- (0.32, 0.32)
+			(498, 0.80) +- (0.24, 0.24)
+			(998, 0.75) +- (0.25, 0.25)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.35) +- (0.32, 0.32)
+			(249, 0.45) +- (0.27, 0.27)
+			(499, 0.60) +- (0.30, 0.30)
+			(999, 0.60) +- (0.44, 0.44)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.50) +- (0.32, 0.32)
+			(251, 0.75) +- (0.25, 0.25)
+			(501, 0.75) +- (0.34, 0.34)
+			(1001, 0.90) +- (0.20, 0.20)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.10) +- (0.20, 0.20)
+			(254, 0.10) +- (0.20, 0.20)
+			(504, 0.05) +- (0.15, 0.15)
+			(1004, 0.00) +- (0.00, 0.00)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.50) +- (0.39, 0.39)
+			(255, 0.35) +- (0.39, 0.39)
+			(505, 0.45) +- (0.35, 0.35)
+			(1005, 0.55) +- (0.47, 0.47)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		title = {Summary: Self Causation},
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 1.00) +- (0.00, 0.00)
+			(240, 1.00) +- (0.00, 0.00)
+			(490, 1.00) +- (0.00, 0.00)
+			(990, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 1.00) +- (0.00, 0.00)
+			(241, 1.00) +- (0.00, 0.00)
+			(491, 1.00) +- (0.00, 0.00)
+			(991, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 1.00) +- (0.00, 0.00)
+			(242, 1.00) +- (0.00, 0.00)
+			(492, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 1.00) +- (0.00, 0.00)
+			(251, 1.00) +- (0.00, 0.00)
+			(501, 1.00) +- (0.00, 0.00)
+			(1001, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.30) +- (0.31, 0.31)
+			(247, 0.40) +- (0.33, 0.33)
+			(497, 0.40) +- (0.36, 0.36)
+			(997, 0.53) +- (0.22, 0.22)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.87) +- (0.16, 0.16)
+			(248, 0.93) +- (0.13, 0.13)
+			(498, 0.93) +- (0.13, 0.13)
+			(998, 0.93) +- (0.13, 0.13)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.83) +- (0.22, 0.22)
+			(249, 0.90) +- (0.15, 0.15)
+			(499, 0.97) +- (0.10, 0.10)
+			(999, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[pink,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(127, 0.90) +- (0.15, 0.15)
+			(252, 0.93) +- (0.13, 0.13)
+			(502, 0.97) +- (0.10, 0.10)
+			(1002, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.80) +- (0.22, 0.22)
+			(254, 0.83) +- (0.17, 0.17)
+			(504, 0.90) +- (0.15, 0.15)
+			(1004, 0.93) +- (0.13, 0.13)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {v-structure},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.35) +- (0.23, 0.23)
+			(240, 0.45) +- (0.35, 0.35)
+			(490, 0.50) +- (0.39, 0.39)
+			(990, 0.65) +- (0.32, 0.32)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.70) +- (0.33, 0.33)
+			(241, 0.70) +- (0.33, 0.33)
+			(491, 0.75) +- (0.25, 0.25)
+			(991, 0.75) +- (0.34, 0.34)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.60) +- (0.30, 0.30)
+			(242, 0.65) +- (0.39, 0.39)
+			(492, 0.80) +- (0.24, 0.24)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.70) +- (0.24, 0.24)
+			(244, 0.55) +- (0.35, 0.35)
+			(494, 0.70) +- (0.33, 0.33)
+			(994, 0.70) +- (0.40, 0.40)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.90) +- (0.30, 0.30)
+			(245, 0.55) +- (0.42, 0.42)
+			(495, 0.50) +- (0.39, 0.39)
+			(995, 0.40) +- (0.30, 0.30)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.15) +- (0.32, 0.32)
+			(247, 0.20) +- (0.24, 0.24)
+			(497, 0.10) +- (0.20, 0.20)
+			(997, 0.10) +- (0.20, 0.20)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.40) +- (0.30, 0.30)
+			(248, 0.60) +- (0.37, 0.37)
+			(498, 0.75) +- (0.40, 0.40)
+			(998, 0.60) +- (0.37, 0.37)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.40) +- (0.44, 0.44)
+			(249, 0.55) +- (0.35, 0.35)
+			(499, 0.60) +- (0.37, 0.37)
+			(999, 0.60) +- (0.37, 0.37)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.50) +- (0.22, 0.22)
+			(251, 0.90) +- (0.20, 0.20)
+			(501, 0.90) +- (0.20, 0.20)
+			(1001, 0.95) +- (0.15, 0.15)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.45) +- (0.35, 0.35)
+			(254, 0.40) +- (0.30, 0.30)
+			(504, 0.40) +- (0.30, 0.30)
+			(1004, 0.40) +- (0.37, 0.37)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.40) +- (0.30, 0.30)
+			(255, 0.60) +- (0.30, 0.30)
+			(505, 0.55) +- (0.27, 0.27)
+			(1005, 0.60) +- (0.37, 0.37)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {v-structure},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.35) +- (0.23, 0.23)
+			(240, 0.45) +- (0.35, 0.35)
+			(490, 0.50) +- (0.39, 0.39)
+			(990, 0.65) +- (0.32, 0.32)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.35) +- (0.32, 0.32)
+			(241, 0.50) +- (0.32, 0.32)
+			(491, 0.60) +- (0.30, 0.30)
+			(991, 0.70) +- (0.33, 0.33)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.40) +- (0.30, 0.30)
+			(242, 0.55) +- (0.35, 0.35)
+			(492, 0.70) +- (0.24, 0.24)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.60) +- (0.30, 0.30)
+			(244, 0.55) +- (0.35, 0.35)
+			(494, 0.60) +- (0.37, 0.37)
+			(994, 0.65) +- (0.39, 0.39)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.70) +- (0.33, 0.33)
+			(245, 0.40) +- (0.30, 0.30)
+			(495, 0.30) +- (0.24, 0.24)
+			(995, 0.35) +- (0.23, 0.23)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.05) +- (0.15, 0.15)
+			(247, 0.20) +- (0.24, 0.24)
+			(497, 0.10) +- (0.20, 0.20)
+			(997, 0.10) +- (0.20, 0.20)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.40) +- (0.30, 0.30)
+			(248, 0.60) +- (0.37, 0.37)
+			(498, 0.70) +- (0.40, 0.40)
+			(998, 0.60) +- (0.37, 0.37)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.30) +- (0.33, 0.33)
+			(249, 0.55) +- (0.35, 0.35)
+			(499, 0.55) +- (0.35, 0.35)
+			(999, 0.60) +- (0.37, 0.37)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.50) +- (0.22, 0.22)
+			(251, 0.90) +- (0.20, 0.20)
+			(501, 0.90) +- (0.20, 0.20)
+			(1001, 0.95) +- (0.15, 0.15)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.05) +- (0.15, 0.15)
+			(254, 0.05) +- (0.15, 0.15)
+			(504, 0.05) +- (0.15, 0.15)
+			(1004, 0.00) +- (0.00, 0.00)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.35) +- (0.32, 0.32)
+			(255, 0.60) +- (0.30, 0.30)
+			(505, 0.50) +- (0.32, 0.32)
+			(1005, 0.60) +- (0.37, 0.37)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 1.00) +- (0.00, 0.00)
+			(240, 1.00) +- (0.00, 0.00)
+			(490, 1.00) +- (0.00, 0.00)
+			(990, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 1.00) +- (0.00, 0.00)
+			(241, 1.00) +- (0.00, 0.00)
+			(491, 1.00) +- (0.00, 0.00)
+			(991, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 1.00) +- (0.00, 0.00)
+			(242, 1.00) +- (0.00, 0.00)
+			(492, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 1.00) +- (0.00, 0.00)
+			(251, 1.00) +- (0.00, 0.00)
+			(501, 1.00) +- (0.00, 0.00)
+			(1001, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.57) +- (0.26, 0.26)
+			(247, 0.63) +- (0.23, 0.23)
+			(497, 0.63) +- (0.23, 0.23)
+			(997, 0.70) +- (0.23, 0.23)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.97) +- (0.10, 0.10)
+			(248, 1.00) +- (0.00, 0.00)
+			(498, 1.00) +- (0.00, 0.00)
+			(998, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.97) +- (0.10, 0.10)
+			(249, 1.00) +- (0.00, 0.00)
+			(499, 1.00) +- (0.00, 0.00)
+			(999, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[pink,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(127, 0.97) +- (0.10, 0.10)
+			(252, 1.00) +- (0.00, 0.00)
+			(502, 1.00) +- (0.00, 0.00)
+			(1002, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.90) +- (0.15, 0.15)
+			(254, 0.97) +- (0.10, 0.10)
+			(504, 0.97) +- (0.10, 0.10)
+			(1004, 1.00) +- (0.00, 0.00)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {mediator},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.50) +- (0.27, 0.27)
+			(240, 0.60) +- (0.13, 0.13)
+			(490, 0.73) +- (0.20, 0.20)
+			(990, 0.77) +- (0.21, 0.21)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.60) +- (0.25, 0.25)
+			(241, 0.67) +- (0.21, 0.21)
+			(491, 0.70) +- (0.23, 0.23)
+			(991, 0.83) +- (0.17, 0.17)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.67) +- (0.26, 0.26)
+			(242, 0.67) +- (0.21, 0.21)
+			(492, 0.73) +- (0.25, 0.25)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.67) +- (0.26, 0.26)
+			(244, 0.80) +- (0.27, 0.27)
+			(494, 0.83) +- (0.22, 0.22)
+			(994, 0.80) +- (0.27, 0.27)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.90) +- (0.21, 0.21)
+			(245, 0.83) +- (0.27, 0.27)
+			(495, 0.80) +- (0.22, 0.22)
+			(995, 0.77) +- (0.30, 0.30)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.20) +- (0.22, 0.22)
+			(247, 0.10) +- (0.15, 0.15)
+			(497, 0.07) +- (0.13, 0.13)
+			(997, 0.10) +- (0.15, 0.15)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.53) +- (0.22, 0.22)
+			(248, 0.53) +- (0.22, 0.22)
+			(498, 0.67) +- (0.21, 0.21)
+			(998, 0.80) +- (0.16, 0.16)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.50) +- (0.31, 0.31)
+			(249, 0.70) +- (0.23, 0.23)
+			(499, 0.63) +- (0.23, 0.23)
+			(999, 0.70) +- (0.31, 0.31)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.67) +- (0.15, 0.15)
+			(251, 0.80) +- (0.16, 0.16)
+			(501, 0.83) +- (0.17, 0.17)
+			(1001, 0.97) +- (0.10, 0.10)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.33) +- (0.21, 0.21)
+			(254, 0.47) +- (0.31, 0.31)
+			(504, 0.47) +- (0.31, 0.31)
+			(1004, 0.53) +- (0.31, 0.31)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.40) +- (0.13, 0.13)
+			(255, 0.63) +- (0.31, 0.31)
+			(505, 0.67) +- (0.26, 0.26)
+			(1005, 0.77) +- (0.26, 0.26)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {mediator},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.50) +- (0.27, 0.27)
+			(240, 0.60) +- (0.13, 0.13)
+			(490, 0.73) +- (0.20, 0.20)
+			(990, 0.77) +- (0.21, 0.21)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.30) +- (0.28, 0.28)
+			(241, 0.50) +- (0.17, 0.17)
+			(491, 0.57) +- (0.33, 0.33)
+			(991, 0.60) +- (0.33, 0.33)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.40) +- (0.25, 0.25)
+			(242, 0.57) +- (0.15, 0.15)
+			(492, 0.63) +- (0.31, 0.31)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.63) +- (0.28, 0.28)
+			(244, 0.77) +- (0.26, 0.26)
+			(494, 0.80) +- (0.27, 0.27)
+			(994, 0.80) +- (0.27, 0.27)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.77) +- (0.21, 0.21)
+			(245, 0.83) +- (0.27, 0.27)
+			(495, 0.73) +- (0.25, 0.25)
+			(995, 0.77) +- (0.30, 0.30)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.07) +- (0.13, 0.13)
+			(247, 0.00) +- (0.00, 0.00)
+			(497, 0.07) +- (0.13, 0.13)
+			(997, 0.03) +- (0.10, 0.10)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.50) +- (0.22, 0.22)
+			(248, 0.53) +- (0.22, 0.22)
+			(498, 0.67) +- (0.21, 0.21)
+			(998, 0.80) +- (0.16, 0.16)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.47) +- (0.31, 0.31)
+			(249, 0.63) +- (0.28, 0.28)
+			(499, 0.63) +- (0.23, 0.23)
+			(999, 0.70) +- (0.31, 0.31)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.67) +- (0.15, 0.15)
+			(251, 0.77) +- (0.15, 0.15)
+			(501, 0.80) +- (0.16, 0.16)
+			(1001, 0.97) +- (0.10, 0.10)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.03) +- (0.10, 0.10)
+			(254, 0.00) +- (0.00, 0.00)
+			(504, 0.03) +- (0.10, 0.10)
+			(1004, 0.00) +- (0.00, 0.00)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.37) +- (0.10, 0.10)
+			(255, 0.60) +- (0.33, 0.33)
+			(505, 0.67) +- (0.26, 0.26)
+			(1005, 0.77) +- (0.26, 0.26)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 1.00) +- (0.00, 0.00)
+			(240, 1.00) +- (0.00, 0.00)
+			(490, 1.00) +- (0.00, 0.00)
+			(990, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 1.00) +- (0.00, 0.00)
+			(241, 1.00) +- (0.00, 0.00)
+			(491, 1.00) +- (0.00, 0.00)
+			(991, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 1.00) +- (0.00, 0.00)
+			(242, 1.00) +- (0.00, 0.00)
+			(492, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 1.00) +- (0.00, 0.00)
+			(251, 1.00) +- (0.00, 0.00)
+			(501, 1.00) +- (0.00, 0.00)
+			(1001, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.47) +- (0.37, 0.37)
+			(247, 0.60) +- (0.25, 0.25)
+			(497, 0.67) +- (0.26, 0.26)
+			(997, 0.63) +- (0.28, 0.28)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.93) +- (0.13, 0.13)
+			(248, 0.93) +- (0.13, 0.13)
+			(498, 0.93) +- (0.13, 0.13)
+			(998, 0.97) +- (0.10, 0.10)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.90) +- (0.15, 0.15)
+			(249, 0.97) +- (0.10, 0.10)
+			(499, 1.00) +- (0.00, 0.00)
+			(999, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[pink,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(127, 0.93) +- (0.13, 0.13)
+			(252, 0.97) +- (0.10, 0.10)
+			(502, 1.00) +- (0.00, 0.00)
+			(1002, 0.97) +- (0.10, 0.10)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.90) +- (0.15, 0.15)
+			(254, 0.93) +- (0.13, 0.13)
+			(504, 1.00) +- (0.00, 0.00)
+			(1004, 1.00) +- (0.00, 0.00)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {diamond},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.40) +- (0.17, 0.17)
+			(240, 0.53) +- (0.17, 0.17)
+			(490, 0.68) +- (0.16, 0.16)
+			(990, 0.75) +- (0.16, 0.16)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.42) +- (0.11, 0.11)
+			(241, 0.65) +- (0.17, 0.17)
+			(491, 0.65) +- (0.23, 0.23)
+			(991, 0.80) +- (0.15, 0.15)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.45) +- (0.19, 0.19)
+			(242, 0.65) +- (0.17, 0.17)
+			(492, 0.72) +- (0.21, 0.21)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.60) +- (0.23, 0.23)
+			(244, 0.82) +- (0.16, 0.16)
+			(494, 0.72) +- (0.13, 0.13)
+			(994, 0.78) +- (0.21, 0.21)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.80) +- (0.15, 0.15)
+			(245, 0.82) +- (0.20, 0.20)
+			(495, 0.72) +- (0.21, 0.21)
+			(995, 0.62) +- (0.26, 0.26)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.17) +- (0.22, 0.22)
+			(247, 0.15) +- (0.17, 0.17)
+			(497, 0.20) +- (0.19, 0.19)
+			(997, 0.10) +- (0.12, 0.12)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.45) +- (0.19, 0.19)
+			(248, 0.62) +- (0.23, 0.23)
+			(498, 0.70) +- (0.19, 0.19)
+			(998, 0.80) +- (0.22, 0.22)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.53) +- (0.17, 0.17)
+			(249, 0.60) +- (0.23, 0.23)
+			(499, 0.60) +- (0.20, 0.20)
+			(999, 0.60) +- (0.28, 0.28)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.70) +- (0.22, 0.22)
+			(251, 0.80) +- (0.15, 0.15)
+			(501, 0.82) +- (0.16, 0.16)
+			(1001, 0.97) +- (0.07, 0.07)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.25) +- (0.22, 0.22)
+			(254, 0.25) +- (0.19, 0.19)
+			(504, 0.40) +- (0.28, 0.28)
+			(1004, 0.38) +- (0.30, 0.30)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.50) +- (0.19, 0.19)
+			(255, 0.53) +- (0.26, 0.26)
+			(505, 0.55) +- (0.22, 0.22)
+			(1005, 0.55) +- (0.22, 0.22)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		ylabel = {diamond},
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 0.38) +- (0.17, 0.17)
+			(240, 0.53) +- (0.17, 0.17)
+			(490, 0.68) +- (0.16, 0.16)
+			(990, 0.75) +- (0.16, 0.16)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 0.35) +- (0.17, 0.17)
+			(241, 0.53) +- (0.24, 0.24)
+			(491, 0.55) +- (0.27, 0.27)
+			(991, 0.65) +- (0.17, 0.17)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 0.35) +- (0.20, 0.20)
+			(242, 0.55) +- (0.15, 0.15)
+			(492, 0.60) +- (0.25, 0.25)
+		};
+		\addplot[black,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(119, 0.55) +- (0.22, 0.22)
+			(244, 0.72) +- (0.21, 0.21)
+			(494, 0.72) +- (0.13, 0.13)
+			(994, 0.75) +- (0.19, 0.19)
+		};
+		\addplot[black,smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(120, 0.72) +- (0.17, 0.17)
+			(245, 0.75) +- (0.16, 0.16)
+			(495, 0.70) +- (0.22, 0.22)
+			(995, 0.62) +- (0.26, 0.26)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.10) +- (0.17, 0.17)
+			(247, 0.10) +- (0.17, 0.17)
+			(497, 0.12) +- (0.17, 0.17)
+			(997, 0.10) +- (0.12, 0.12)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.42) +- (0.20, 0.20)
+			(248, 0.55) +- (0.24, 0.24)
+			(498, 0.70) +- (0.19, 0.19)
+			(998, 0.80) +- (0.22, 0.22)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.45) +- (0.15, 0.15)
+			(249, 0.53) +- (0.21, 0.21)
+			(499, 0.53) +- (0.17, 0.17)
+			(999, 0.60) +- (0.28, 0.28)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 0.70) +- (0.22, 0.22)
+			(251, 0.78) +- (0.17, 0.17)
+			(501, 0.82) +- (0.16, 0.16)
+			(1001, 0.97) +- (0.07, 0.07)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.05) +- (0.10, 0.10)
+			(254, 0.05) +- (0.10, 0.10)
+			(504, 0.00) +- (0.00, 0.00)
+			(1004, 0.03) +- (0.08, 0.08)
+		};
+		\addplot[green,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(130, 0.40) +- (0.20, 0.20)
+			(255, 0.50) +- (0.25, 0.25)
+			(505, 0.53) +- (0.21, 0.21)
+			(1005, 0.53) +- (0.24, 0.24)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+	\resizebox {0.32\textwidth} {!} {
+	\begin{subfigure}[b]{0.5\textwidth}
+		\begin{tikzpicture}[font=\small]
+		\renewcommand{\axisdefaulttryminticks}{4}
+		\pgfplotsset{every major grid/.append style={densely dashed}}
+		\pgfplotsset{every axis legend/.append style={cells={anchor=west},fill=white, at={(0.02,0.98)}, anchor=north west}}
+		\begin{axis}[
+		xmin = 0,
+		xmax = 1500,
+		xmode=log,
+		log ticks with fixed point,
+		ymin=0,
+		ymax=1,
+		grid=minor,
+		scaled ticks=true,
+		height = 4.5cm,
+		width=8cm,
+		legend style={nodes={scale=0.65, transform shape}}
+		]
+		\addplot[blue,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(115, 1.00) +- (0.00, 0.00)
+			(240, 1.00) +- (0.00, 0.00)
+			(490, 1.00) +- (0.00, 0.00)
+			(990, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(116, 1.00) +- (0.00, 0.00)
+			(241, 1.00) +- (0.00, 0.00)
+			(491, 1.00) +- (0.00, 0.00)
+			(991, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[red,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(117, 1.00) +- (0.00, 0.00)
+			(242, 1.00) +- (0.00, 0.00)
+			(492, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[orange,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(126, 1.00) +- (0.00, 0.00)
+			(251, 1.00) +- (0.00, 0.00)
+			(501, 1.00) +- (0.00, 0.00)
+			(1001, 1.00) +- (0.00, 0.00)
+		};
+		\addplot[gray,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(122, 0.25) +- (0.16, 0.16)
+			(247, 0.47) +- (0.21, 0.21)
+			(497, 0.45) +- (0.19, 0.19)
+			(997, 0.45) +- (0.19, 0.19)
+		};
+		\addplot[purple, smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(123, 0.82) +- (0.16, 0.16)
+			(248, 0.82) +- (0.20, 0.20)
+			(498, 0.97) +- (0.07, 0.07)
+			(998, 0.90) +- (0.17, 0.17)
+		};
+		\addplot[purple, smooth,mark=o, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(124, 0.88) +- (0.12, 0.12)
+			(249, 0.90) +- (0.12, 0.12)
+			(499, 0.93) +- (0.11, 0.11)
+			(999, 0.97) +- (0.07, 0.07)
+		};
+		\addplot[pink,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(127, 0.85) +- (0.12, 0.12)
+			(252, 0.90) +- (0.12, 0.12)
+			(502, 0.95) +- (0.10, 0.10)
+			(1002, 0.97) +- (0.07, 0.07)
+		};
+		\addplot[yellow,smooth,mark=*, error bars/.cd, y dir=both,y explicit] plot coordinates{
+			(129, 0.70) +- (0.29, 0.29)
+			(254, 0.78) +- (0.17, 0.17)
+			(504, 0.88) +- (0.17, 0.17)
+			(1004, 0.97) +- (0.07, 0.07)
+		};
+		\end{axis}
+		\end{tikzpicture}
+		\caption{}
+		\label{}
+	\end{subfigure}
+}
+\hfill
+\begin{tikzpicture}[baseline=(leg.center)]\begin{axis}[width=0.2\textwidth, height=0.2 \textwidth,hide axis,xmin=0, xmax=10, ymin=0, ymax=0.0,legend columns=6,legend style={name=leg,draw=white!15!black,legend cell align=left,at={(0.5,0.5)},font=\tiny}]		\addplot[blue,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[red,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[red,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[black,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[black,smooth,mark=o,] coordinates {(0, -1)};
+		\addplot[gray,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[purple, smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[purple, smooth,mark=o,] coordinates {(0, -1)};
+		\addplot[orange,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[yellow,smooth,mark=*,] coordinates {(0, -1)};
+		\addplot[green,smooth,mark=*,] coordinates {(0, -1)};
+		\legend{{PCTMI},{NBCB},{pwNBCB},{GCPW},{GCMV},{TCDF},{PCMCIMI},{PCMCIPC},{oCSE},{VarLiNGAM},{TiMINO}}
+\end{axis}\end{tikzpicture}
+\caption[Detailed perfomances]{Adjacency, external causation and self causation in the summary causation graph for all the methods on 5 simulated datasets. We study the F1 score (mean $\pm$ standard deviation). Results  are computed for various time grid sizes, from 125 to 4000. A log-scale is used in abscissa.}
+\label{fig:simu:details}
+\end{figure}

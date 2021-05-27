@@ -1,5 +1,5 @@
 if __name__ == "__main__":
-    measure_name = "F-Score"  # Precision Recall F-Score
+    measure_name = "Recall"  # Precision Recall F-Score
 
     structure_list = ['fork', 'v_structure', 'mediator', 'diamond', '7ts2h']
     structure_hidden = ['7ts2h']

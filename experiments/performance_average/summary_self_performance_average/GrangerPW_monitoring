@@ -1,9 +1,9 @@
 Self Precision: 
-1.0 +- 0.0
+0.5 +- 0.5
 Self Recall: 
-1.0 +- 0.0
+0.5 +- 0.5
 Self F-Score: 
-1.0 +- 0.0
+0.5 +- 0.5
 
 
-Computational Time: 1.2555077075958252 +- 0.08848166465759277
+Computational Time: 0.7947397232055664 +- 0.37676438260111444

@@ -3,12 +3,16 @@ from baselines.scripts_python.pcmci import pcmci
 from baselines.scripts_python.varlingam import varlingam
 from baselines.scripts_python.tcdf import tcdf
 from baselines.scripts_python.granger_pw import granger_pw
+from baselines.scripts_python.granger_mv2 import granger_mv2
 from baselines.scripts_python.pctmi import pctmi, tpctmi
 from baselines.scripts_python.fcitmi import fcitmi
 from baselines.scripts_python.tskiko import tskiko
 from baselines.scripts_python.ocse import ocse
 
 from baselines.scripts_python.nbcb import nbcb
+from baselines.scripts_python.pwnbcbk import pwnbcbk
+
+from baselines.scripts_python.dynotears import dynotears
 
 try:
     from baselines.scripts_R.scripts_R import run_R
@@ -307,6 +311,17 @@ class GrangerMV(GraphicalModel):
         g_df = run_matlab("granger_mv", [[data, "data"], [self.sig_level, "sig_level"], [self.nlags, "nlags"]])
         self._dataframe_to_graph(g_df)
 
+class GrangerMV2(GraphicalModel):
+    def __init__(self, nodes, sig_level=0.05, nlags=5):
+        GraphicalModel.__init__(self, nodes)
+        self.sig_level = sig_level
+        self.nlags = nlags
+
+    def infer_from_data(self, data):
+        data.columns = list(self.ghat.nodes)
+        g_df = granger_mv2(data, sig_level=self.sig_level, maxlag=self.nlags, verbose=False)
+        self._dataframe_to_graph(g_df)
+
 
 class TCDF(TemporalGraphicalModel):
     def __init__(self, nodes, epochs=5000,  kernel_size=4, dilation_coefficient=4, hidden_layers=1, learning_rate=0.01,
@@ -409,14 +424,27 @@ class TPCTMI(TemporalGraphicalModel):
         self._tgraph_to_graph()
 
 class NBCB(GraphicalModel):
-    def __init__(self, nodes, sig_level=0.05, nlags=5):
+    def __init__(self, nodes, sig_level=0.05, nlags=5, pairwise=True):
         GraphicalModel.__init__(self, nodes)
         self.sig_level = sig_level
         self.nlags = nlags
+        self.pairwise = pairwise
 
     def infer_from_data(self, data):
         data.columns = list(self.ghat.nodes)
-        g_df = nbcb(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True)
+        g_df = nbcb(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True, pairwise=self.pairwise)
+        self._dataframe_to_graph(g_df)
+
+class PWNBCBk(GraphicalModel):
+    def __init__(self, nodes, sig_level=0.05, nlags=5, pairwise=True):
+        GraphicalModel.__init__(self, nodes)
+        self.sig_level = sig_level
+        self.nlags = nlags
+        self.pairwise = pairwise
+
+    def infer_from_data(self, data):
+        data.columns = list(self.ghat.nodes)
+        g_df = pwnbcbk(data, sig_level=self.sig_level, nlags=self.nlags, verbose=True, pairwise=self.pairwise)
         self._dataframe_to_graph(g_df)
 
 
@@ -471,6 +499,19 @@ class TsKIKO(GraphicalModel):
         data.columns = list(self.ghat.nodes)
         g_df = tskiko(data, tau_max=self.nlags, sig_level=self.sig_level)
         self._dataframe_to_graph(g_df)
+
+class Dynotears(TemporalGraphicalModel):
+    def __init__(self, nodes, sig_level=0.05, nlags=5):
+        TemporalGraphicalModel.__init__(self, nodes)
+        self.sig_level = sig_level
+        self.nlags = nlags
+
+    def infer_from_data(self, data):
+        data.columns = list(self.ghat.nodes)
+        tg_dict = dynotears(data, tau_max=self.nlags, alpha=self.sig_level)
+        self._dict_to_tgraph(tg_dict)
+        self._tgraph_to_graph()
+
 
 # class GIMME(GraphicalModel):
 #     def __init__(self):

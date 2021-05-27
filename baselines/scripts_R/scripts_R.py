@@ -66,6 +66,12 @@ def run_R(script, arg_list):
 
 def ts_fci_dataframe_to_dict(df, names, nlags):
     # todo: check if its correct
+    for i in range(df.shape[1]):
+        for j in range(i+1, df.shape[1]):
+            if df[df.columns[i]].loc[df.columns[j]] == 2:
+                if df[df.columns[j]].loc[df.columns[i]] == 2:
+                    print(df.columns[i] + " <-> " + df.columns[j])
+
     g_dict = dict()
     for name_y in names:
         g_dict[name_y] = []

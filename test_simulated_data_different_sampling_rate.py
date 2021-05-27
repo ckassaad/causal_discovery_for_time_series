@@ -99,6 +99,16 @@ def get_ground_truth(structure, nodes):
     gtrue.add_edges_from(sgtrue.edges)
     return gtrue, ogtrue, sgtrue, tgtrue
 
+def align_data(data):
+    print(data)
+    data = data.dropna(axis=0)
+    print(data)
+    return data
+
+def replace_missing_by_mean(data):
+    data = data.interpolate()
+    data = data.dropna(axis=0)
+    return data
 
 def run_on_data(i, method, structure, n_samples, files_input_name, verbose):
     save_model = True
@@ -116,22 +126,28 @@ def run_on_data(i, method, structure, n_samples, files_input_name, verbose):
     start = time.time()
 
     if method == "GrangerPW":
+        data = replace_missing_by_mean(data)
         model = cd.GrangerPW(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "GrangerMV":
+        data = replace_missing_by_mean(data)
         model = cd.GrangerMV(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "TCDF":
+        data = replace_missing_by_mean(data)
         model = cd.TCDF(nodes, epochs=1000,  kernel_size=4, dilation_coefficient=4, hidden_layers=1, learning_rate=0.01,
                     sig_level=0.05)
         model.infer_from_data(data)
     elif method == "PCMCICMIknn":
+        data = replace_missing_by_mean(data)
         model = cd.PCMCI(nodes, sig_level=0.05, nlags=5, cond_ind_test="CMIknn")
         model.infer_from_data(data)
     elif method == "PCMCIParCorr":
+        data = replace_missing_by_mean(data)
         model = cd.PCMCI(nodes, sig_level=0.05, nlags=5, cond_ind_test="ParCorr")
         model.infer_from_data(data)
     elif method == "oCSE":
+        data = replace_missing_by_mean(data)
         model = cd.OCSE(nodes, sig_level=0.05)
         model.infer_from_data(data)
     elif method == "PCTMI":
@@ -141,19 +157,26 @@ def run_on_data(i, method, structure, n_samples, files_input_name, verbose):
         model = cd.TPCTMI(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "tsFCI":
+        data = replace_missing_by_mean(data)
         model = cd.TsFCI(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "FCITMI":
         model = cd.FCITMI(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "VarLiNGAM":
+        data = replace_missing_by_mean(data)
         model = cd.VarLiNGAM(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "TiMINO":
+        data = replace_missing_by_mean(data)
         model = cd.TiMINO(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     elif method == "TsKIKO":
         model = cd.TsKIKO(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "Dynotears":
+        data = replace_missing_by_mean(data)
+        model = cd.Dynotears(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     else:
         model = None
@@ -256,7 +279,7 @@ if __name__ == "__main__":
         print('Missing arguments so will take default arguments')
         method = "PCTMI"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, oCSE, PCTMI, tsFCI, FCITMI, VarLiNGAM, TiMINO, TsKIKO
         structure = "dsr_v_structure"
-        n_samples = 1000    # 65, 125, 250, 500, 1000, 2000, 4000
+        n_samples = 250    # 65, 125, 250, 500, 1000, 2000, 4000
         num_processor = 1
         verbose = True
         print('Default Argument List:', str(method), str(structure), n_samples, num_processor)

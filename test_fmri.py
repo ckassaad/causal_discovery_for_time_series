@@ -67,8 +67,11 @@ def run_on_data(i, method, files_input_name, verbose):
     elif method == "PCTMI":
         model = cd.PCTMI(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
-    elif method == "NBCB":
+    elif method == "NBCB_pw":
         model = cd.NBCB(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "NBCB":
+        model = cd.NBCB(nodes, sig_level=0.05, nlags=5, pairwise=False)
         model.infer_from_data(data)
     elif method == "tsFCI":
         model = cd.TsFCI(nodes, sig_level=0.05, nlags=5)
@@ -84,6 +87,9 @@ def run_on_data(i, method, files_input_name, verbose):
         model.infer_from_data(data)
     elif method == "tsKIKO":
         model = cd.TsKIKO(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "Dynotears":
+        model = cd.Dynotears(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     else:
         model = None
@@ -178,7 +184,7 @@ if __name__ == "__main__":
         print('Argument List:', str(sys.argv))
     else:
         print('Missing arguments so will take default arguments')
-        method = "NBCB"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, PCTMI, tsFCI, FCITMI VarLiNGAM, TiMINO
+        method = "Dynotears"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, PCTMI, tsFCI, FCITMI VarLiNGAM, TiMINO
         num_processor = 1
         verbose = True
         print('Default Argument List:', str(method), num_processor)
@@ -208,7 +214,7 @@ if __name__ == "__main__":
     comput_time_list = results[:, 15]
 
     # method = method+"window=1"
-    method = method+"window=auto"
+    # method = method+"window=auto"
     with open("./experiments/performance_average/summary_other_and_self_performance_average/" + str(method) + "_fmri", "w+") as file:
         file.write("Precision Adjacent: \n" + str(np.mean(pres_a_list)) + " +- " +
                    str(np.std(pres_a_list)))

@@ -18,7 +18,7 @@ from joblib import Parallel, delayed
 from datetime import datetime
 
 from baselines.scripts_python.python_packages.CITMI.ctmi import window_representation, get_sampling_rate, align_matrix, tmi, get_alpha, window_size, align_pair
-from baselines.scripts_python.python_packages.CITMI.ctmi_new import i_ctmi, ctmi, align_matrix, tmi, window_size, gamma_matrix_window_matrix
+from baselines.scripts_python.python_packages.CITMI.ctmi_new import i_ctmi, ctmi, align_matrix, tmi, window_size, gamma_matrix_window_matrix, self_ctmi
 # from gctmi import gctmi
 
 from baselines.scripts_python.python_packages.CITMI.ctmi_new import indep_test
@@ -1193,6 +1193,21 @@ class PCTMI(CITMI):
                                 print("=> orient " + str(i) + "<- " + str(j))
                             self.graph.edges[j, i] = 2
 
+    def gamma_zero_different_sampling_rate(self, i ,j):
+        valid_idx_i = self.series[self.names[i]].first_valid_index()
+        valid_idx_j = self.series[self.names[j]].first_valid_index()
+        print(valid_idx_i, valid_idx_j)
+        if valid_idx_i < valid_idx_j:
+            self.graph.edges[i, j] = 2
+            if self.verbose:
+                print(str(i) + "-" + str(j) + "g(i,j)=0", end=" ")
+                print("=> orient " + str(i) + "-> " + str(j))
+        elif valid_idx_i < valid_idx_j:
+            self.graph.edges[j, i] = 2
+            if self.verbose:
+                print(str(i) + "-" + str(j) + "g(i,j)=0", end=" ")
+                print("=> orient " + str(i) + "<- " + str(j))
+
     def rule_entropy_reduction_gamma(self):
         """
         new rules (rule prob raising principle from paper)
@@ -1219,6 +1234,14 @@ class PCTMI(CITMI):
                             print(str(i) + "-" + str(j) + "g(i,j)<0", end=" ")
                             print("=> orient " + str(i) + "<- " + str(j))
                         self.graph.edges[j, i] = 2
+                    else:
+                        print("gamma")
+                        print(gij)
+                        print("sampling rate")
+                        print(self.sampling_rate[self.names[i]], self.sampling_rate[self.names[j]])
+                        if (self.sampling_rate[self.names[i]] != 1) or (self.sampling_rate[self.names[j]] != 1):
+                            self.gamma_zero_different_sampling_rate(i, j)
+
 
     def rule_entropy_reduction_lambda(self):
         """
@@ -1351,65 +1374,89 @@ class PCTMI(CITMI):
     #                                             self.graph.edges[k, i] = 2
     #                                             self.graph.edges[k, j] = 2
 
-    def check_past(self):
+    def check_self_loops(self):
         if self.verbose:
             print("#######################################")
-            print("########### Check past ###########")
+            print("########### Check past self causes ###########")
             print("#######################################")
-
-        data_dict_past, gamma_matrix_past = self._include_past_check_past()
 
         for p in range(self.d):
             r_list = [r for r in range(self.graph.d) if (r != p) and ((self.graph.edges[r, p] == 2))]
 
-            x = data_dict_past[self.names[p]]
-            x_past = data_dict_past[self.names[p]]
+            # x = window_representation(self.series[self.names[p]], windows_size=5, overlap=True)
+            # x_past = x[x.columns[:-1]]
+            # x = x[x.columns[-1]]
 
-            for rs in r_list:
-                z = dict()
-                for r in rs:
-                    z[self.names[r]] = data_dict_past[self.names[r]]
-                cmi_pval, cmi_val = ctmi(x, x_past, z, self.names[p], self.names[x_past], self.sampling_rate,
-                                         gamma_matrix=gamma_matrix_past, p_value=self.rank_using_p_value,
-                                         instantaneous_dict=self.instantaneous_dict)
+            z = dict()
+            for r in r_list:
+                z[self.names[r]] = self.series[self.names[r]]
+            cmi_pval, _ = self_ctmi(self.series[self.names[p]], z, self.names[p], self.gamma_matrix, self.sampling_rate, instantaneous_dict=self.instantaneous_dict, p_value=self.p_value)
 
-                if cmi_pval>=self.alpha:
-                    self.graph.edges[p, p] = 0
-        self._exclude_past()
+            if cmi_pval > self.sig_lev:
+                self.graph.edges[p, p] = 0
+                if self.verbose:
+                    print(str(p) + "is independent from its past conditionned on "+str(r_list) + ": pvalue = "+str(cmi_pval))
+                    print("=> remove link between " + str(p) + " and " + str(p))
 
-    def _include_past_check_past(self):
-        counter = 0
-        lags_past = []
-        data_dict_past = dict()
-        for col in range(self.d):
-            lags_past.append(1)
-            data_dict_past[self.names[col]] = window_representation(self.series[self.names[col]],
-                                                                        windows_size=self.lags[col])
-        gamma_matrix_past = align_matrix(data_dict_past, self.names, self.sampling_rate)
-
-        for i in range(self.d):
-            self.instantaneous_dict[self.names[i] + "_past"] = False
-            if gamma_matrix_past[self.names[i]].loc[self.names[i]] > 0:
-                self.names = self.names.insert(self.d + counter, self.names[i] + "_past")
-
-                counter = counter + 1
-                gamma_matrix_past[self.names[i] + "_past"] = 0
-                gamma_matrix_past = gamma_matrix_past.append(pd.Series([0] * (self.d + counter),
-                                                                       name=self.names[i] + "_past",
-                                                                       index=gamma_matrix_past.columns))
-
-                gamma_matrix_past[self.names[i]].loc[self.names[i] + "_past"] = \
-                    gamma_matrix_past[self.names[i]].loc[self.names[i]]
-                gamma_matrix_past[self.names[i] + "_past"].loc[self.names[i]] = - \
-                    gamma_matrix_past[self.names[i]].loc[self.names[i]]
-
-                self.graph.edges[self.d + i, i] = 2
-                self.graph.edges[i, self.d + i] = 1
-
-                data_dict_past[self.names[i] + "_past"] = data_dict_past[self.names[i]]
-                self.sampling_rate[self.names[i] + "_past"] = self.sampling_rate[self.names[i]]
-
-        return data_dict_past, gamma_matrix_past
+    # def check_past(self):
+    #     if self.verbose:
+    #         print("#######################################")
+    #         print("########### Check past self causes ###########")
+    #         print("#######################################")
+    #
+    #     data_dict_past, gamma_matrix_past = self._include_past_check_past()
+    #
+    #     for p in range(self.d):
+    #         r_list = [r for r in range(self.graph.d) if (r != p) and ((self.graph.edges[r, p] == 2))]
+    #
+    #         x = data_dict_past[self.names[p]]
+    #         x_past = data_dict_past[self.names[p]]
+    #
+    #         for rs in r_list:
+    #             z = dict()
+    #             for r in rs:
+    #                 z[self.names[r]] = data_dict_past[self.names[r]]
+    #             cmi_pval, cmi_val = ctmi(x, x_past, z, self.names[p], self.names[x_past], self.sampling_rate,
+    #                                      gamma_matrix=gamma_matrix_past, p_value=self.rank_using_p_value,
+    #                                      instantaneous_dict=self.instantaneous_dict)
+    #
+    #             if cmi_pval>=self.alpha:
+    #                 self.graph.edges[p, p] = 0
+    #     self._exclude_past()
+    #
+    # def _include_past_check_past(self):
+    #     counter = 0
+    #     lags_past = []
+    #     data_dict_past = dict()
+    #     for col in range(self.d):
+    #         lags_past.append(1)
+    #         data_dict_past[self.names[col]] = window_representation(self.series[self.names[col]],
+    #                                                                     windows_size=self.lags[col])
+    #     gamma_matrix_past = align_matrix(data_dict_past, self.names, self.sampling_rate)
+    #
+    #     for i in range(self.d):
+    #         self.instantaneous_dict[self.names[i] + "_past"] = False
+    #         if gamma_matrix_past[self.names[i]].loc[self.names[i]] > 0:
+    #             self.names = self.names.insert(self.d + counter, self.names[i] + "_past")
+    #
+    #             counter = counter + 1
+    #             gamma_matrix_past[self.names[i] + "_past"] = 0
+    #             gamma_matrix_past = gamma_matrix_past.append(pd.Series([0] * (self.d + counter),
+    #                                                                    name=self.names[i] + "_past",
+    #                                                                    index=gamma_matrix_past.columns))
+    #
+    #             gamma_matrix_past[self.names[i]].loc[self.names[i] + "_past"] = \
+    #                 gamma_matrix_past[self.names[i]].loc[self.names[i]]
+    #             gamma_matrix_past[self.names[i] + "_past"].loc[self.names[i]] = - \
+    #                 gamma_matrix_past[self.names[i]].loc[self.names[i]]
+    #
+    #             self.graph.edges[self.d + i, i] = 2
+    #             self.graph.edges[i, self.d + i] = 1
+    #
+    #             data_dict_past[self.names[i] + "_past"] = data_dict_past[self.names[i]]
+    #             self.sampling_rate[self.names[i] + "_past"] = self.sampling_rate[self.names[i]]
+    #
+    #     return data_dict_past, gamma_matrix_past
 
     def fit(self):
         """
@@ -1448,6 +1495,9 @@ class PCTMI(CITMI):
         # self.rule_commun_confounder_and_causal_chain()
         # self.rule_mediator()
         # self.rule_proba_raising_principle()
+
+        # check self causes
+        self.check_self_loops()
 
         if self.verbose:
             print("######################################")
@@ -2390,11 +2440,70 @@ class FCITMI(CITMI):
             else:
                 # cmi_pval, cmi_val = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
                 #               gamma_matrix=self.gamma_matrix, p_value=self.p_value, instantaneous_dict=self.instantaneous_dict)
+                # cmi_pval, cmi_val = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+                #                          gamma_matrix=self.gamma_matrix, p_value=self.p_value, instantaneous_dict=self.instantaneous_dict)
                 cmi_pval, cmi_val = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
-                                         gamma_matrix=self.gamma_matrix, p_value=self.p_value, instantaneous_dict=self.instantaneous_dict)
+                                         gamma_matrix=self.gamma_matrix, p_value=self.rank_using_p_value,
+                                         instantaneous_dict=self.instantaneous_dict)
             v_list.append(cmi_pval)
         if v_list:
             return p, q, v_list, k_list
+
+    # def _cmi_possible_d_sep_ij(self, p, q, set_size):
+    #     """
+    #     estimate ctmi between two time series conditioned on each set of neighbors with cardinality equal to set_size
+    #     :param p: time series with index p
+    #     :param q: time series with index q
+    #     :param set_size: cardinality of the set of neighbors
+    #     :return: p, q, list if estimated value of ctmi(p,q,r_set), and list of all r_sets
+    #     """
+    #     v_list = []
+    #     k_list = self._find_possible_d_sep_ij(p, q)
+    #     r_list = [list(k) for k in itertools.combinations(k_list, set_size)]
+    #
+    #     r_list_temp = r_list.copy()
+    #     # if set_size == 1:
+    #     for rs in r_list_temp:
+    #         print(rs)
+    #         print(all(elem >= self.d for elem in rs))
+    #         if all(elem >= self.d for elem in rs):
+    #             r_list.remove(rs)
+    #     del r_list_temp
+    #
+    #     if self.adaptive_window:
+    #         x = window_representation(self.series[self.names[p]], windows_size=self.window_matrix[self.names[p]].loc[self.names[p]])
+    #         y = window_representation(self.series[self.names[q]], windows_size=self.window_matrix[self.names[q]].loc[self.names[q]])
+    #     else:
+    #         x = self.data_dict[self.names[p]]
+    #         y = self.data_dict[self.names[q]]
+    #
+    #     for rs in r_list:
+    #         z = dict()
+    #         for r in rs:
+    #             if self.adaptive_window:
+    #                 # select and drop NA
+    #                 z[self.names[r]] = self.series[self.names[r]].dropna()
+    #             else:
+    #                 z[self.names[r]] = self.data_dict[self.names[r]]
+    #         if self.graphical_optimization:
+    #             # cmi_pval, cmi_val = gctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+    #             #                           gamma_matrix=self.gamma_matrix, p_value=self.rank_using_p_value,
+    #             #                           graph=self.graph.edges)
+    #             cmi_pval, cmi_val = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+    #                                       gamma_matrix=self.gamma_matrix, graph=self.graph.edges,
+    #                                      p_value=self.rank_using_p_value, instantaneous_dict=self.instantaneous_dict)
+    #         else:
+    #             cmi_pval, cmi_val = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+    #                                      gamma_matrix=self.gamma_matrix, p_value=self.rank_using_p_value,
+    #                                      instantaneous_dict=self.instantaneous_dict)
+    #
+    #         if self.rank_using_p_value:
+    #             v_list.append(cmi_pval)
+    #         else:
+    #             v_list.append(cmi_val)
+    #     if v_list:
+    #         return p, q, v_list, r_list
+
 
     def rank_possible_d_sep_parallel(self, set_size):
         """
@@ -2422,7 +2531,7 @@ class FCITMI(CITMI):
                         ranks.add(res[ij][0], res[ij][1], res[ij][2][k], res[ij][3][k])
                 else:
                     ranks.add(res[ij][0], res[ij][1], res[ij][2], res[ij][3])
-        if self.p_value:
+        if self.rank_using_p_value:
             ranks.sort(descending=True)
         else:
             ranks.sort(descending=False)
@@ -2471,6 +2580,90 @@ class FCITMI(CITMI):
                         if self.verbose:
                             print()
         return test_remove_links
+
+
+    # def find_d_sep(self):
+    #     """
+    #     find the most contributing separation set (if it exists) between each pair of time series
+    #     """
+    #     if self.verbose:
+    #         print("######################################")
+    #         print("d-seperation")
+    #         print("######################################")
+    #     test_remove_links = False
+    #
+    #
+    #     print("max set size = " + str(self.graph.d-1))
+    #     for set_size in range(1, self.graph.d-1):
+    #         ranks = self.rank_possible_d_sep_parallel(set_size)
+    #         if self.verbose:
+    #             print("Ranking:")
+    #             print("p: "+str(ranks.elem_p))
+    #             print("p: " + str(ranks.elem_q))
+    #             print("p: " + str(ranks.elem_r))
+    #             print("p: " + str(ranks.val))
+    #         for p, q, r_set, cmi in zip(ranks.elem_p, ranks.elem_q, ranks.elem_r, ranks.val):
+    #             test = (self.graph.edges[p, q] != 0)
+    #             for r in r_set:
+    #                 if not test:
+    #                     break
+    #                 # test = test and ((self.graph.sep[p, r, q] == 0) and (self.graph.sep[q, r, p] == 0))
+    #             if test:
+    #                 mi = self.mi_array[p, q]
+    #
+    #                 if self.p_value != self.rank_using_p_value:
+    #                     if self.adaptive_window:
+    #                         x = window_representation(self.series[self.names[p]],
+    #                                                   windows_size=self.window_matrix[self.names[p]].loc[self.names[p]])
+    #                         y = window_representation(self.series[self.names[q]],
+    #                                                   windows_size=self.window_matrix[self.names[q]].loc[self.names[q]])
+    #                     else:
+    #                         x = self.data_dict[self.names[p]]
+    #                         y = self.data_dict[self.names[q]]
+    #
+    #                     z = dict()
+    #                     for r in r_set:
+    #                         if self.adaptive_window:
+    #                             # select and drop NA
+    #                             z[self.names[r]] = self.series[self.names[r]].dropna()
+    #                         else:
+    #                             z[self.names[r]] = self.data_dict[self.names[r]]
+    #                     if self.graphical_optimization:
+    #                         # cmi, _ = gctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+    #                         #                gamma_matrix=self.gamma_matrix, p_value=self.p_value, graph=self.graph.edges)
+    #                         cmi_pval, cmi_val = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+    #                                                  gamma_matrix=self.gamma_matrix, graph=self.graph.edges,
+    #                                                  p_value=self.rank_using_p_value,
+    #                                                  instantaneous_dict=self.instantaneous_dict)
+    #                     else:
+    #                         cmi, _ = ctmi(x, y, z, self.names[p], self.names[q], self.sampling_rate,
+    #                                       gamma_matrix=self.gamma_matrix, p_value=self.p_value,
+    #                                       instantaneous_dict=self.instantaneous_dict)
+    #                 if self.verbose:
+    #                     print("p=" + str(p) + "; q=" + str(q) + "; r=" + str(r_set) + "; I(p,q|r)=" + "{: 0.5f}".format(
+    #                         cmi) + "; I(p,q)=" + "{: 0.5f}".format(mi), end=" ")
+    #
+    #                 if self.p_value:
+    #                     test = mi < self.sig_lev < cmi
+    #                 else:
+    #                     test = cmi < self.alpha
+    #                 if test:
+    #                     test_remove_links = True
+    #                     self.cmi_array[p, q] = cmi
+    #                     self.cmi_array[q, p] = cmi
+    #                     if self.verbose:
+    #                         print("=> remove link between " + str(p) + " and " + str(q))
+    #                     self.graph.edges[p, q] = 0
+    #                     self.graph.edges[q, p] = 0
+    #
+    #                     for r in r_set:
+    #                         self.graph.add_sep(q, p, r)
+    #                         self.biggamma[p,q,r] = self.gamma_matrix[self.names[p]].loc[self.names[r]]
+    #                         self.biggamma[q,p,r] = self.gamma_matrix[self.names[q]].loc[self.names[r]]
+    #                 else:
+    #                     if self.verbose:
+    #                         print()
+
 
     def remove_orientation(self):
         """
@@ -3504,7 +3697,8 @@ class FCITMI(CITMI):
 
 
         # find possible d sep
-        test_remove_links = self.find_d_sep()
+        # test_remove_links = self.find_d_sep()
+        test_remove_links = False
 
         # remove orientation
         if test_remove_links:

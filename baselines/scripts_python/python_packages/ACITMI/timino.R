@@ -25,7 +25,7 @@ start_up <- function() {
     source("./codeTimino/util/fitting_ts.R")
 }
 start_up()
-result <- timino_dag(data, alpha = alpha, max_lag = n_lags, model = traints_linear, indtest = indtestts_crosscov, output = TRUE)
+result <- timino_dag(data, alpha = alpha, max_lag = n_lags, model = traints_gp, indtest = indtestts_crosscov, output = TRUE)
 
 
 result[is.na(result)] <- 3

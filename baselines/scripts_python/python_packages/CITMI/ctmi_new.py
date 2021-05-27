@@ -623,20 +623,12 @@ def align_xy(x, y, gamma, sampling_rate_tuple):
     idx_x = x.index
     idx_y = y.index
     if gamma > 0:
-        print("new "+str(gamma))
-        print(y)
-        print(idx_y)
-        print(y.shape, len(idx_y))
         y = y[gamma:]
         idx_y = idx_y[gamma:]
-        print(y.shape, len(idx_y))
-        print("y")
         x = x.reset_index(drop=True)
         y = y.reset_index(drop=True)
         x = x[x.index % (iter1 + 1) == 0]
         y = y[y.index % (iter2 + 1) == 0]
-        print(y)
-        print(idx_y)
         idx_x = idx_x[x.index]
         idx_y = idx_y[y.index]
 
@@ -1093,6 +1085,179 @@ def i_ctmi(x, y, z, name_x, name_y, name_z, sampling_rate_dict, p_value=True, k=
     cmi_pval, cmi_val = indep_test(v_x, v_y, z=v_z, sig_samples=sig_samples, p_value=p_value, measure="cmiknn", k=k,
                                    test_indep=test_indep)
     return cmi_pval, cmi_val
+
+
+
+def self_find_gamma_lambda_x_y(x, x_past, sampling_rate = 1, k=10, max_gamma=5):
+    c = np.zeros([2*max_gamma - 1, max_gamma -3, max_gamma - 3])
+    gamma_list = list(range(-max_gamma+1, max_gamma))
+    ws_x_list = [1]
+    ws_y_list = list(range(1, max_gamma-2))
+    for idx_g in range(len(gamma_list)):
+        for idx_ws_x in range(len(ws_x_list)):
+            x_w_rep = window_representation(x, windows_size=ws_x_list[idx_ws_x])
+            for idx_ws_y in range(len(ws_y_list)):
+                if ws_x_list[idx_ws_x] == ws_y_list[idx_ws_y] == 1:
+                    y_w_rep = window_representation(x_past, windows_size=ws_y_list[idx_ws_y])
+                    g = gamma_list[idx_g]
+                    _, val = tmi(x_w_rep, y_w_rep, (sampling_rate, sampling_rate), k=k, gamma=g, p_value=False)
+                    c[idx_g, idx_ws_x, idx_ws_y] = val
+                else:
+                    if ws_x_list[idx_ws_x] != ws_y_list[idx_ws_y]:
+                        y_w_rep = window_representation(x_past, windows_size=ws_y_list[idx_ws_y])
+                        g = gamma_list[idx_g]
+                        _, val = tmi(x_w_rep, y_w_rep, (sampling_rate, sampling_rate), k=k, gamma=g, p_value=False)
+                        c[idx_g, idx_ws_x, idx_ws_y] = val
+                    else:
+                        c[idx_g, idx_ws_x, idx_ws_y] = 0
+
+    idx_g, idx_ws_x, idx_ws_y = np.where(c == np.max(c))
+    idx_g= idx_g[0]
+    idx_ws_x = idx_ws_x[0]
+    idx_ws_y = idx_ws_y[0]
+    g = gamma_list[idx_g]
+    ws_x = ws_x_list[idx_ws_x]
+    ws_x_past = ws_y_list[idx_ws_y]
+    return g, ws_x, ws_x_past
+
+
+def self_align_xxpastz(name_x, v_x, v_x_past, idx_x, z, gamma_matrix, sampling_rate_dict, k, instantaneous_dict):
+    sampling_rate = sampling_rate_dict[name_x]
+    names_z = [*z.keys()]
+    v_z = dict()
+    nz_visted = []
+
+    for nz in names_z:
+        sampling_rate_tuple_xyz = (sampling_rate, sampling_rate_dict[nz])
+        v_x_new = v_x.copy()
+        v_x_past_new = v_x_past.copy()
+
+        v_z_df = z[nz].loc[v_x.index[0]:].dropna()
+
+        # c2 = list()
+        # if instantaneous_dict[nz]:
+        #     _, val = find_gamma_xy_z_util(v_x_past_new, v_x_new, v_z_df, sampling_rate_tuple_xyz, k=k, gamma=0, measure="cmiknn")
+        #     c2.append(val)
+        #
+        #     for g in range(1, 5):
+        #         _, val = find_gamma_xy_z_util(v_x_past_new, v_x_new, v_z_df, sampling_rate_tuple_xyz, k=k, gamma=g, measure="cmiknn")
+        #         c2.append(val)
+        # else:
+        #     c2.append(1)
+        #     for g in range(1, 5):
+        #         _, val = find_gamma_xy_z_util(v_x_past_new, v_x_new, v_z_df, sampling_rate_tuple_xyz, k=k, gamma=g, measure="cmiknn")
+        #         c2.append(val)
+        #
+        # g = np.argmin(c2)
+        g = gamma_matrix[name_x].loc[nz]
+
+        print("gamma = "+str(g))
+        nz_processed = z[nz].dropna()
+
+        xyz_dict = {name_x: v_x, nz: v_z_df}
+        xyz_dict[name_x].index = idx_x
+
+        bool_idx = pd.DataFrame([False] * len(idx_x), columns=['bool'])
+        bool_idx.index = idx_x
+
+        v_x, z_processed, idx_x, _ = align_xy(xyz_dict[name_x], xyz_dict[nz], g, sampling_rate_tuple_xyz)
+        bool_idx.loc[idx_x] = True
+        bool_idx = bool_idx['bool'].values
+        v_x_past = v_x_past[bool_idx]
+
+        for nz_v in nz_visted:
+            v_z[nz_v] = v_z[nz_v][bool_idx]
+        v_z[nz] = z_processed
+        nz_visted.append(nz)
+
+    v_x = v_x.reset_index(drop=True)
+    v_x_past = v_x_past.reset_index(drop=True)
+    for nz_v in nz_visted:
+        v_z[nz_v] = v_z[nz_v].reset_index(drop=True)
+
+    return v_x, v_x_past, v_z
+
+
+def self_ctmi(x, z, name_x, gamma_matrix, sampling_rate_dict, instantaneous_dict, p_value=False, k=10, sig_samples=10000):
+    idx_valid = x.first_valid_index()
+    if idx_valid == 0:
+        idx_valid = x.index[x.notnull()][1]
+    else:
+        idx_valid = idx_valid + 1
+
+    x_past = x.iloc[:-idx_valid].reset_index(drop=True)
+    x = x.iloc[idx_valid:].reset_index(drop=True)
+
+
+    x = window_representation(x, windows_size=1)
+    x_past = window_representation(x_past, windows_size=5)
+    idx_x = x.index.intersection(x_past.index)
+    x = x.loc[idx_x].reset_index(drop=True)
+    x_past = x_past.loc[idx_x].reset_index(drop=True)
+
+
+    # g_xx, _, ws_x_past = self_find_gamma_lambda_x_y(x, x_past, sampling_rate_dict[name_x], k=k, max_gamma=5)
+    # x = window_representation(x, windows_size=1)
+    # x_past = window_representation(x_past, windows_size=ws_x_past)
+
+    x_past.columns = [name_column + "_past" for name_column in  x_past.columns]
+    idx_x = x.index
+
+    names_z = [*z.keys()]
+    if len(names_z)>0:
+        for nz in names_z:
+            z[nz].iloc[idx_valid:].reset_index(drop=True)
+
+        v_x, v_y, v_z = self_align_xxpastz(name_x, x, x_past, idx_x, z, gamma_matrix, sampling_rate_dict, k, instantaneous_dict)
+
+        if len(names_z) > 0:
+            v_z = aligned_dict_to_df(v_z)
+    else:
+        v_x = x
+        v_y = x_past
+        v_z = None
+
+    if len(v_x.shape) == 1:
+        v_x = v_x.to_frame()
+    if len(v_y.shape) == 1:
+        v_y = v_y.to_frame()
+
+    cmi_pval, cmi_val = self_indep_test(v_x, v_y, z=v_z, sig_samples=sig_samples, p_value=p_value, measure="cmiknn", k=k)
+    return cmi_pval, cmi_val
+
+
+def self_indep_test(x, y, z=None, sig_samples=10000, p_value=True, measure="cmiknn", k=10, test_indep= True):
+    if measure == "cmiknn":
+        cd = CMIknn(mask_type=None, significance='shuffle_test', fixed_thres=None, sig_samples=sig_samples,
+                    sig_blocklength=3, knn=k, confidence='bootstrap', conf_lev=0.9, conf_samples=10000,
+                    conf_blocklength=1, verbosity=0)
+    elif measure == "parcorr":
+        cd = ParCorr(mask_type=None, significance='shuffle_test', fixed_thres=None, sig_samples=sig_samples,
+                     sig_blocklength=3, confidence='bootstrap', conf_lev=0.9, conf_samples=10000, conf_blocklength=1,
+                     verbosity=0)
+    else:
+        cd = None
+        print("Independence measure '" + str(measure) + "' do not exist.")
+        exit(0)
+    dim_x = x.shape[1]
+    dim_y = y.shape[1]
+
+    if z is not None:
+        dim_z = z.shape[1]
+        X = np.concatenate((x.values, y.values, z.values), axis=1)
+        xyz = np.array([0] * dim_x + [1] * dim_y + [2] * dim_z)
+    else:
+        X = np.concatenate((x.values, y.values), axis=1)
+        xyz = np.array([0] * dim_x + [1] * dim_y)
+
+    value = cd.get_dependence_measure(X.T, xyz)
+    if p_value:
+        pvalue = cd.get_shuffle_significance(X.T, xyz, value)
+    else:
+        pvalue = value
+
+    print(pvalue, value)
+    return pvalue, value
 
 
 if __name__ == "__main__":

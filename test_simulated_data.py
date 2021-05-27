@@ -116,6 +116,20 @@ def get_ground_truth(structure, nodes):
         tgtrue.edges[nodes[5], nodes[0]]['time'] = [0]
         tgtrue.edges[nodes[6], nodes[2]]['time'] = [0]
         tgtrue.edges[nodes[2], nodes[6]]['time'] = [0]
+    elif structure == "pair":
+        ogtrue.add_edges_from([(nodes[0], nodes[1])])
+        tgtrue.add_edges_from([(nodes[0], nodes[0]), (nodes[1], nodes[1]), (nodes[0], nodes[1])])
+        tgtrue.edges[nodes[0], nodes[0]]['time'] = [1]
+        tgtrue.edges[nodes[1], nodes[1]]['time'] = [1]
+        tgtrue.edges[nodes[0], nodes[1]]['time'] = [1]
+
+    elif structure == "indep_pair":
+        ogtrue.add_edges_from([(nodes[0], nodes[1])])
+        tgtrue.add_edges_from([(nodes[0], nodes[1])])
+        tgtrue.edges[nodes[0], nodes[1]]['time'] = [1]
+
+        sgtrue = nx.DiGraph()
+        sgtrue.add_nodes_from(nodes)
 
     gtrue.add_edges_from(ogtrue.edges)
     gtrue.add_edges_from(sgtrue.edges)
@@ -143,6 +157,9 @@ def run_on_data(i, method, structure, n_samples, files_input_name, verbose):
     elif method == "GrangerMV":
         model = cd.GrangerMV(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
+    elif method == "GrangerMV2":
+        model = cd.GrangerMV2(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
     elif method == "TCDF":
         model = cd.TCDF(nodes, epochs=1000,  kernel_size=4, dilation_coefficient=4, hidden_layers=1, learning_rate=0.01,
                     sig_level=0.05)
@@ -162,8 +179,14 @@ def run_on_data(i, method, structure, n_samples, files_input_name, verbose):
     elif method == "TPCTMI":
         model = cd.TPCTMI(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
-    elif method == "NBCB":
+    elif method == "NBCB_pw":
         model = cd.NBCB(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "NBCB":
+        model = cd.NBCB(nodes, sig_level=0.05, nlags=5, pairwise=False)
+        model.infer_from_data(data)
+    elif method == "PWNBCBk":
+        model = cd.PWNBCBk(nodes, sig_level=0.05, nlags=5, pairwise=False)
         model.infer_from_data(data)
     elif method == "tsFCI":
         model = cd.TsFCI(nodes, sig_level=0.05, nlags=5)
@@ -179,6 +202,9 @@ def run_on_data(i, method, structure, n_samples, files_input_name, verbose):
         model.infer_from_data(data)
     elif method == "TsKIKO":
         model = cd.TsKIKO(nodes, sig_level=0.05, nlags=5)
+        model.infer_from_data(data)
+    elif method == "Dynotears":
+        model = cd.Dynotears(nodes, sig_level=0.05, nlags=5)
         model.infer_from_data(data)
     else:
         model = None
@@ -279,8 +305,8 @@ if __name__ == "__main__":
         print('Argument List:', str(sys.argv))
     else:
         print('Missing arguments so will take default arguments')
-        method = "PCTMI"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, oCSE, PCTMI, tsFCI, FCITMI, VarLiNGAM, TiMINO, TsKIKO
-        structure = "v_structure_big_lag"
+        method = "PCTMI"  # GrangerPW, GrangerMV, TCDF, PCMCICMIknn, PCMCIParCorr, oCSE, PCTMI, tsFCI, FCITMI, VarLiNGAM, TiMINO, TsKIKO, Dynotears
+        structure = "fork"
         n_samples = 1000    # 65, 125, 250, 500, 1000, 2000, 4000
         num_processor = 1
         verbose = True
@@ -311,6 +337,7 @@ if __name__ == "__main__":
 
     # method = method+"window=1"
     # method = method+"window=auto_new_lambda"
+    method = method+"window=auto_new_lambda_k0.2"
     with open("./experiments/performance_average/summary_other_and_self_performance_average/"+str(method)+"_" +
               str(structure)+"_"+str(n_samples), "w+") as file:
         file.write("Precision Adjacent: \n" + str(np.mean(pres_a_list)) + " +- " +

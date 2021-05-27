@@ -1,0 +1,16 @@
+\begin{table*}[ht!]
+	\centering
+	\begin{tabular}{c|c|c|c|c|c}
+ & \multicolumn{1}{c|}{Summary} &  \multicolumn{3}{c}{Summary Details} \\ 
+ && Ext. Adj. & Ext. Caus. & Self Caus.  \\ \hline
+		PWGC&$0.62 \pm 0.17$&$0.48 \pm 0.26$&$0.31 \pm 0.24$&$1.00 \pm 0.00$\\ 
+		MVGC&$0.57 \pm 0.18$&$0.56 \pm 0.26$&$0.22 \pm 0.17$&$1.00 \pm 0.00$\\ 
+		TCDF&$0.68 \pm 0.41$&$0.25 \pm 0.38$&$0.14 \pm 0.28$&$0.70 \pm 0.46$\\ 
+		PCMCImi&$0.74 \pm 0.16$&$0.55 \pm 0.33$&$0.32 \pm 0.29$&$1.00 \pm 0.00$\\ 
+		PCMCIpc&$0.69 \pm 0.18$&$0.55 \pm 0.24$&$0.37 \pm 0.29$&$1.00 \pm 0.00$\\ 
+		oCSE&$0.75 \pm 0.17$&$0.30 \pm 0.31$&$0.17 \pm 0.21$&$1.00 \pm 0.00$\\ 
+		tsFCI&$0.46 \pm 0.14$&$0.58 \pm 0.17$&$0.30 \pm 0.10$&$1.00 \pm 0.00$\\ 
+		VarLiNGAM&$0.73 \pm 0.17$&$0.76 \pm 0.26$&$0.48 \pm 0.27$&$0.96 \pm 0.19$\\ 
+		TiMINO&$0.49 \pm 0.22$&$0.54 \pm 0.27$&$0.28 \pm 0.18$&$1.00 \pm 0.00$\\ 
+	\end{tabular} \caption{Results for FMRI datasets. We provide the F1 score (mean $\pm$ standard deviation over the 27 datasets considered)} 
+ \end{table*}

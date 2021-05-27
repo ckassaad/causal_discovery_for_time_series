@@ -3,9 +3,9 @@ from baselines.scripts_python.python_packages.ACITMI.acitmi import ACITMI
 # from baselines.scripts_python.python_packages.CITMI.citmi_simple import PCTMI
 
 
-def nbcb(data, sig_level=0.05, nlags=5, verbose=True):
+def nbcb(data, sig_level=0.05, nlags=5, verbose=True, pairwise=True):
     citmi = ACITMI(data, sig_lev=sig_level, lag_max=nlags, p_value=True, rank_using_p_value=False, verbose=verbose,
-               num_processor=-1, graphical_optimization=False)
+               num_processor=-1, graphical_optimization=False, pairwise=pairwise)
 
     g_array = citmi.fit()
     g_df = pd.DataFrame(g_array, columns=data.columns, index=data.columns, dtype=int)
