@@ -1,3 +1,18 @@
+# THIS SOURCE CODE IS SUPPLIED AS IS WITHOUT WAR
+# RANTY OF ANY KIND	 AND ITS AUTHOR AND THE JOURNAL OF
+# ARTIFICIAL INTELLIGENCE RESEARCH JAIR AND JAIRS PUB
+#LISHERS AND DISTRIBUTORS	 DISCLAIM ANY AND ALL WARRANTIES	
+# INCLUDING BUT NOT LIMITED TO ANY IMPLIED WARRANTIES
+# OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE	 
+# AND ANY WARRANTIES OR NON INFRINGEMENT THE USER
+# ASSUMES ALL LIABILITY AND RESPONSIBILITY FOR USE OF THIS
+# SOURCE CODE	 AND NEITHER THE AUTHOR NOR JAIR	 NOR JAIRS
+# PUBLISHERS AND DISTRIBUTORS	 WILL BE LIABLE FOR DAM
+# AGES OF ANY KIND RESULTING FROM ITS USE Without limiting
+# the generality of the foregoing	 neither the author	 nor JAIR	 nor JAIR's 
+# publishers and distributors	 warrant that the Source Code will be errorfree	
+# will operate without interruption	 or will meet the needs of the user
+
 import networkx as nx
 from baselines.scripts_python.pcmci import pcmci
 from baselines.scripts_python.varlingam import varlingam
